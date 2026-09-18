@@ -1,0 +1,79 @@
+/*
+ * CAMS Google Sans font asset
+ *
+ * Google Sans is loaded from Google's official font CDN through this local
+ * stylesheet so the application has one centralized font entry point.
+ * If you later add licensed/self-hosted font binaries to this folder,
+ * only this file needs to be changed.
+ */
+
+@font-face {
+  font-family: "Google Sans";
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src:
+    local("Google Sans"),
+    local("GoogleSans-Regular"),
+    url("https://fonts.gstatic.com/s/googlesans/v70/4Ua_rENHsxJlGDuGo1OIlJfC6l_24rlCK1Yo_Iqcsih3SAyH6cAwhX9RFD48TE63OOYKtrwEIKli.ttf") format("truetype");
+}
+
+@font-face {
+  font-family: "Google Sans";
+  font-style: normal;
+  font-weight: 500;
+  font-display: swap;
+  src:
+    local("Google Sans Medium"),
+    local("GoogleSans-Medium"),
+    url("https://fonts.gstatic.com/s/googlesans/v70/4Ua_rENHsxJlGDuGo1OIlJfC6l_24rlCK1Yo_Iqcsih3SAyH6cAwhX9RFD48TE63OOYKtrw2IKli.ttf") format("truetype");
+}
+
+@font-face {
+  font-family: "Google Sans";
+  font-style: normal;
+  font-weight: 600;
+  font-display: swap;
+  src:
+    local("Google Sans SemiBold"),
+    local("GoogleSans-SemiBold"),
+    url("https://fonts.gstatic.com/s/googlesans/v70/4Ua_rENHsxJlGDuGo1OIlJfC6l_24rlCK1Yo_Iqcsih3SAyH6cAwhX9RFD48TE63OOYKtrzaJ6li.ttf") format("truetype");
+}
+
+@font-face {
+  font-family: "Google Sans";
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+  src:
+    local("Google Sans Bold"),
+    local("GoogleSans-Bold"),
+    url("https://fonts.gstatic.com/s/googlesans/v70/4Ua_rENHsxJlGDuGo1OIlJfC6l_24rlCK1Yo_Iqcsih3SAyH6cAwhX9RFD48TE63OOYKtrzjJ6li.ttf") format("truetype");
+}
+
+:root {
+  --cams-font-ui: "Google Sans", Arial, sans-serif;
+}
+
+html,
+body,
+button,
+input,
+select,
+textarea,
+table,
+option,
+optgroup {
+  font-family: var(--cams-font-ui) !important;
+}
+
+/*
+ * Enforce Google Sans across legacy Bootstrap/AdminLTE pages too.
+ * Icon-font classes are excluded so Font Awesome, Glyphicons, Ionicons,
+ * Themify, and similar icon sets keep their own glyph fonts.
+ */
+html body *:not(.fa):not(.glyphicon):not(.ion):not([class^="ti-"]):not([class*=" ti-"]):not([class^="icon-"]):not([class*=" icon-"]),
+html body.cams-app *:not(.fa):not(.glyphicon):not(.ion):not([class^="ti-"]):not([class*=" ti-"]):not([class^="icon-"]):not([class*=" icon-"]),
+html body.cams-auth *:not(.fa):not(.glyphicon):not(.ion):not([class^="ti-"]):not([class*=" ti-"]):not([class^="icon-"]):not([class*=" icon-"]) {
+  font-family: var(--cams-font-ui) !important;
+}
