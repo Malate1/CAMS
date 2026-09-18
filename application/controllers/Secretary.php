@@ -620,8 +620,16 @@ class Secretary extends CI_Controller {
 				    );
 				    $this->Patient_Model->addLogs($data1);
 
-				$this->session->set_flashdata('success', "Secretary Record Updated Successfully!!");
 				$this->session->set_userdata($data);
+
+				$successMessage = 'Profile updated successfully.';
+				if ($this->ajaxTransactionResponse(true, $successMessage, '', array(
+					'profile' => array(
+						'display_name' => trim($data['fname'] . ' ' . $data['lname']),
+					),
+				))) return;
+
+				$this->session->set_flashdata('success', $successMessage);
 				redirect('update-profile-s');
 
 
@@ -650,6 +658,12 @@ class Secretary extends CI_Controller {
 			if(!empty($_POST))
 			{
 				$imgUrl = $this->EdituploadImage();
+				if (!$imgUrl) {
+					if ($this->ajaxTransactionResponse(false, 'Please select a valid image file.')) return;
+					$this->session->set_flashdata('error', 'Please select a valid image file.');
+					redirect('update-profile-s');
+					return;
+				}
 				$data = array(
 
 					'image'   => $imgUrl
@@ -673,8 +687,16 @@ class Secretary extends CI_Controller {
 				     
 				    );
 				    $this->Patient_Model->addLogs($data1);
-				$this->session->set_flashdata('success', "Secretary Record Updated Successfully!!");
 				$this->session->set_userdata($data);
+
+				$successMessage = 'Profile photo updated successfully.';
+				if ($this->ajaxTransactionResponse(true, $successMessage, '', array(
+					'profile' => array(
+						'image_url' => base_url('uploads/profile-pic/' . rawurlencode($imgUrl)),
+					),
+				))) return;
+
+				$this->session->set_flashdata('success', $successMessage);
 				redirect('update-profile-s');
 
 

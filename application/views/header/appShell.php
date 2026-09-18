@@ -116,11 +116,13 @@ if (!function_exists('cams_legacy_icon')) {
         title: '',
         eyebrow: '',
         description: '',
+        maxWidth: '48rem',
         show: function (meta) {
           meta = meta || {};
           this.title = meta.title || 'Manage record';
           this.eyebrow = meta.eyebrow || 'Manage';
           this.description = meta.description || '';
+          this.maxWidth = meta.maxWidth || '48rem';
           var modalRoot = document.querySelector('.cams-alpine-modal-root');
           if (modalRoot) modalRoot.removeAttribute('hidden');
           this.open = true;
@@ -196,7 +198,8 @@ if (!function_exists('cams_legacy_icon')) {
        class="cams-alpine-modal-root fixed inset-0 z-[9999] flex items-center justify-center p-4 sm:p-6">
     <div class="absolute inset-0 bg-slate-950/55 backdrop-blur-sm" @click="$store.camsModal.close()"></div>
     <div x-show.important="$store.camsModal.open" x-transition
-         class="relative z-10 w-full max-w-3xl overflow-hidden rounded-3xl border border-slate-200 bg-white shadow-2xl dark:border-slate-700 dark:bg-slate-900">
+         :style="{ maxWidth: $store.camsModal.maxWidth }"
+         class="relative z-10 w-full overflow-hidden rounded-3xl border border-slate-200 bg-white shadow-2xl dark:border-slate-700 dark:bg-slate-900">
       <div class="flex items-start justify-between gap-4 border-b border-slate-200 px-6 py-5 dark:border-slate-700">
         <div>
           <p class="mb-1 text-[11px] font-bold uppercase tracking-[0.18em] text-emerald-600" x-text="$store.camsModal.eyebrow"></p>
@@ -209,7 +212,7 @@ if (!function_exists('cams_legacy_icon')) {
           <i class="fa fa-times"></i>
         </button>
       </div>
-      <div id="cams-alpine-modal-body" class="max-h-[72vh] overflow-y-auto p-6"></div>
+      <div id="cams-alpine-modal-body" class="max-h-[78vh] overflow-y-auto p-6 sm:p-7"></div>
     </div>
   </div>
 
