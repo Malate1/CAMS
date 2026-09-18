@@ -15,8 +15,8 @@ $camsNav = array(
   )),
   array('label' => 'Manage Schedule', 'url' => 'view-schedule-s', 'icon' => 'schedule'),
   array('label' => 'Tools', 'icon' => 'tools', 'children' => array(
-    array('label' => 'Update Password', 'url' => 'change-pass-s'),
-    array('label' => 'Update Profile Details', 'url' => 'update-profile-s'),
+    array('label' => 'Update Password', 'url' => 'account-tools/password', 'modal' => 'Update Password'),
+    array('label' => 'Update Profile Details', 'url' => 'account-tools/profile', 'modal' => 'Update Profile'),
   )),
   array('label' => 'Reports', 'icon' => 'reports', 'children' => array(
     array('label' => 'Monthly Clinic Average', 'url' => 'view-avg-s'),

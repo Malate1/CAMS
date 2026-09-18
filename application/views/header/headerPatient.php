@@ -10,8 +10,8 @@ $camsNav = array(
     array('label' => 'View Appointments', 'url' => 'view-appointment'),
   )),
   array('label' => 'Tools', 'icon' => 'tools', 'children' => array(
-    array('label' => 'Update Password', 'url' => 'change-pass-p'),
-    array('label' => 'Update Profile Details', 'url' => 'update-profile-p'),
+    array('label' => 'Update Password', 'url' => 'account-tools/password', 'modal' => 'Update Password'),
+    array('label' => 'Update Profile Details', 'url' => 'account-tools/profile', 'modal' => 'Update Profile'),
     array('label' => 'Set up Security Question', 'url' => 'q-register'),
   )),
 );

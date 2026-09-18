@@ -63,6 +63,8 @@ $route['change-pass']		= 'Admin/Change_pass';
 $route['change-pass-s']		= 'Secretary/Change_pass';
 $route['change-pass-phy']	= 'Physician/Change_pass';
 $route['change-pass-p']		= 'Patient/Change_pass';
+$route['account-tools/profile']	= 'AccountTools/profile';
+$route['account-tools/password']	= 'AccountTools/password';
 $route['check-q']			= 'Login/checkAnswer';
 $route['check-patient']		= 'Login/checkPatient';
 

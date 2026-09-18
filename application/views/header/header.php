@@ -12,8 +12,8 @@ $camsNav = array(
   )),
   array('label' => 'Manage Clinics', 'url' => 'view-clinic-a', 'icon' => 'clinic'),
   array('label' => 'Tools', 'icon' => 'tools', 'children' => array(
-    array('label' => 'Update Password', 'url' => 'change-pass'),
-    array('label' => 'Update Profile Details', 'url' => 'update-profile'),
+    array('label' => 'Update Password', 'url' => 'account-tools/password', 'modal' => 'Update Password'),
+    array('label' => 'Update Profile Details', 'url' => 'account-tools/profile', 'modal' => 'Update Profile'),
   )),
   array('label' => 'Reports', 'icon' => 'reports', 'children' => array(
     array('label' => 'Top Visited Clinics', 'url' => 'view-top'),

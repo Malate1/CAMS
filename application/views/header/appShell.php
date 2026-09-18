@@ -245,18 +245,18 @@ if (!function_exists('cams_legacy_icon')) {
 
           <li class="dropdown user user-menu cams-user-menu">
             <a href="#" class="dropdown-toggle cams-profile-trigger" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-              <img src="<?=base_url('uploads/profile-pic/'.$image)?>" class="user-image" alt="User Image">
+              <img src="<?=base_url('uploads/profile-pic/'.$image)?>" class="user-image" alt="User Image" data-cams-profile-avatar>
               <span class="cams-profile-copy hidden-xs">
-                <strong><?=htmlspecialchars($displayName, ENT_QUOTES, 'UTF-8')?></strong>
+                <strong data-cams-profile-name><?=htmlspecialchars($displayName, ENT_QUOTES, 'UTF-8')?></strong>
                 <small><?=htmlspecialchars($role, ENT_QUOTES, 'UTF-8')?></small>
               </span>
               <i class="fa fa-angle-down cams-profile-caret hidden-xs" aria-hidden="true"></i>
             </a>
             <ul class="dropdown-menu cams-profile-menu">
               <li class="user-header">
-                <img src="<?=base_url('uploads/profile-pic/'.$image)?>" class="img-circle" alt="User Image">
+                <img src="<?=base_url('uploads/profile-pic/'.$image)?>" class="img-circle" alt="User Image" data-cams-profile-avatar>
                 <p>
-                  <?=htmlspecialchars($displayName, ENT_QUOTES, 'UTF-8')?>
+                  <span data-cams-profile-name><?=htmlspecialchars($displayName, ENT_QUOTES, 'UTF-8')?></span>
                   <small><?=htmlspecialchars($role, ENT_QUOTES, 'UTF-8')?> account</small>
                 </p>
               </li>
@@ -275,10 +275,10 @@ if (!function_exists('cams_legacy_icon')) {
     <section class="sidebar">
       <div class="user-panel cams-sidebar-user-card !rounded-2xl !border !border-white/10 !bg-white/5 !shadow-none backdrop-blur">
         <div class="image">
-          <img src="<?=base_url('uploads/profile-pic/'.$image)?>" class="img-circle" alt="User Image">
+          <img src="<?=base_url('uploads/profile-pic/'.$image)?>" class="img-circle" alt="User Image" data-cams-profile-avatar>
         </div>
         <div class="info">
-          <p><?=htmlspecialchars($displayName, ENT_QUOTES, 'UTF-8')?></p>
+          <p data-cams-profile-name><?=htmlspecialchars($displayName, ENT_QUOTES, 'UTF-8')?></p>
           <a href="#"><i class="fa fa-circle text-success"></i> <?=htmlspecialchars($role, ENT_QUOTES, 'UTF-8')?></a>
         </div>
       </div>

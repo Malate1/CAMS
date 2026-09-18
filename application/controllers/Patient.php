@@ -455,6 +455,8 @@ public function Change_pass ()
 
   if($this->form_validation->run() == FALSE)
   {
+     $validationMessage = trim(strip_tags(validation_errors(' ', ' ')));
+     if ($this->ajaxTransactionResponse(false, $validationMessage ?: 'Please review the password fields and try again.')) return;
      $this->load->view('Patient/Change_pass');
  }
  else
@@ -472,7 +474,6 @@ public function Change_pass ()
   { 
 
     $result = $this->Patient_Model->changePassword($patient_id, $info);     
-    $this->session->set_flashdata('success', 'Password updation successful the new password is: ' .$this->input->post('newPassword'));
     $fname = $this->session->fname;
     $lname = $this->session->lname;
     $user = 'Patient';
@@ -488,12 +489,16 @@ public function Change_pass ()
        'action'   => $action
 
    );
-    $this->Patient_Model->addLogs($data1);     
+    $this->Patient_Model->addLogs($data1);
+    $successMessage = 'Password updated successfully.';
+    if ($this->ajaxTransactionResponse(true, $successMessage)) return;
+    $this->session->set_flashdata('success', $successMessage);
     redirect('change-pass-p');
 
 }else{
 
 
+    if ($this->ajaxTransactionResponse(false, 'Old password is incorrect.')) return;
     $this->session->set_flashdata('errormsg','Old password is incorrect');
     $this->load->view('Patient/Change_pass');
 
@@ -551,8 +556,16 @@ public function ProfileUpdate()
    );
    $this->Patient_Model->addLogs($data1);
 
-   $this->session->set_flashdata('success', "Patient Record Updated Successfully!!");
    $this->session->set_userdata($data);
+
+   $successMessage = 'Profile updated successfully.';
+   if ($this->ajaxTransactionResponse(true, $successMessage, '', array(
+       'profile' => array(
+           'display_name' => trim($data['fname'] . ' ' . $data['lname']),
+       ),
+   ))) return;
+
+   $this->session->set_flashdata('success', $successMessage);
    redirect('update-profile-p');
 
 
@@ -581,6 +594,12 @@ public function ProfilePicUpdate()
     if(!empty($_POST))
     { 
         $imgUrl = $this->EdituploadImage();
+        if (!$imgUrl) {
+            if ($this->ajaxTransactionResponse(false, 'Please select a valid image file.')) return;
+            $this->session->set_flashdata('error', 'Please select a valid image file.');
+            redirect('update-profile-p');
+            return;
+        }
         $data = array(
 
             'image'   => $imgUrl
@@ -588,7 +607,6 @@ public function ProfilePicUpdate()
 
         $patient_id = $this->session->userid;
         $this->Patient_Model->updateProfilePic($data,$patient_id);
-        $this->session->set_flashdata('success', "Patient Profile Picture Updated Successfully!!");
         $this->session->set_userdata($data);
         $fname = $this->session->fname;
         $lname = $this->session->lname;
@@ -606,6 +624,15 @@ public function ProfilePicUpdate()
 
         );
         $this->Patient_Model->addLogs($data1);
+
+        $successMessage = 'Profile photo updated successfully.';
+        if ($this->ajaxTransactionResponse(true, $successMessage, '', array(
+            'profile' => array(
+                'image_url' => base_url('uploads/profile-pic/' . rawurlencode($imgUrl)),
+            ),
+        ))) return;
+
+        $this->session->set_flashdata('success', $successMessage);
         redirect('update-profile-p');
 
 

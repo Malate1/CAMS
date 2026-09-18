@@ -522,6 +522,8 @@ class Secretary extends CI_Controller {
 
 			if($this->form_validation->run() == FALSE)
 			{
+				$validationMessage = trim(strip_tags(validation_errors(' ', ' ')));
+				if ($this->ajaxTransactionResponse(false, $validationMessage ?: 'Please review the password fields and try again.')) return;
 				$this->load->view('Secretary/Change_pass');
 			}
 			else
@@ -553,12 +555,15 @@ class Secretary extends CI_Controller {
 				     
 				    );
 				    $this->Patient_Model->addLogs($data1);   
-					$this->session->set_flashdata('success', 'Password updation successful the new password is: ' .$this->input->post('newPassword'));      
+					$successMessage = 'Password updated successfully.';
+					if ($this->ajaxTransactionResponse(true, $successMessage)) return;
+					$this->session->set_flashdata('success', $successMessage);
 					redirect('change-pass-s');
 
 				}else{
 
 
+					if ($this->ajaxTransactionResponse(false, 'Old password is incorrect.')) return;
 					$this->session->set_flashdata('errormsg','Old password is incorrect');
 					$this->load->view('Secretary/Change_pass');
 
