@@ -3,6 +3,8 @@
 <head>
 	<meta charset="UTF-8">
 	<title>CAMS | Login </title>
+	<link rel="icon" type="image/jpeg" href="<?=base_url()?>assets/dist/img/hnumcfi.jpg">
+	<link rel="shortcut icon" type="image/jpeg" href="<?=base_url()?>assets/dist/img/hnumcfi.jpg">
 	<meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
 	<link rel="stylesheet" href="<?=base_url()?>assets/bower_components/bootstrap/dist/css/bootstrap.min.css"/>
 	<link rel="stylesheet" href="<?=base_url()?>assets/bower_components/font-awesome/css/font-awesome.min.css"/>

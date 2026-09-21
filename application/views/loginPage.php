@@ -35,6 +35,8 @@ if (!function_exists('cams_landing_time')) {
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>CAMS | HNU Medical Center</title>
+  <link rel="icon" type="image/jpeg" href="<?=base_url()?>assets/dist/img/hnumcfi.jpg">
+  <link rel="shortcut icon" type="image/jpeg" href="<?=base_url()?>assets/dist/img/hnumcfi.jpg">
   <meta name="description" content="HNU Medical Center Clinics Appointment Management System">
   <meta name="theme-color" content="#ffffff">
 

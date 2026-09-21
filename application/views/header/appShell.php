@@ -42,6 +42,8 @@ if (!function_exists('cams_legacy_icon')) {
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>CAMS</title>
+  <link rel="icon" type="image/jpeg" href="<?=base_url()?>assets/dist/img/hnumcfi.jpg">
+  <link rel="shortcut icon" type="image/jpeg" href="<?=base_url()?>assets/dist/img/hnumcfi.jpg">
 
   <script>
     (function () {

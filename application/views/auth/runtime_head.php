@@ -1,4 +1,6 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="icon" type="image/jpeg" href="<?=base_url()?>assets/dist/img/hnumcfi.jpg">
+<link rel="shortcut icon" type="image/jpeg" href="<?=base_url()?>assets/dist/img/hnumcfi.jpg">
 <link rel="stylesheet" href="<?=base_url()?>assets/fonts/google-sans/google-sans.css?v=<?=@filemtime(FCPATH.'assets/fonts/google-sans/google-sans.css')?>">
 <link rel="stylesheet" href="<?=base_url()?>assets/bower_components/select2/dist/css/select2.min.css">
 <link rel="stylesheet" href="<?=base_url()?>css/cams-select2.css?v=<?=@filemtime(FCPATH.'css/cams-select2.css')?>">
