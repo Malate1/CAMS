@@ -12,6 +12,7 @@
         "source": "https://github.com/bcit-ci/CodeIgniter"
     },
 
+    
     "require": {
         "php": ">=8.1.10"
     },
