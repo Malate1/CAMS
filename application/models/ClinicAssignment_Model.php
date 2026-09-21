@@ -36,18 +36,79 @@ class ClinicAssignment_Model extends CI_Model
             $createdSpecializationTable = true;
         }
 
-        if ($createdScheduleTable || $createdSpecializationTable) {
-            $this->backfillLegacyAssignments();
+        if ($createdScheduleTable) {
+            $this->backfillLegacySchedules();
+        }
+
+        if ($createdSpecializationTable) {
+            $this->backfillLegacySpecializations();
         }
     }
 
     public function backfillLegacyAssignments()
     {
-        $this->db->query("INSERT IGNORE INTO physician_clinic_schedule (physician_clinic_id, schedule_id)
-            SELECT pc.id, ps.schedule_id
-            FROM physician_clinic pc
-            INNER JOIN physician_sched ps ON ps.physician_id = pc.physician_id");
+        $this->backfillLegacySchedules();
+        $this->backfillLegacySpecializations();
+    }
 
+    private function backfillLegacySchedules()
+    {
+        $physicians = $this->db
+            ->select('physician_id')
+            ->from('physician_clinic')
+            ->group_by('physician_id')
+            ->order_by('physician_id', 'ASC')
+            ->get()
+            ->result();
+
+        foreach ($physicians as $physician) {
+            $physicianId = (int) $physician->physician_id;
+
+            $clinics = $this->db
+                ->select('id')
+                ->from('physician_clinic')
+                ->where('physician_id', $physicianId)
+                ->order_by('id', 'ASC')
+                ->get()
+                ->result();
+
+            $schedules = $this->db
+                ->select('schedule_id')
+                ->from('physician_sched')
+                ->where('physician_id', $physicianId)
+                ->order_by('id', 'ASC')
+                ->get()
+                ->result();
+
+            if (!$clinics || !$schedules) {
+                continue;
+            }
+
+            // One clinic may legitimately have several schedules.
+            if (count($clinics) === 1) {
+                foreach ($schedules as $schedule) {
+                    $this->assignSchedule((int) $clinics[0]->id, (int) $schedule->schedule_id);
+                }
+                continue;
+            }
+
+            // Legacy CAMS stored schedules only by physician. When several
+            // clinics exist, pair clinic assignments and schedules by their
+            // creation order instead of copying every schedule to every clinic.
+            // This prevents historical multi-clinic data from recreating
+            // overlapping physician schedules during migration.
+            $pairCount = min(count($clinics), count($schedules));
+            for ($index = 0; $index < $pairCount; $index++) {
+                $this->assignSchedule(
+                    (int) $clinics[$index]->id,
+                    (int) $schedules[$index]->schedule_id
+                );
+            }
+        }
+    }
+
+    private function backfillLegacySpecializations()
+    {
         $this->db->query("INSERT IGNORE INTO physician_clinic_specialization (physician_clinic_id, special_id)
             SELECT pc.id, ps.special_id
             FROM physician_clinic pc

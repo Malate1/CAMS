@@ -453,7 +453,10 @@ INSERT INTO `physician_sched` (`id`, `physician_id`, `schedule_id`) VALUES
 (7, 7, 13),
 (8, 8, 14),
 (9, 9, 15),
-(10, 10, 16);
+(10, 10, 16),
+(11, 1, 17),
+(12, 9, 18),
+(13, 10, 19);
 
 -- --------------------------------------------------------
 
@@ -604,7 +607,7 @@ INSERT INTO `schedule` (`schedule_id`, `day`, `time_in`, `time_out`) VALUES
 (4, 'MTW', '12:00:00', '10:00:00'),
 (5, 'MTW', '12:30:00', '20:30:00'),
 (6, 'M-F', '12:00:00', '22:00:00'),
-(7, 'MTW', '08:00:00', '20:30:00'),
+(7, 'MTW', '08:00:00', '14:00:00'),
 (8, 'M-F', '12:00:00', '21:00:00'),
 (9, 'MTW', '08:00:00', '17:00:00'),
 (10, 'Sun', '08:00:00', '06:00:00'),
@@ -612,8 +615,11 @@ INSERT INTO `schedule` (`schedule_id`, `day`, `time_in`, `time_out`) VALUES
 (12, 'Sat', '06:30:00', '12:00:00'),
 (13, 'MTW', '04:30:00', '00:30:00'),
 (14, 'MTW', '13:30:00', '19:30:00'),
-(15, 'MTW', '14:00:00', '17:30:00'),
-(16, 'MTW', '08:00:00', '18:00:00');
+(15, 'MTW', '14:00:00', '15:30:00'),
+(16, 'MTW', '08:00:00', '12:00:00'),
+(17, 'MTW', '15:00:00', '20:30:00'),
+(18, 'MTW', '16:00:00', '17:30:00'),
+(19, 'MTW', '13:00:00', '18:00:00');
 
 -- --------------------------------------------------------
 
@@ -841,7 +847,7 @@ ALTER TABLE `physician_clinic`
 -- AUTO_INCREMENT for table `physician_sched`
 --
 ALTER TABLE `physician_sched`
-  MODIFY `id` bigint(5) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
+  MODIFY `id` bigint(5) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
 
 --
 -- AUTO_INCREMENT for table `physician_special`
@@ -865,7 +871,7 @@ ALTER TABLE `queuecount`
 -- AUTO_INCREMENT for table `schedule`
 --
 ALTER TABLE `schedule`
-  MODIFY `schedule_id` bigint(5) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
+  MODIFY `schedule_id` bigint(5) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=20;
 
 --
 -- AUTO_INCREMENT for table `secretary`
