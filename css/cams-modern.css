@@ -1,0 +1,4180 @@
+/* CAMS modern UI layer
+ * Keeps the existing Bootstrap 3 / AdminLTE markup and behavior intact while
+ * providing a consistent responsive visual system across every role.
+ */
+
+:root {
+  --cams-bg: #f4f7fb;
+  --cams-surface: #ffffff;
+  --cams-surface-muted: #f8fafc;
+  --cams-text: #15202b;
+  --cams-text-muted: #68778a;
+  --cams-border: #e2e8f0;
+  --cams-primary: #157347;
+  --cams-primary-dark: #0f5d3a;
+  --cams-primary-soft: #e9f7ef;
+  --cams-accent: #2f80ed;
+  --cams-danger: #d64545;
+  --cams-warning: #d98e04;
+  --cams-shadow-sm: 0 2px 10px rgba(15, 23, 42, .06);
+  --cams-shadow-md: 0 12px 32px rgba(15, 23, 42, .10);
+  --cams-radius-sm: 8px;
+  --cams-radius: 14px;
+  --cams-radius-lg: 20px;
+  --cams-sidebar: #0c2e24;
+  --cams-sidebar-2: #123c30;
+  --cams-sidebar-text: #d9eee5;
+  --cams-transition: 180ms ease;
+}
+
+html,
+body {
+  min-height: 100%;
+}
+
+body.cams-app,
+body.cams-auth {
+  color: var(--cams-text);
+  background: var(--cams-bg);
+  font-family: "Google Sans", "Google Sans Text", "Product Sans", "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+body.cams-app h1,
+body.cams-app h2,
+body.cams-app h3,
+body.cams-app h4,
+body.cams-app h5,
+body.cams-app h6,
+body.cams-auth h1,
+body.cams-auth h2,
+body.cams-auth h3,
+body.cams-auth h4,
+body.cams-auth h5,
+body.cams-auth h6,
+body.cams-app .box-title,
+body.cams-app .modal-title,
+body.cams-auth .modal-title {
+  font-family: "Google Sans", "Google Sans Text", "Product Sans", "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+}
+
+/* ------------------------------------------------------------
+   Application shell
+   ------------------------------------------------------------ */
+body.cams-app .wrapper {
+  background: var(--cams-bg);
+}
+
+body.cams-app .main-header {
+  box-shadow: 0 1px 0 rgba(15, 23, 42, .08), 0 4px 18px rgba(15, 23, 42, .05);
+}
+
+body.cams-app .main-header .logo {
+  height: 56px;
+  line-height: 56px;
+  background: var(--cams-sidebar) !important;
+  color: #fff !important;
+  border-right: 1px solid rgba(255, 255, 255, .08);
+  font-weight: 700;
+  letter-spacing: .02em;
+  transition: background var(--cams-transition);
+}
+
+body.cams-app .main-header .logo:hover {
+  background: var(--cams-sidebar-2) !important;
+}
+
+body.cams-app .main-header .logo .logo-lg img {
+  width: 36px !important;
+  height: 36px !important;
+  margin-right: 8px;
+  border: 2px solid rgba(255, 255, 255, .65);
+  object-fit: cover;
+}
+
+body.cams-app .main-header .navbar {
+  min-height: 56px;
+  background: var(--cams-surface) !important;
+  color: var(--cams-text);
+}
+
+body.cams-app .main-header .sidebar-toggle {
+  height: 56px;
+  padding: 19px 18px;
+  color: var(--cams-text) !important;
+}
+
+body.cams-app .main-header .sidebar-toggle:hover,
+body.cams-app .main-header .navbar .nav > li > a:hover,
+body.cams-app .main-header .navbar .nav > li > a:focus {
+  background: var(--cams-surface-muted) !important;
+  color: var(--cams-primary) !important;
+}
+
+body.cams-app .main-header .navbar .nav > li > a {
+  min-height: 56px;
+  padding-top: 13px;
+  padding-bottom: 13px;
+  color: var(--cams-text);
+}
+
+body.cams-app .main-header .navbar .nav > li > a > .user-image {
+  width: 30px;
+  height: 30px;
+  margin-top: 0;
+  object-fit: cover;
+  border: 2px solid var(--cams-border);
+}
+
+body.cams-app .navbar-custom-menu > .navbar-nav > li > .dropdown-menu {
+  margin-top: 8px;
+  border: 1px solid var(--cams-border);
+  border-radius: var(--cams-radius);
+  box-shadow: var(--cams-shadow-md);
+  overflow: hidden;
+}
+
+body.cams-app .navbar-nav > .user-menu > .dropdown-menu > .user-header {
+  min-height: 168px;
+  background: linear-gradient(145deg, var(--cams-primary), var(--cams-primary-dark));
+}
+
+body.cams-app .navbar-nav > .user-menu > .dropdown-menu > .user-header > img {
+  border-color: rgba(255, 255, 255, .7);
+}
+
+body.cams-app .navbar-nav > .user-menu > .dropdown-menu > .user-footer {
+  padding: 12px;
+  background: var(--cams-surface-muted);
+}
+
+/* ------------------------------------------------------------
+   Sidebar
+   ------------------------------------------------------------ */
+body.cams-app .main-sidebar,
+body.cams-app .left-side {
+  padding-top: 56px;
+  background: linear-gradient(180deg, var(--cams-sidebar) 0%, #08251c 100%) !important;
+  box-shadow: 5px 0 24px rgba(2, 20, 14, .08);
+}
+
+body.cams-app .sidebar {
+  padding-top: 10px;
+}
+
+body.cams-app .user-panel {
+  margin: 8px 12px 14px;
+  padding: 12px;
+  border: 1px solid rgba(255, 255, 255, .08);
+  border-radius: 12px;
+  background: rgba(255, 255, 255, .045);
+}
+
+body.cams-app .user-panel > .image > img {
+  width: 42px !important;
+  height: 42px !important;
+  object-fit: cover;
+  border: 2px solid rgba(255, 255, 255, .55);
+}
+
+body.cams-app .user-panel > .info {
+  padding-top: 2px;
+}
+
+body.cams-app .user-panel > .info > p {
+  margin-bottom: 2px;
+  color: #fff;
+  font-weight: 600;
+}
+
+body.cams-app .user-panel > .info > a {
+  color: #a9d8c2;
+}
+
+body.cams-app .sidebar-form {
+  margin: 0 12px 15px;
+  border: 1px solid rgba(255, 255, 255, .08) !important;
+  border-radius: 10px;
+  background: rgba(255, 255, 255, .06) !important;
+  overflow: hidden;
+}
+
+body.cams-app .sidebar-form input[type="text"],
+body.cams-app .sidebar-form .btn {
+  height: 38px;
+  color: var(--cams-sidebar-text);
+  background: transparent !important;
+}
+
+body.cams-app .sidebar-form input[type="text"]::placeholder {
+  color: rgba(217, 238, 229, .58);
+}
+
+body.cams-app .sidebar-menu > li.header {
+  padding: 11px 20px 7px;
+  color: #82b59f;
+  background: transparent !important;
+  font-size: 10px;
+  font-weight: 800;
+  letter-spacing: .12em;
+}
+
+body.cams-app .sidebar-menu > li > a,
+body.cams-app .sidebar-menu .treeview-menu > li > a {
+  color: var(--cams-sidebar-text) !important;
+  border-left: 0 !important;
+  transition: background var(--cams-transition), color var(--cams-transition), transform var(--cams-transition);
+}
+
+body.cams-app .sidebar-menu > li > a {
+  margin: 3px 10px;
+  padding: 11px 12px;
+  border-radius: 10px;
+}
+
+body.cams-app .sidebar-menu > li > a > .fa,
+body.cams-app .sidebar-menu > li > a > .glyphicon,
+body.cams-app .sidebar-menu > li > a > .ion {
+  width: 22px;
+  color: #9ecdb8;
+}
+
+body.cams-app .sidebar-menu > li:hover > a,
+body.cams-app .sidebar-menu > li.active > a,
+body.cams-app .sidebar-menu > li.menu-open > a {
+  color: #fff !important;
+  background: rgba(255, 255, 255, .10) !important;
+}
+
+body.cams-app .sidebar-menu > li.active > a {
+  box-shadow: inset 3px 0 0 #71d0a4;
+}
+
+body.cams-app .sidebar-menu .treeview-menu {
+  margin: 2px 10px 7px;
+  padding: 4px 0 5px 16px;
+  border-radius: 10px;
+  background: rgba(0, 0, 0, .12) !important;
+}
+
+body.cams-app .sidebar-menu .treeview-menu > li > a {
+  padding: 8px 12px;
+  border-radius: 8px;
+  font-size: 13px;
+}
+
+body.cams-app .sidebar-menu .treeview-menu > li > a:hover,
+body.cams-app .sidebar-menu .treeview-menu > li.active > a {
+  color: #fff !important;
+  background: rgba(255, 255, 255, .08);
+}
+
+/* ------------------------------------------------------------
+   Content area
+   ------------------------------------------------------------ */
+body.cams-app .content-wrapper,
+body.cams-app .right-side {
+  min-height: calc(100vh - 56px);
+  background: var(--cams-bg);
+}
+
+body.cams-app .content-header {
+  padding: 28px 28px 10px;
+}
+
+body.cams-app .content-header > h1,
+body.cams-app .content-header h1 {
+  color: var(--cams-text);
+  font-size: 26px;
+  font-weight: 700;
+  letter-spacing: -.02em;
+}
+
+body.cams-app .content-header > h1 > small,
+body.cams-app .content-header h1 small {
+  display: inline-block;
+  margin-left: 8px;
+  color: var(--cams-text-muted);
+  font-size: 13px;
+  font-weight: 500;
+}
+
+body.cams-app .content {
+  padding: 16px 28px 32px;
+}
+
+body.cams-app .content-header #todaysDate,
+body.cams-app #todaysDate {
+  color: var(--cams-text-muted) !important;
+  font-size: 12px;
+  font-weight: 600;
+}
+
+/* ------------------------------------------------------------
+   Cards, panels, dashboard tiles
+   ------------------------------------------------------------ */
+body.cams-app .box,
+body.cams-app .panel,
+body.cams-app .nav-tabs-custom,
+body.cams-app .info-box {
+  border: 1px solid var(--cams-border) !important;
+  border-top: 1px solid var(--cams-border) !important;
+  border-radius: var(--cams-radius);
+  background: var(--cams-surface);
+  box-shadow: var(--cams-shadow-sm);
+  overflow: hidden;
+}
+
+body.cams-app .box-header,
+body.cams-app .panel-heading {
+  padding: 16px 18px;
+  border-bottom: 1px solid var(--cams-border);
+  background: var(--cams-surface);
+}
+
+body.cams-app .box-header .box-title,
+body.cams-app .panel-title {
+  color: var(--cams-text);
+  font-size: 16px;
+  font-weight: 700;
+}
+
+body.cams-app .box-body,
+body.cams-app .panel-body {
+  padding: 18px;
+}
+
+body.cams-app .box-footer,
+body.cams-app .panel-footer {
+  padding: 14px 18px;
+  border-top: 1px solid var(--cams-border);
+  background: var(--cams-surface-muted);
+}
+
+body.cams-app .small-box {
+  min-height: 138px;
+  border-radius: var(--cams-radius);
+  box-shadow: var(--cams-shadow-sm);
+  overflow: hidden;
+  transition: transform var(--cams-transition), box-shadow var(--cams-transition);
+}
+
+body.cams-app .small-box:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--cams-shadow-md);
+}
+
+body.cams-app .small-box > .inner {
+  padding: 18px 20px;
+}
+
+body.cams-app .small-box h3 {
+  margin: 0 0 4px;
+  font-size: 34px;
+  font-weight: 800;
+  letter-spacing: -.04em;
+}
+
+body.cams-app .small-box p {
+  font-size: 14px;
+  font-weight: 600;
+}
+
+body.cams-app .small-box .icon {
+  top: 12px;
+  right: 18px;
+  font-size: 76px;
+  opacity: .16;
+}
+
+body.cams-app .small-box > .small-box-footer {
+  padding: 9px 14px;
+  background: rgba(0, 0, 0, .09);
+  font-weight: 600;
+}
+
+body.cams-app .bg-green,
+body.cams-app .callout.callout-success,
+body.cams-app .alert-success,
+body.cams-app .label-success,
+body.cams-app .modal-success .modal-body {
+  background-color: var(--cams-primary) !important;
+}
+
+/* ------------------------------------------------------------
+   Forms
+   ------------------------------------------------------------ */
+body.cams-app label,
+body.cams-auth label {
+  color: #344256;
+  font-size: 13px;
+  font-weight: 650;
+}
+
+body.cams-app .form-control,
+body.cams-auth .form-control,
+body.cams-app .select2-container .select2-selection--single,
+body.cams-app .select2-container--default .select2-selection--multiple {
+  min-height: 40px;
+  border: 1px solid #d7dee8;
+  border-radius: 9px;
+  background-color: #fff;
+  color: var(--cams-text);
+  box-shadow: none;
+  transition: border-color var(--cams-transition), box-shadow var(--cams-transition);
+}
+
+body.cams-app textarea.form-control {
+  min-height: 110px;
+}
+
+body.cams-app .form-control:focus,
+body.cams-auth .form-control:focus,
+body.cams-app .select2-container--default.select2-container--focus .select2-selection--multiple,
+body.cams-app .select2-container--default.select2-container--open .select2-selection--single {
+  border-color: #59a77f;
+  box-shadow: 0 0 0 3px rgba(21, 115, 71, .10);
+}
+
+body.cams-app .input-group-addon,
+body.cams-auth .input-group-addon {
+  border-color: #d7dee8;
+  background: var(--cams-surface-muted);
+  color: var(--cams-text-muted);
+}
+
+body.cams-app .form-group {
+  margin-bottom: 17px;
+}
+
+body.cams-app .help-block,
+body.cams-auth .help-block {
+  color: var(--cams-text-muted);
+  font-size: 12px;
+}
+
+/* ------------------------------------------------------------
+   Buttons
+   ------------------------------------------------------------ */
+body.cams-app .btn,
+body.cams-auth .btn {
+  border-radius: 9px;
+  font-weight: 650;
+  transition: transform var(--cams-transition), box-shadow var(--cams-transition), background var(--cams-transition);
+}
+
+body.cams-app .btn:hover,
+body.cams-auth .btn:hover {
+  transform: translateY(-1px);
+}
+
+body.cams-app .btn-success,
+body.cams-auth .btn-success,
+body.cams-app .btn-primary,
+body.cams-auth .btn-primary {
+  border-color: var(--cams-primary);
+  background: var(--cams-primary);
+}
+
+body.cams-app .btn-success:hover,
+body.cams-auth .btn-success:hover,
+body.cams-app .btn-primary:hover,
+body.cams-auth .btn-primary:hover,
+body.cams-app .btn-success:focus,
+body.cams-auth .btn-success:focus,
+body.cams-app .btn-primary:focus,
+body.cams-auth .btn-primary:focus {
+  border-color: var(--cams-primary-dark);
+  background: var(--cams-primary-dark);
+  box-shadow: 0 6px 16px rgba(21, 115, 71, .18);
+}
+
+body.cams-app .btn-default,
+body.cams-auth .btn-default {
+  border-color: var(--cams-border);
+  background: #fff;
+  color: #354052;
+}
+
+body.cams-app .btn-danger,
+body.cams-auth .btn-danger {
+  border-color: var(--cams-danger);
+  background: var(--cams-danger);
+}
+
+/* ------------------------------------------------------------
+   Tables / DataTables
+   ------------------------------------------------------------ */
+body.cams-app .table-responsive {
+  border: 0;
+  border-radius: 10px;
+}
+
+body.cams-app .table {
+  margin-bottom: 0;
+  color: var(--cams-text);
+}
+
+body.cams-app .table > thead > tr > th {
+  padding: 11px 12px;
+  border-bottom: 1px solid var(--cams-border);
+  background: var(--cams-surface-muted);
+  color: #4b5b70;
+  font-size: 12px;
+  font-weight: 800;
+  letter-spacing: .03em;
+  text-transform: uppercase;
+  vertical-align: middle;
+}
+
+body.cams-app .table > tbody > tr > td {
+  padding: 12px;
+  border-top-color: #edf1f5;
+  vertical-align: middle;
+}
+
+body.cams-app .table-striped > tbody > tr:nth-of-type(odd) {
+  background-color: #fbfcfe;
+}
+
+body.cams-app .table-hover > tbody > tr:hover {
+  background-color: #f2f8f5;
+}
+
+body.cams-app .dataTables_wrapper .dataTables_filter input,
+body.cams-app .dataTables_wrapper .dataTables_length select {
+  min-height: 36px;
+  border: 1px solid #d7dee8;
+  border-radius: 8px;
+  background: #fff;
+}
+
+body.cams-app .dataTables_wrapper .dataTables_filter input {
+  padding: 6px 10px;
+}
+
+body.cams-app .pagination > li > a,
+body.cams-app .pagination > li > span {
+  margin: 0 2px;
+  border: 1px solid var(--cams-border);
+  border-radius: 7px !important;
+  color: #3b4a5f;
+}
+
+body.cams-app .pagination > .active > a,
+body.cams-app .pagination > .active > span,
+body.cams-app .pagination > .active > a:hover,
+body.cams-app .pagination > .active > span:hover {
+  border-color: var(--cams-primary);
+  background: var(--cams-primary);
+}
+
+/* ------------------------------------------------------------
+   Tabs, breadcrumbs, labels, alerts and modals
+   ------------------------------------------------------------ */
+body.cams-app .breadcrumb {
+  border-radius: 8px;
+  background: transparent;
+}
+
+body.cams-app .nav-tabs-custom > .nav-tabs {
+  border-bottom-color: var(--cams-border);
+}
+
+body.cams-app .nav-tabs-custom > .nav-tabs > li.active {
+  border-top-color: var(--cams-primary);
+}
+
+body.cams-app .label {
+  padding: .35em .6em;
+  border-radius: 6px;
+  font-weight: 650;
+}
+
+body.cams-app .cams-status {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 9px;
+  border-radius: 999px;
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: .02em;
+}
+
+body.cams-app .cams-status-pending {
+  background: #fff4d8;
+  color: #865f05;
+}
+
+body.cams-app .cams-status-done {
+  background: #e7f7ee;
+  color: #12613d;
+}
+
+body.cams-app .cams-status-cancelled {
+  background: #fdeaea;
+  color: #a13939;
+}
+
+body.cams-app .alert {
+  border: 0;
+  border-radius: 10px;
+  box-shadow: var(--cams-shadow-sm);
+}
+
+body.cams-app .modal-content {
+  border: 0;
+  border-radius: var(--cams-radius);
+  box-shadow: var(--cams-shadow-md);
+  overflow: hidden;
+}
+
+body.cams-app .modal-header,
+body.cams-app .modal-footer {
+  border-color: var(--cams-border);
+}
+
+body.cams-app .modal-title {
+  font-weight: 700;
+}
+
+/* ------------------------------------------------------------
+   Login / recovery screens
+   ------------------------------------------------------------ */
+body.cams-auth.login-page {
+  min-height: 100vh;
+  background:
+    radial-gradient(circle at 12% 8%, rgba(72, 177, 127, .22), transparent 30%),
+    radial-gradient(circle at 90% 92%, rgba(47, 128, 237, .14), transparent 28%),
+    linear-gradient(145deg, #f3f8f5 0%, #eef3f8 100%) !important;
+}
+
+body.cams-auth .login-box {
+  width: min(410px, calc(100% - 28px));
+  margin: 7vh auto 32px;
+}
+
+body.cams-auth .login-logo,
+body.cams-auth .register-logo {
+  margin-bottom: 18px;
+  color: var(--cams-text);
+  font-weight: 800;
+  letter-spacing: -.03em;
+}
+
+body.cams-auth .login-box-body,
+body.cams-auth .register-box-body {
+  padding: 28px;
+  border: 1px solid rgba(226, 232, 240, .9);
+  border-radius: var(--cams-radius-lg) !important;
+  background: rgba(255, 255, 255, .96);
+  box-shadow: 0 24px 70px rgba(15, 23, 42, .13);
+}
+
+body.cams-auth .login-box-msg {
+  margin-bottom: 22px;
+  color: var(--cams-text);
+  font-size: 21px;
+  font-weight: 750;
+}
+
+body.cams-auth .form-control-feedback {
+  color: #93a1b3;
+}
+
+body.cams-auth .btn-block {
+  min-height: 42px;
+}
+
+body.cams-auth a {
+  color: var(--cams-primary);
+  font-weight: 600;
+}
+
+
+/* ------------------------------------------------------------
+   Modern authentication cover layout
+   ------------------------------------------------------------ */
+body.cams-auth.login-page {
+  min-height: 100vh;
+  margin: 0;
+  overflow-x: hidden;
+  background: #f4f7f6 !important;
+}
+
+body.cams-auth .cams-auth-shell {
+  min-height: 100vh;
+  display: grid;
+  grid-template-columns: minmax(520px, 1.18fr) minmax(420px, .82fr);
+  background: #fff;
+}
+
+body.cams-auth .cams-auth-cover {
+  position: relative;
+  min-height: 100vh;
+  overflow: hidden;
+  isolation: isolate;
+  background: #0b3a2d;
+}
+
+body.cams-auth .cams-auth-cover-media,
+body.cams-auth .cams-auth-cover-overlay {
+  position: absolute;
+  inset: 0;
+}
+
+body.cams-auth .cams-auth-cover-media {
+  z-index: -3;
+  background:
+    url("../hnu/clinic.jpg") center center / cover no-repeat;
+  transform: scale(1.015);
+}
+
+body.cams-auth .cams-auth-cover-overlay {
+  z-index: -2;
+  background:
+    linear-gradient(180deg, rgba(4, 35, 26, .24) 0%, rgba(4, 35, 26, .58) 52%, rgba(4, 35, 26, .91) 100%),
+    linear-gradient(110deg, rgba(4, 35, 26, .92) 0%, rgba(4, 35, 26, .48) 48%, rgba(4, 35, 26, .10) 100%);
+}
+
+body.cams-auth .cams-auth-cover::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background:
+    radial-gradient(circle at 18% 20%, rgba(102, 223, 168, .22), transparent 34%),
+    radial-gradient(circle at 86% 80%, rgba(255, 255, 255, .11), transparent 30%);
+  pointer-events: none;
+}
+
+body.cams-auth .cams-auth-cover-content {
+  position: relative;
+  z-index: 1;
+  min-height: 100vh;
+  padding: clamp(34px, 5vw, 72px);
+  display: flex;
+  flex-direction: column;
+  color: #fff;
+}
+
+body.cams-auth .cams-auth-brand {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  max-width: 560px;
+}
+
+body.cams-auth .cams-auth-brand-mark {
+  width: 52px;
+  height: 52px;
+  flex: 0 0 52px;
+  padding: 4px;
+  border: 1px solid rgba(255, 255, 255, .28);
+  border-radius: 16px;
+  background: rgba(255, 255, 255, .95);
+  box-shadow: 0 12px 32px rgba(0, 0, 0, .16);
+}
+
+body.cams-auth .cams-auth-brand-mark img {
+  width: 100%;
+  height: 100%;
+  border-radius: 12px;
+  object-fit: cover;
+}
+
+body.cams-auth .cams-auth-brand strong,
+body.cams-auth .cams-auth-brand span {
+  display: block;
+}
+
+body.cams-auth .cams-auth-brand strong {
+  margin-bottom: 3px;
+  font-size: 16px;
+  font-weight: 750;
+  letter-spacing: -.01em;
+}
+
+body.cams-auth .cams-auth-brand span {
+  color: rgba(255, 255, 255, .72);
+  font-size: 13px;
+}
+
+body.cams-auth .cams-auth-cover-copy {
+  width: min(620px, 92%);
+  margin: auto 0;
+  padding: 48px 0 34px;
+}
+
+body.cams-auth .cams-auth-cover-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 20px;
+  padding: 8px 12px;
+  border: 1px solid rgba(255, 255, 255, .18);
+  border-radius: 999px;
+  background: rgba(255, 255, 255, .10);
+  color: rgba(255, 255, 255, .92);
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: .04em;
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+}
+
+body.cams-auth .cams-auth-cover-copy h1 {
+  max-width: 590px;
+  margin: 0 0 18px;
+  color: #fff;
+  font-size: clamp(38px, 4.7vw, 68px);
+  line-height: 1.02;
+  font-weight: 800;
+  letter-spacing: -.045em;
+  text-wrap: balance;
+}
+
+body.cams-auth .cams-auth-cover-copy > p {
+  max-width: 560px;
+  margin: 0;
+  color: rgba(255, 255, 255, .78);
+  font-size: 17px;
+  line-height: 1.7;
+}
+
+body.cams-auth .cams-auth-cover-points {
+  margin-top: 34px;
+  display: grid;
+  gap: 14px;
+}
+
+body.cams-auth .cams-auth-cover-points > div {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+
+body.cams-auth .cams-auth-cover-points > div > i {
+  width: 40px;
+  height: 40px;
+  flex: 0 0 40px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid rgba(255, 255, 255, .15);
+  border-radius: 12px;
+  background: rgba(255, 255, 255, .10);
+  color: #b9f3d6;
+}
+
+body.cams-auth .cams-auth-cover-points span,
+body.cams-auth .cams-auth-cover-points strong,
+body.cams-auth .cams-auth-cover-points small {
+  display: block;
+}
+
+body.cams-auth .cams-auth-cover-points strong {
+  color: #fff;
+  font-size: 14px;
+  font-weight: 700;
+}
+
+body.cams-auth .cams-auth-cover-points small {
+  margin-top: 2px;
+  color: rgba(255, 255, 255, .63);
+  font-size: 12px;
+  line-height: 1.45;
+}
+
+body.cams-auth .cams-auth-cover-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 18px;
+  padding-top: 24px;
+  border-top: 1px solid rgba(255, 255, 255, .12);
+  color: rgba(255, 255, 255, .50);
+  font-size: 12px;
+}
+
+body.cams-auth .cams-auth-login-pane {
+  min-height: 100vh;
+  padding: clamp(34px, 5vw, 78px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background:
+    radial-gradient(circle at 100% 0%, rgba(31, 133, 97, .09), transparent 34%),
+    #fff;
+}
+
+body.cams-auth .cams-auth-login-pane .login-box {
+  width: 100%;
+  max-width: 460px;
+  margin: 0;
+}
+
+body.cams-auth .cams-auth-login-pane .login-logo {
+  margin: 0 0 30px;
+  text-align: left;
+}
+
+body.cams-auth .cams-auth-login-pane .login-logo > a {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  color: var(--cams-text) !important;
+  text-decoration: none;
+}
+
+body.cams-auth .cams-auth-login-pane .login-logo > a > br {
+  display: none;
+}
+
+body.cams-auth .cams-auth-login-pane .login-logo img {
+  width: 56px !important;
+  height: 56px !important;
+  flex: 0 0 56px;
+  margin: 0 !important;
+  padding: 4px;
+  border: 1px solid #dce6e2;
+  border-radius: 16px !important;
+  background: #fff;
+  object-fit: cover;
+  box-shadow: 0 10px 28px rgba(15, 23, 42, .08);
+}
+
+body.cams-auth .cams-auth-login-pane .login-logo h3 {
+  margin: 0;
+  max-width: 270px;
+  color: #17352b;
+  font-size: 16px;
+  line-height: 1.4;
+  font-weight: 750;
+  letter-spacing: -.02em;
+}
+
+body.cams-auth .cams-auth-login-pane .login-box-body,
+body.cams-auth .cams-auth-login-pane .register-box-body {
+  padding: 0;
+  border: 0;
+  border-radius: 0 !important;
+  background: transparent;
+  box-shadow: none;
+}
+
+body.cams-auth .cams-auth-login-pane .login-box-msg {
+  margin: 0 0 28px;
+  padding: 0;
+  text-align: left;
+  color: #10281f;
+  font-size: 30px;
+  line-height: 1.2;
+  font-weight: 800;
+  letter-spacing: -.035em;
+}
+
+body.cams-auth .cams-auth-login-pane .login-box-msg::after {
+  content: "Use your registered account credentials to continue.";
+  display: block;
+  margin-top: 8px;
+  color: #718078;
+  font-size: 13px;
+  line-height: 1.55;
+  font-weight: 500;
+  letter-spacing: 0;
+}
+
+body.cams-auth .cams-auth-login-pane form > .form-group {
+  position: relative;
+  margin-bottom: 16px;
+}
+
+body.cams-auth .cams-auth-login-pane .form-control {
+  height: 52px;
+  padding: 12px 44px 12px 15px;
+  border: 1px solid #d9e3df;
+  border-radius: 12px;
+  background: #fff;
+  color: #17352b;
+  font-size: 14px;
+  box-shadow: 0 1px 2px rgba(15, 23, 42, .02);
+  transition: border-color .18s ease, box-shadow .18s ease, background .18s ease;
+}
+
+body.cams-auth .cams-auth-login-pane .form-control::placeholder {
+  color: #98a5a0;
+}
+
+body.cams-auth .cams-auth-login-pane .form-control:focus {
+  border-color: #168a64;
+  background: #fff;
+  box-shadow: 0 0 0 4px rgba(22, 138, 100, .10);
+}
+
+body.cams-auth .cams-auth-login-pane .form-control-feedback {
+  top: 9px;
+  right: 7px;
+  color: #8ca098;
+  line-height: 34px;
+}
+
+body.cams-auth .cams-auth-login-pane input[type="checkbox"] {
+  width: 16px;
+  height: 16px;
+  margin: 7px 7px 0 0;
+  vertical-align: -3px;
+  accent-color: #147a59;
+}
+
+body.cams-auth .cams-auth-login-pane .form-group > b {
+  color: #52645d;
+  font-size: 12px;
+  font-weight: 650;
+}
+
+body.cams-auth .cams-auth-login-pane form > .row {
+  margin: 20px 0 0;
+}
+
+body.cams-auth .cams-auth-login-pane form > .row > .col-xs-8 {
+  display: none;
+}
+
+body.cams-auth .cams-auth-login-pane form > .row > .col-xs-4 {
+  width: 100%;
+  padding: 0;
+  float: none;
+}
+
+body.cams-auth .cams-auth-login-pane .btn-block {
+  width: 100%;
+  min-height: 50px;
+  border-radius: 12px;
+  border-color: #116f50;
+  background: #116f50;
+  font-size: 14px;
+  font-weight: 750;
+  box-shadow: 0 10px 22px rgba(17, 111, 80, .18);
+}
+
+body.cams-auth .cams-auth-login-pane .btn-block:hover,
+body.cams-auth .cams-auth-login-pane .btn-block:focus {
+  border-color: #0d5d43;
+  background: #0d5d43;
+  transform: translateY(-1px);
+  box-shadow: 0 14px 28px rgba(17, 111, 80, .22);
+}
+
+body.cams-auth .cams-auth-login-pane a[data-toggle="modal"] {
+  display: inline-block;
+  margin-top: 8px;
+  color: #50645c !important;
+  font-size: 13px;
+  cursor: pointer;
+}
+
+body.cams-auth .cams-auth-login-pane a[data-toggle="modal"] b {
+  color: #147a59;
+  font-weight: 750;
+}
+
+body.cams-auth .cams-auth-login-pane label[for="name"] {
+  display: block;
+  margin: 26px 0 8px;
+  color: #50645c;
+  font-size: 12px;
+  font-weight: 700;
+}
+
+body.cams-auth .cams-auth-login-pane select[name="form"] {
+  width: 100%;
+  height: 46px;
+  padding: 0 38px 0 13px;
+  border: 1px solid #d9e3df;
+  border-radius: 11px !important;
+  background: #f8fbf9;
+  color: #344a42;
+  font-size: 13px;
+  outline: none;
+}
+
+body.cams-auth .cams-auth-login-pane select[name="form"]:focus {
+  border-color: #168a64;
+  box-shadow: 0 0 0 4px rgba(22, 138, 100, .09);
+}
+
+body.cams-auth .cams-auth-login-pane .login-box > .text-muted {
+  margin-top: 26px;
+  padding-top: 20px;
+  border-top: 1px solid #edf1ef;
+  color: #8a9993 !important;
+  font-size: 11px;
+  line-height: 1.6;
+  text-align: left !important;
+}
+
+body.cams-auth .modal-content {
+  border: 0;
+  border-radius: 18px !important;
+  overflow: hidden;
+  box-shadow: 0 28px 80px rgba(15, 23, 42, .22);
+}
+
+body.cams-auth .modal-header {
+  padding: 22px 24px 18px;
+  border-bottom-color: #edf1ef;
+  background: #fbfdfc;
+}
+
+body.cams-auth .modal-body {
+  padding: 24px;
+}
+
+body.cams-auth .modal-footer {
+  padding: 16px 24px;
+  border-top-color: #edf1ef;
+  background: #fbfdfc;
+}
+
+@media (max-width: 1199px) {
+  body.cams-auth .cams-auth-shell {
+    grid-template-columns: minmax(420px, 1fr) minmax(400px, .9fr);
+  }
+
+  body.cams-auth .cams-auth-cover-content {
+    padding: 40px;
+  }
+
+  body.cams-auth .cams-auth-cover-copy h1 {
+    font-size: 46px;
+  }
+
+  body.cams-auth .cams-auth-login-pane {
+    padding: 42px;
+  }
+}
+
+@media (max-width: 991px) {
+  body.cams-auth .cams-auth-shell {
+    display: block;
+    min-height: 100vh;
+    background: #f7faf8;
+  }
+
+  body.cams-auth .cams-auth-cover {
+    min-height: 300px;
+  }
+
+  body.cams-auth .cams-auth-cover-content {
+    min-height: 300px;
+    padding: 28px;
+  }
+
+  body.cams-auth .cams-auth-cover-copy {
+    width: min(680px, 100%);
+    margin: auto 0 0;
+    padding: 38px 0 0;
+  }
+
+  body.cams-auth .cams-auth-cover-copy h1 {
+    max-width: 620px;
+    margin-bottom: 10px;
+    font-size: 38px;
+  }
+
+  body.cams-auth .cams-auth-cover-copy > p {
+    max-width: 650px;
+    font-size: 15px;
+  }
+
+  body.cams-auth .cams-auth-cover-points,
+  body.cams-auth .cams-auth-cover-footer {
+    display: none;
+  }
+
+  body.cams-auth .cams-auth-login-pane {
+    min-height: auto;
+    padding: 34px 22px 46px;
+    align-items: flex-start;
+  }
+
+  body.cams-auth .cams-auth-login-pane .login-box {
+    max-width: 560px;
+  }
+}
+
+@media (max-width: 575px) {
+  body.cams-auth .cams-auth-cover {
+    min-height: 230px;
+  }
+
+  body.cams-auth .cams-auth-cover-content {
+    min-height: 230px;
+    padding: 20px;
+  }
+
+  body.cams-auth .cams-auth-brand-mark {
+    width: 44px;
+    height: 44px;
+    flex-basis: 44px;
+    border-radius: 13px;
+  }
+
+  body.cams-auth .cams-auth-brand strong {
+    font-size: 14px;
+  }
+
+  body.cams-auth .cams-auth-brand span {
+    font-size: 11px;
+  }
+
+  body.cams-auth .cams-auth-cover-copy {
+    padding-top: 24px;
+  }
+
+  body.cams-auth .cams-auth-cover-badge {
+    margin-bottom: 10px;
+    padding: 6px 10px;
+    font-size: 10px;
+  }
+
+  body.cams-auth .cams-auth-cover-copy h1 {
+    font-size: 30px;
+  }
+
+  body.cams-auth .cams-auth-cover-copy > p {
+    display: none;
+  }
+
+  body.cams-auth .cams-auth-login-pane {
+    padding: 28px 18px 36px;
+  }
+
+  body.cams-auth .cams-auth-login-pane .login-logo {
+    margin-bottom: 24px;
+  }
+
+  body.cams-auth .cams-auth-login-pane .login-logo img {
+    width: 48px !important;
+    height: 48px !important;
+    flex-basis: 48px;
+  }
+
+  body.cams-auth .cams-auth-login-pane .login-logo h3 {
+    font-size: 14px;
+  }
+
+  body.cams-auth .cams-auth-login-pane .login-box-msg {
+    font-size: 26px;
+  }
+
+  body.cams-auth .cams-auth-login-pane .form-control {
+    height: 50px;
+  }
+}
+
+/* ------------------------------------------------------------
+   Legacy public landing page
+   ------------------------------------------------------------ */
+body.cams-landing {
+  padding-bottom: 0 !important;
+  background: #f5f8fb;
+  color: var(--cams-text) !important;
+  font-family: "Google Sans", "Google Sans Text", "Product Sans", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Arial, sans-serif;
+}
+
+body.cams-landing .navbar .navbar-inner {
+  border: 1px solid rgba(255, 255, 255, .14) !important;
+  border-radius: 14px !important;
+  background: rgba(9, 45, 34, .96) !important;
+  box-shadow: 0 12px 32px rgba(15, 23, 42, .18) !important;
+}
+
+body.cams-landing .navbar .brand,
+body.cams-landing .navbar .nav > li > a {
+  color: #fff !important;
+  text-shadow: none !important;
+}
+
+body.cams-landing .carousel {
+  border-radius: 0 0 24px 24px;
+  overflow: hidden;
+  box-shadow: var(--cams-shadow-md);
+}
+
+body.cams-landing .carousel-caption {
+  padding: 24px !important;
+  border-radius: 16px;
+  background: rgba(7, 32, 24, .62) !important;
+  backdrop-filter: blur(5px);
+}
+
+body.cams-landing .marketing {
+  padding-top: 22px;
+  padding-bottom: 34px;
+}
+
+body.cams-landing .marketing .span3 {
+  min-height: 220px;
+  margin-bottom: 18px;
+  padding: 22px 16px;
+  border: 1px solid var(--cams-border);
+  border-radius: 16px;
+  background: #fff;
+  box-shadow: var(--cams-shadow-sm);
+}
+
+body.cams-landing .marketing h2 {
+  color: var(--cams-text);
+  font-weight: 750 !important;
+}
+
+body.cams-landing .btn-success,
+body.cams-landing .btn-primary {
+  border-radius: 9px;
+  border-color: var(--cams-primary);
+  background: var(--cams-primary);
+  box-shadow: none;
+  text-shadow: none;
+}
+
+/* ------------------------------------------------------------
+   Navigation, calendars, footers and accessibility
+   ------------------------------------------------------------ */
+body.cams-app .main-footer {
+  padding: 16px 28px;
+  border-top: 1px solid var(--cams-border);
+  background: var(--cams-surface);
+  color: var(--cams-text-muted);
+  font-size: 12px;
+}
+
+body.cams-app .dropdown-menu {
+  border: 1px solid var(--cams-border);
+  border-radius: 10px;
+  box-shadow: var(--cams-shadow-md);
+}
+
+body.cams-app .dropdown-menu > li > a {
+  padding: 8px 14px;
+  color: #344256;
+}
+
+body.cams-app .dropdown-menu > li > a:hover,
+body.cams-app .dropdown-menu > li > a:focus {
+  background: var(--cams-primary-soft);
+  color: var(--cams-primary-dark);
+}
+
+body.cams-app .fc-toolbar h2 {
+  color: var(--cams-text);
+  font-size: 20px;
+  font-weight: 750;
+}
+
+body.cams-app .fc-button,
+body.cams-app .fc-state-default {
+  border: 1px solid var(--cams-border);
+  border-radius: 8px !important;
+  background: #fff;
+  background-image: none;
+  color: #344256;
+  box-shadow: none;
+  text-shadow: none;
+}
+
+body.cams-app .fc-state-active,
+body.cams-app .fc-state-down {
+  border-color: var(--cams-primary);
+  background: var(--cams-primary);
+  color: #fff;
+}
+
+body.cams-app .fc-event {
+  border: 0;
+  border-radius: 6px;
+  padding: 2px 4px;
+}
+
+body.cams-app .select2-container {
+  max-width: 100%;
+}
+
+body.cams-app a:focus-visible,
+body.cams-app button:focus-visible,
+body.cams-app input:focus-visible,
+body.cams-app select:focus-visible,
+body.cams-app textarea:focus-visible,
+body.cams-auth a:focus-visible,
+body.cams-auth button:focus-visible,
+body.cams-auth input:focus-visible,
+body.cams-auth select:focus-visible,
+body.cams-auth textarea:focus-visible {
+  outline: 3px solid rgba(47, 128, 237, .28);
+  outline-offset: 2px;
+}
+
+body.cams-app img,
+body.cams-auth img {
+  max-width: 100%;
+}
+
+/* ------------------------------------------------------------
+   Responsive improvements
+   ------------------------------------------------------------ */
+@media (max-width: 991px) {
+  body.cams-app .content-header {
+    padding: 22px 20px 8px;
+  }
+
+  body.cams-app .content {
+    padding: 14px 20px 26px;
+  }
+
+  body.cams-app .main-sidebar,
+  body.cams-app .left-side {
+    padding-top: 56px;
+  }
+}
+
+@media (max-width: 767px) {
+  body.cams-app .main-header .logo,
+  body.cams-app .main-header .navbar {
+    min-height: 52px;
+  }
+
+  body.cams-app .main-header .logo {
+    height: 52px;
+    line-height: 52px;
+  }
+
+  body.cams-app .main-header .sidebar-toggle {
+    height: 52px;
+    padding: 17px 16px;
+  }
+
+  body.cams-app .main-sidebar,
+  body.cams-app .left-side {
+    padding-top: 104px;
+  }
+
+  body.cams-app .content-header {
+    padding: 18px 14px 6px;
+  }
+
+  body.cams-app .content-header > h1,
+  body.cams-app .content-header h1 {
+    font-size: 22px;
+  }
+
+  body.cams-app .content {
+    padding: 12px 14px 22px;
+  }
+
+  body.cams-app .box-body,
+  body.cams-app .panel-body {
+    padding: 14px;
+  }
+
+  body.cams-app .small-box {
+    min-height: 118px;
+  }
+
+  body.cams-app .small-box h3 {
+    font-size: 29px;
+  }
+
+  body.cams-app .table-responsive {
+    margin-bottom: 0;
+  }
+
+  body.cams-auth .login-box-body,
+  body.cams-auth .register-box-body {
+    padding: 22px 18px;
+  }
+
+  body.cams-landing .navbar-wrapper {
+    margin: 0 !important;
+  }
+
+  body.cams-landing .navbar .navbar-inner {
+    border-radius: 0 !important;
+  }
+}
+
+/* ------------------------------------------------------------
+   2026 responsive usability pass
+   ------------------------------------------------------------ */
+body.cams-app .content-wrapper > .content,
+body.cams-app .content-wrapper > .content-header {
+  width: 100%;
+}
+
+body.cams-app .content-header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 18px;
+  flex-wrap: wrap;
+}
+
+body.cams-app .main-footer {
+  padding: 18px 28px;
+  border-top: 1px solid var(--cams-border);
+  background: var(--cams-surface);
+  color: var(--cams-text-muted);
+  font-size: 12px;
+}
+
+body.cams-app .box .btn + .btn,
+body.cams-app .table .btn + .btn {
+  margin-left: 4px;
+}
+
+body.cams-app .table td .btn {
+  min-height: 34px;
+  padding: 6px 10px;
+  font-size: 12px;
+}
+
+body.cams-app .table td form.form-inline {
+  display: inline-flex;
+  align-items: center;
+  margin: 2px 0;
+}
+
+body.cams-app .content .row + .row {
+  margin-top: 4px;
+}
+
+body.cams-app .modal-dialog {
+  margin-top: 5vh;
+}
+
+body.cams-app .modal-body {
+  padding: 20px;
+}
+
+body.cams-app .input-group .form-control:first-child,
+body.cams-app .input-group-addon:first-child {
+  border-radius: 9px 0 0 9px;
+}
+
+body.cams-app .input-group .form-control:last-child,
+body.cams-app .input-group-btn:last-child > .btn {
+  border-radius: 0 9px 9px 0;
+}
+
+body.cams-app .dataTables_wrapper .row:first-child,
+body.cams-app .dataTables_wrapper .row:last-child {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 10px 0;
+}
+
+body.cams-app .dataTables_wrapper .dataTables_info {
+  color: var(--cams-text-muted);
+  font-size: 12px;
+}
+
+body.cams-app .dataTables_wrapper .dataTables_filter label,
+body.cams-app .dataTables_wrapper .dataTables_length label {
+  color: var(--cams-text-muted);
+  font-weight: 600;
+}
+
+body.cams-app .profile-user-img,
+body.cams-app .img-circle {
+  object-fit: cover;
+}
+
+body.cams-app .well {
+  border: 1px solid var(--cams-border);
+  border-radius: var(--cams-radius);
+  background: var(--cams-surface-muted);
+  box-shadow: none;
+}
+
+body.cams-app .list-group-item {
+  border-color: var(--cams-border);
+}
+
+body.cams-app .list-group-item:first-child {
+  border-radius: 10px 10px 0 0;
+}
+
+body.cams-app .list-group-item:last-child {
+  border-radius: 0 0 10px 10px;
+}
+
+body.cams-app .fc-toolbar h2 {
+  color: var(--cams-text);
+  font-size: 20px;
+  font-weight: 800;
+}
+
+body.cams-app .fc button {
+  border-radius: 8px;
+  box-shadow: none;
+}
+
+body.cams-app .fc-event {
+  border-radius: 6px;
+  border: 0;
+  padding: 2px 4px;
+}
+
+@media (max-width: 767px) {
+  body.cams-app .content-header {
+    display: block;
+  }
+
+  body.cams-app .content-header #todaysDate {
+    margin-bottom: 6px;
+    text-align: left !important;
+  }
+
+  body.cams-app .main-footer {
+    padding: 16px 14px;
+  }
+
+  body.cams-app .table-responsive {
+    width: 100%;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    box-shadow: inset -12px 0 18px -18px rgba(15,23,42,.25);
+  }
+
+  body.cams-app .table-responsive > .table {
+    min-width: 720px;
+  }
+
+  body.cams-app .dataTables_wrapper .row:first-child,
+  body.cams-app .dataTables_wrapper .row:last-child {
+    display: block;
+  }
+
+  body.cams-app .dataTables_wrapper .dataTables_filter,
+  body.cams-app .dataTables_wrapper .dataTables_length,
+  body.cams-app .dataTables_wrapper .dataTables_info,
+  body.cams-app .dataTables_wrapper .dataTables_paginate {
+    float: none !important;
+    width: 100%;
+    margin: 8px 0;
+    text-align: left !important;
+  }
+
+  body.cams-app .dataTables_wrapper .dataTables_filter input {
+    width: calc(100% - 70px);
+  }
+
+  body.cams-app .pagination {
+    white-space: nowrap;
+  }
+
+  body.cams-app .modal-dialog {
+    margin: 12px;
+  }
+
+  body.cams-app .modal-content {
+    border-radius: 14px;
+  }
+
+  body.cams-app .box-header,
+  body.cams-app .box-body,
+  body.cams-app .box-footer {
+    padding-left: 14px;
+    padding-right: 14px;
+  }
+
+  body.cams-app .btn-group,
+  body.cams-app .box-tools {
+    max-width: 100%;
+  }
+}
+
+/* ------------------------------------------------------------
+   2026 application shell + modern server-side DataTables
+   ------------------------------------------------------------ */
+@media (min-width: 768px) {
+  body.cams-app .main-header .logo,
+  body.cams-app .main-sidebar,
+  body.cams-app .left-side {
+    width: 260px;
+  }
+
+  body.cams-app .main-header .navbar,
+  body.cams-app .content-wrapper,
+  body.cams-app .right-side,
+  body.cams-app .main-footer {
+    margin-left: 260px;
+  }
+
+  body.cams-app.sidebar-collapse .main-header .logo,
+  body.cams-app.sidebar-collapse .main-sidebar,
+  body.cams-app.sidebar-collapse .left-side {
+    width: 58px !important;
+  }
+
+  body.cams-app.sidebar-collapse .main-header .navbar,
+  body.cams-app.sidebar-collapse .content-wrapper,
+  body.cams-app.sidebar-collapse .right-side,
+  body.cams-app.sidebar-collapse .main-footer {
+    margin-left: 58px !important;
+  }
+}
+
+body.cams-app .main-sidebar {
+  border-right: 0;
+}
+
+body.cams-app .sidebar-menu {
+  padding: 4px 10px 18px;
+}
+
+body.cams-app .sidebar-menu > li.header {
+  padding-left: 12px;
+  margin: 10px 0 4px;
+}
+
+body.cams-app .sidebar-menu > li > a {
+  display: flex;
+  align-items: center;
+  min-height: 44px;
+  margin: 4px 0;
+  padding: 11px 12px;
+  border: 1px solid transparent;
+  border-radius: 12px;
+  font-weight: 600;
+}
+
+body.cams-app .sidebar-menu > li.treeview.menu-open > a,
+body.cams-app .sidebar-menu > li.treeview.active > a {
+  border-color: rgba(255,255,255,.10);
+  background: rgba(255,255,255,.10) !important;
+  box-shadow: inset 0 1px 0 rgba(255,255,255,.04);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+}
+
+body.cams-app .sidebar-menu > li.treeview > a > .pull-right-container,
+body.cams-app .sidebar-menu > li.treeview > a > .fa-angle-left {
+  margin-left: auto;
+}
+
+body.cams-app .sidebar-menu > li > a > i:first-child {
+  flex: 0 0 22px;
+  margin-right: 7px;
+  text-align: center;
+}
+
+body.cams-app .sidebar-menu .treeview-menu {
+  margin: 5px 0 10px;
+  padding: 6px;
+  border: 1px solid rgba(255,255,255,.08);
+  border-radius: 12px;
+  background: rgba(255,255,255,.045) !important;
+  box-shadow: inset 0 1px 0 rgba(255,255,255,.025);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  overflow: hidden;
+}
+
+body.cams-app .sidebar-menu .treeview-menu > li > a {
+  min-height: 38px;
+  margin: 1px 0;
+  padding: 9px 10px;
+  border-radius: 8px;
+  line-height: 20px;
+}
+
+body.cams-app .user-panel.cams-sidebar-user-card {
+  position: relative !important;
+  width: calc(100% - 24px) !important;
+  max-width: calc(100% - 24px) !important;
+  min-height: 64px !important;
+  height: 64px !important;
+  margin: 8px 12px 14px !important;
+  padding: 10px 12px !important;
+  display: flex !important;
+  align-items: center !important;
+  gap: 10px;
+  box-sizing: border-box !important;
+  clear: both;
+  overflow: hidden !important;
+}
+
+body.cams-app .user-panel.cams-sidebar-user-card::before,
+body.cams-app .user-panel.cams-sidebar-user-card::after {
+  display: none !important;
+  content: none !important;
+}
+
+body.cams-app .user-panel.cams-sidebar-user-card > .image {
+  position: static !important;
+  float: none !important;
+  flex: 0 0 40px;
+  width: 40px !important;
+  min-width: 40px !important;
+  height: 40px !important;
+  padding: 0 !important;
+  margin: 0 !important;
+}
+
+body.cams-app .user-panel.cams-sidebar-user-card > .image > img {
+  display: block !important;
+  width: 40px !important;
+  height: 40px !important;
+  max-width: 40px !important;
+  margin: 0 !important;
+  object-fit: cover;
+}
+
+body.cams-app .user-panel.cams-sidebar-user-card > .info {
+  position: static !important;
+  left: auto !important;
+  top: auto !important;
+  float: none !important;
+  display: flex !important;
+  flex: 1 1 auto;
+  min-width: 0 !important;
+  width: 0 !important;
+  height: 40px;
+  padding: 1px 0 0 !important;
+  margin: 0 !important;
+  flex-direction: column;
+  justify-content: center;
+}
+
+body.cams-app .user-panel.cams-sidebar-user-card > .info > p {
+  display: block;
+  max-width: 100%;
+  margin: 0 0 2px !important;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  line-height: 19px;
+}
+
+body.cams-app .user-panel.cams-sidebar-user-card > .info > a {
+  display: block;
+  max-width: 100%;
+  margin: 0 !important;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  line-height: 16px;
+}
+
+body.cams-app .content-wrapper {
+  padding-bottom: 24px;
+}
+
+body.cams-app .cams-page-shell {
+  background: #f4f7fb;
+}
+
+body.cams-app .cams-page-heading {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 18px;
+  padding: 28px 30px 12px;
+}
+
+body.cams-app .cams-page-heading h1 {
+  margin: 3px 0 3px;
+  font-size: 28px;
+  font-weight: 800;
+  letter-spacing: -.03em;
+}
+
+body.cams-app .cams-page-heading p {
+  margin: 0;
+  color: var(--cams-text-muted);
+  font-size: 13px;
+}
+
+body.cams-app .cams-page-eyebrow,
+body.cams-app .cams-modal-eyebrow {
+  display: inline-block;
+  color: var(--cams-primary);
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: .12em;
+  text-transform: uppercase;
+}
+
+body.cams-app .cams-page-content {
+  padding: 12px 30px 32px;
+}
+
+body.cams-app .cams-page-actions {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+body.cams-app .cams-primary-action {
+  min-height: 42px;
+  padding: 10px 16px;
+  border: 0;
+  border-radius: 10px;
+  box-shadow: 0 8px 20px rgba(21,115,71,.16);
+}
+
+body.cams-app .cams-filter-tabs {
+  display: inline-flex;
+  flex-wrap: wrap;
+  gap: 4px;
+  padding: 4px;
+  margin-bottom: 14px;
+  border: 1px solid var(--cams-border);
+  border-radius: 12px;
+  background: #fff;
+  box-shadow: var(--cams-shadow-sm);
+}
+
+body.cams-app .cams-filter-tabs a {
+  padding: 8px 13px;
+  border-radius: 8px;
+  color: var(--cams-text-muted);
+  font-size: 12px;
+  font-weight: 700;
+}
+
+body.cams-app .cams-filter-tabs a:hover,
+body.cams-app .cams-filter-tabs a.active {
+  background: var(--cams-primary-soft);
+  color: var(--cams-primary-dark);
+}
+
+body.cams-app .cams-data-card {
+  overflow: visible;
+  border-radius: 16px;
+}
+
+body.cams-app .cams-data-card-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 18px 20px;
+}
+
+body.cams-app .cams-data-card-header .box-title {
+  float: none;
+  margin-bottom: 4px;
+  font-size: 17px;
+}
+
+body.cams-app .cams-data-card-header p {
+  margin: 0;
+  color: var(--cams-text-muted);
+  font-size: 12px;
+}
+
+body.cams-app .cams-live-indicator {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  color: var(--cams-text-muted);
+  font-size: 11px;
+  font-weight: 700;
+  white-space: nowrap;
+}
+
+body.cams-app .cams-live-indicator span {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: #2db66f;
+  box-shadow: 0 0 0 4px rgba(45,182,111,.12);
+}
+
+body.cams-app .cams-table-wrap {
+  overflow: visible;
+}
+
+body.cams-app .cams-modern-table {
+  border-collapse: separate !important;
+  border-spacing: 0;
+}
+
+body.cams-app .cams-modern-table > thead > tr > th {
+  padding: 12px 12px;
+  border-top: 1px solid var(--cams-border) !important;
+  border-bottom: 1px solid var(--cams-border) !important;
+  background: #f8fafc;
+  color: #637083;
+  font-size: 10px;
+  letter-spacing: .07em;
+}
+
+body.cams-app .cams-modern-table > tbody > tr > td {
+  padding: 13px 12px;
+  border-top: 0;
+  border-bottom: 1px solid #edf1f5;
+  background: #fff;
+}
+
+body.cams-app .cams-modern-table > tbody > tr:hover > td {
+  background: #f8fbfa;
+}
+
+body.cams-app .cams-modern-table td small,
+body.cams-app .cams-modern-table td strong {
+  display: block;
+}
+
+body.cams-app .cams-modern-table td small {
+  margin-top: 2px;
+  color: #8793a3;
+  font-size: 10px;
+}
+
+body.cams-app .cams-id {
+  color: #546176;
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+  font-size: 11px;
+  font-weight: 700;
+}
+
+body.cams-app .cams-purpose {
+  display: block;
+  max-width: 280px;
+  line-height: 1.4;
+}
+
+body.cams-app .cams-person {
+  white-space: nowrap;
+}
+
+body.cams-app .cams-person i {
+  width: 20px;
+  color: var(--cams-primary);
+  text-align: center;
+}
+
+body.cams-app .cams-clinic-name {
+  display: block;
+  font-weight: 700;
+}
+
+body.cams-app .cams-queue {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 32px;
+  height: 32px;
+  border: 1px solid #d9e8e1;
+  border-radius: 9px;
+  background: #f3faf6;
+  color: var(--cams-primary-dark);
+  font-weight: 800;
+}
+
+body.cams-app .cams-status {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 9px;
+  border-radius: 999px;
+  font-size: 10px;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: .04em;
+}
+
+body.cams-app .cams-status > span {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: currentColor;
+}
+
+body.cams-app .cams-status-pending { background: #fff7df; color: #9a6800; }
+body.cams-app .cams-status-done { background: #e9f8ef; color: #157347; }
+body.cams-app .cams-status-cancelled { background: #fff0f0; color: #c53e3e; }
+
+body.cams-app .cams-user-avatar {
+  width: 42px;
+  height: 42px;
+  border: 2px solid #fff;
+  border-radius: 50%;
+  object-fit: cover;
+  box-shadow: 0 0 0 1px var(--cams-border), 0 4px 12px rgba(15,23,42,.08);
+}
+
+body.cams-app .cams-status-pill {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 5px 9px;
+  border-radius: 999px;
+  background: #eef5f2;
+  color: var(--cams-primary-dark);
+  font-size: 10px;
+  font-weight: 800;
+  letter-spacing: .04em;
+  text-transform: uppercase;
+}
+
+body.cams-app .cams-status-pill.is-info {
+  background: #eef5f2;
+  color: var(--cams-primary-dark);
+}
+
+body.cams-app .cams-row-edit {
+  border-radius: 8px;
+  border-color: #ead8a7;
+  background: #fff8e6;
+  color: #8b6511 !important;
+  box-shadow: none;
+}
+
+body.cams-app .cams-row-edit:hover,
+body.cams-app .cams-row-edit:focus {
+  border-color: #d9bd73;
+  background: #ffefc6;
+  color: #72520d !important;
+}
+
+body.cams-app .cams-row-actions {
+  display: inline-flex;
+  justify-content: flex-end;
+  flex-wrap: wrap;
+  gap: 5px;
+}
+
+body.cams-app .cams-icon-btn {
+  min-height: 33px !important;
+  padding: 6px 9px !important;
+  border: 1px solid #dce4ec;
+  background: #fff;
+  color: #354052;
+  box-shadow: none;
+}
+
+body.cams-app .cams-icon-btn:hover {
+  border-color: #a9cabb;
+  background: #f2f8f5;
+  color: var(--cams-primary-dark);
+}
+
+body.cams-app .cams-danger-action {
+  border-color: #f0d0d0;
+  color: #c84545;
+}
+
+body.cams-app .cams-danger-action:hover {
+  border-color: #e5a7a7;
+  background: #fff4f4;
+  color: #b62f2f;
+}
+
+body.cams-app .cams-icon-btn i { margin-right: 4px; }
+body.cams-app .cams-muted-action { color: #9aa5b4; font-size: 11px; }
+
+body.cams-app .cams-dt-toolbar,
+body.cams-app .cams-dt-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+body.cams-app .cams-dt-toolbar {
+  padding: 0 0 16px;
+}
+
+body.cams-app .cams-dt-actions {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-left: auto;
+}
+
+body.cams-app .cams-dt-actions .dt-buttons {
+  display: inline-flex;
+  gap: 5px;
+}
+
+body.cams-app .cams-dt-button {
+  min-height: 38px;
+  padding: 8px 11px;
+  border: 1px solid #d9e1e9;
+  border-radius: 9px !important;
+  background: #fff !important;
+  color: #4b596d !important;
+  box-shadow: none !important;
+  font-size: 11px;
+}
+
+body.cams-app .cams-dt-button i { margin-right: 4px; }
+
+body.cams-app .cams-dt-toolbar .dataTables_filter {
+  margin: 0;
+}
+
+body.cams-app .cams-dt-toolbar .dataTables_filter input {
+  width: 230px;
+  height: 38px;
+  margin-left: 0 !important;
+  padding: 7px 12px 7px 34px;
+  border: 1px solid #d9e1e9;
+  border-radius: 9px;
+  background: #fff;
+  box-shadow: inset 0 1px 2px rgba(15,23,42,.02);
+}
+
+body.cams-app .cams-dt-toolbar .dataTables_filter:before {
+  content: '\f002';
+  position: relative;
+  left: 27px;
+  z-index: 2;
+  color: #95a1b2;
+  font-family: FontAwesome;
+}
+
+body.cams-app .cams-dt-length select {
+  height: 36px;
+  padding: 4px 26px 4px 8px;
+  border: 1px solid #d9e1e9;
+  border-radius: 8px;
+  background: #fff;
+}
+
+body.cams-app .cams-dt-footer {
+  padding-top: 14px;
+}
+
+body.cams-app .cams-table-loader {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+  padding: 18px;
+  color: var(--cams-text-muted);
+}
+
+body.cams-app .cams-table-loader > span {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: var(--cams-primary);
+  animation: cams-pulse 1s infinite alternate;
+}
+body.cams-app .cams-table-loader > span:nth-child(2) { animation-delay: .15s; }
+body.cams-app .cams-table-loader > span:nth-child(3) { animation-delay: .3s; }
+body.cams-app .cams-table-loader small { margin-left: 8px; }
+
+@keyframes cams-pulse { to { opacity: .25; transform: translateY(-3px); } }
+
+body.cams-app .cams-empty-state {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 5px;
+  padding: 34px 12px;
+  color: var(--cams-text-muted);
+  text-align: center;
+}
+
+body.cams-app .cams-empty-state i {
+  margin-bottom: 5px;
+  color: #8fb9a5;
+  font-size: 28px;
+}
+
+body.cams-app .cams-empty-state strong { color: var(--cams-text); font-size: 14px; }
+body.cams-app .cams-empty-state span { font-size: 11px; }
+
+body.cams-app .cams-edit-modal .modal-dialog {
+  width: min(650px, calc(100% - 24px));
+}
+
+body.cams-app .cams-edit-modal .modal-header {
+  padding: 20px 22px 15px;
+}
+
+body.cams-app .cams-edit-modal .modal-header p {
+  margin: 5px 0 0;
+  color: var(--cams-text-muted);
+  font-size: 12px;
+}
+
+body.cams-app .cams-edit-summary {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0,1fr));
+  gap: 8px;
+  margin-bottom: 18px;
+}
+
+body.cams-app .cams-edit-summary > div {
+  padding: 11px 12px;
+  border: 1px solid var(--cams-border);
+  border-radius: 10px;
+  background: #f8fafc;
+}
+
+body.cams-app .cams-edit-summary span,
+body.cams-app .cams-edit-summary strong {
+  display: block;
+}
+body.cams-app .cams-edit-summary span { color: var(--cams-text-muted); font-size: 9px; font-weight: 800; text-transform: uppercase; letter-spacing: .07em; }
+body.cams-app .cams-edit-summary strong { margin-top: 3px; color: var(--cams-text); font-size: 12px; }
+
+body.cams-app .swal2-popup {
+  border-radius: 16px !important;
+}
+
+@media (max-width: 767px) {
+  body.cams-app .cams-page-heading,
+  body.cams-app .cams-page-content {
+    padding-left: 14px;
+    padding-right: 14px;
+  }
+
+  body.cams-app .cams-page-heading {
+    align-items: stretch;
+  }
+
+  body.cams-app .cams-page-heading h1 { font-size: 23px; }
+  body.cams-app .cams-page-actions,
+  body.cams-app .cams-page-actions .btn { width: 100%; }
+
+  body.cams-app .cams-filter-tabs {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0,1fr));
+    width: 100%;
+  }
+
+  body.cams-app .cams-filter-tabs a { text-align: center; }
+  body.cams-app .cams-data-card-header { align-items: flex-start; flex-direction: column; }
+  body.cams-app .cams-live-indicator { display: none; }
+  body.cams-app .cams-table-wrap { overflow-x: auto; -webkit-overflow-scrolling: touch; }
+  body.cams-app .cams-modern-table { min-width: 920px; }
+  body.cams-app .cams-dt-toolbar,
+  body.cams-app .cams-dt-footer,
+  body.cams-app .cams-dt-actions { align-items: stretch; flex-direction: column; width: 100%; }
+  body.cams-app .cams-dt-actions { margin-left: 0; }
+  body.cams-app .cams-dt-actions .dt-buttons { width: 100%; }
+  body.cams-app .cams-dt-button { flex: 1; }
+  body.cams-app .cams-dt-toolbar .dataTables_filter,
+  body.cams-app .cams-dt-toolbar .dataTables_filter label,
+  body.cams-app .cams-dt-toolbar .dataTables_filter input { width: 100% !important; }
+  body.cams-app .cams-dt-toolbar .dataTables_filter:before { display: none; }
+  body.cams-app .cams-edit-summary { grid-template-columns: 1fr; }
+}
+
+body.cams-app .cams-uniform-modal .modal-dialog {
+  width: min(650px, calc(100% - 24px));
+  margin: 30px auto;
+}
+
+body.cams-app .cams-uniform-modal .modal-content {
+  overflow: hidden;
+  border: 0;
+  border-radius: 16px;
+  background: #fff;
+  box-shadow: 0 24px 70px rgba(15, 23, 42, .22);
+}
+
+body.cams-app .cams-uniform-modal .modal-header {
+  position: relative;
+  display: block;
+  padding: 20px 22px 15px;
+  border-bottom: 1px solid var(--cams-border);
+  background: #fff;
+}
+
+body.cams-app .cams-uniform-modal .modal-header .close {
+  position: absolute;
+  top: 14px;
+  right: 16px;
+  width: 32px;
+  height: 32px;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  border-radius: 9px;
+  background: #f3f6f9;
+  color: #64748b;
+  font-size: 23px;
+  line-height: 30px;
+  opacity: 1;
+}
+
+body.cams-app .cams-uniform-modal .modal-header .close:hover,
+body.cams-app .cams-uniform-modal .modal-header .close:focus {
+  background: #e8eef4;
+  color: var(--cams-text);
+}
+
+body.cams-app .cams-uniform-modal .modal-title {
+  margin: 2px 42px 0 0;
+  color: var(--cams-text);
+  font-size: 20px;
+  font-weight: 800;
+  line-height: 1.3;
+}
+
+body.cams-app .cams-uniform-modal .cams-modal-description {
+  margin: 5px 42px 0 0;
+  color: var(--cams-text-muted);
+  font-size: 12px;
+  line-height: 1.55;
+}
+
+body.cams-app .cams-uniform-modal .modal-body {
+  max-height: calc(100vh - 190px);
+  overflow-y: auto;
+  padding: 22px;
+  background: #fff;
+}
+
+body.cams-app .cams-uniform-modal .modal-body form {
+  margin: 0;
+}
+
+body.cams-app .cams-uniform-modal .form-group {
+  margin-bottom: 16px;
+}
+
+body.cams-app .cams-uniform-modal .form-group > label,
+body.cams-app .cams-uniform-modal .control-label,
+body.cams-app .cams-uniform-modal h5 {
+  display: block;
+  margin: 0 0 7px;
+  color: var(--cams-text);
+  font-size: 12px;
+  font-weight: 750;
+}
+
+body.cams-app .cams-uniform-modal .form-control {
+  min-height: 42px;
+  border: 1px solid #d8e1e8;
+  border-radius: 9px;
+  background: #fff;
+  box-shadow: none;
+}
+
+body.cams-app .cams-uniform-modal textarea.form-control {
+  min-height: 92px;
+}
+
+body.cams-app .cams-uniform-modal .form-control:focus {
+  border-color: var(--cams-primary);
+  box-shadow: 0 0 0 3px rgba(47, 128, 237, .10);
+}
+
+body.cams-app .cams-uniform-modal .input-group-addon {
+  border-color: #d8e1e8;
+  background: #f8fafc;
+  color: var(--cams-text-muted);
+}
+
+body.cams-app .cams-uniform-modal .cams-modal-form-row {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 14px;
+}
+
+body.cams-app .cams-uniform-modal .cams-modal-actions,
+body.cams-app .cams-uniform-modal .modal-footer {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 8px;
+  padding: 15px 22px;
+  border-top: 1px solid var(--cams-border);
+  background: #fff;
+}
+
+body.cams-app .cams-uniform-modal .cams-modal-actions {
+  margin: 20px -22px -22px;
+}
+
+body.cams-app .cams-uniform-modal .modal-footer .btn,
+body.cams-app .cams-uniform-modal .cams-modal-actions .btn,
+body.cams-app .cams-uniform-modal .cams-modal-save-btn {
+  min-height: 39px;
+  border-radius: 9px;
+  font-weight: 700;
+}
+
+body.cams-app .cams-uniform-modal .modal-footer .btn-default,
+body.cams-app .cams-uniform-modal .cams-modal-actions .btn-default,
+body.cams-app .cams-uniform-modal .cams-modal-actions .btn-danger[type="reset"] {
+  border-color: #d8e1e8;
+  background: #fff;
+  color: #475569;
+}
+
+body.cams-app .cams-modal-loading {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  min-height: 170px;
+  color: var(--cams-text-muted);
+  font-weight: 700;
+}
+
+@media (max-width: 767px) {
+  body.cams-app .cams-uniform-modal .modal-dialog {
+    width: calc(100% - 20px);
+    margin: 10px auto;
+  }
+
+  body.cams-app .cams-uniform-modal .modal-header {
+    padding: 18px 16px 14px;
+  }
+
+  body.cams-app .cams-uniform-modal .modal-body {
+    max-height: calc(100vh - 155px);
+    padding: 16px;
+  }
+
+  body.cams-app .cams-uniform-modal .cams-modal-form-row {
+    grid-template-columns: 1fr;
+  }
+
+  body.cams-app .cams-uniform-modal .cams-modal-actions {
+    margin: 18px -16px -16px;
+    padding: 14px 16px;
+  }
+
+  body.cams-app .cams-uniform-modal .modal-footer {
+    padding: 14px 16px;
+  }
+
+  body.cams-app .cams-uniform-modal .modal-footer .btn,
+  body.cams-app .cams-uniform-modal .cams-modal-actions .btn {
+    flex: 1;
+  }
+}
+
+
+/* ------------------------------------------------------------
+   Toastr feedback + SweetAlert confirmation polish
+   ------------------------------------------------------------ */
+#toast-container {
+  padding: 12px;
+}
+
+#toast-container > .toast {
+  width: min(390px, calc(100vw - 28px));
+  min-height: 74px;
+  margin: 0 0 10px;
+  padding: 16px 18px 16px 52px;
+  border: 1px solid var(--cams-border);
+  border-radius: 16px;
+  background-color: var(--cams-surface) !important;
+  background-position: 18px 20px !important;
+  color: var(--cams-text);
+  box-shadow: 0 18px 46px rgba(15, 23, 42, .14);
+  opacity: 1;
+}
+
+#toast-container > .toast:hover {
+  box-shadow: 0 20px 52px rgba(15, 23, 42, .18);
+}
+
+#toast-container > .toast-success { border-left: 4px solid #16a36a; }
+#toast-container > .toast-error { border-left: 4px solid #e05260; }
+#toast-container > .toast-warning { border-left: 4px solid #d69b24; }
+#toast-container > .toast-info { border-left: 4px solid #3b82f6; }
+
+#toast-container .toast-title {
+  margin-bottom: 3px;
+  color: var(--cams-text);
+  font-family: "Google Sans", "Google Sans Text", "Product Sans", "Inter", sans-serif;
+  font-size: 13px;
+  font-weight: 800;
+  letter-spacing: -.01em;
+}
+
+#toast-container .toast-message {
+  color: var(--cams-text-muted);
+  font-size: 12px;
+  line-height: 1.55;
+}
+
+#toast-container .toast-close-button {
+  top: 10px;
+  right: 11px;
+  color: var(--cams-text-muted);
+  font-size: 18px;
+  text-shadow: none;
+  opacity: .75;
+}
+
+#toast-container .toast-progress {
+  height: 3px;
+  background: var(--cams-primary);
+  opacity: .8;
+}
+
+html[data-cams-theme="dark"] #toast-container > .toast {
+  background-color: #121a17 !important;
+  box-shadow: 0 20px 54px rgba(0, 0, 0, .38);
+}
+
+.swal2-popup {
+  border: 1px solid var(--cams-border) !important;
+  border-radius: 22px !important;
+  background: var(--cams-surface) !important;
+  color: var(--cams-text) !important;
+  box-shadow: 0 30px 80px rgba(15, 23, 42, .22) !important;
+  font-family: "Google Sans", "Google Sans Text", "Product Sans", "Inter", sans-serif !important;
+}
+
+.swal2-title {
+  color: var(--cams-text) !important;
+  font-family: "Google Sans", "Google Sans Text", "Product Sans", "Inter", sans-serif !important;
+  font-size: 22px !important;
+  font-weight: 800 !important;
+  letter-spacing: -.02em !important;
+}
+
+.swal2-content,
+.swal2-html-container {
+  color: var(--cams-text-muted) !important;
+  font-size: 14px !important;
+  line-height: 1.6 !important;
+}
+
+.swal2-actions {
+  gap: 8px;
+}
+
+.swal2-styled {
+  min-height: 42px;
+  margin: 0 !important;
+  padding: 10px 16px !important;
+  border-radius: 11px !important;
+  font-size: 13px !important;
+  font-weight: 700 !important;
+  box-shadow: none !important;
+}
+
+.swal2-confirm {
+  border: 1px solid var(--cams-primary) !important;
+  background: var(--cams-primary) !important;
+  color: #fff !important;
+}
+
+.swal2-confirm:hover,
+.swal2-confirm:focus {
+  border-color: var(--cams-primary-dark) !important;
+  background: var(--cams-primary-dark) !important;
+}
+
+.swal2-cancel {
+  border: 1px solid var(--cams-border) !important;
+  background: var(--cams-surface-muted) !important;
+  color: var(--cams-text) !important;
+}
+
+.swal2-cancel:hover,
+.swal2-cancel:focus {
+  background: var(--cams-border) !important;
+}
+
+html[data-cams-theme="dark"] .swal2-popup {
+  box-shadow: 0 34px 90px rgba(0, 0, 0, .50) !important;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  body.cams-app *,
+  body.cams-auth * {
+    transition: none !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+#cams-alpine-modal-body .cams-alpine-embedded {
+  margin: 0 !important;
+  border: 0 !important;
+  border-radius: 0 !important;
+  background: transparent !important;
+  box-shadow: none !important;
+}
+
+#cams-alpine-modal-body .cams-alpine-embedded > .modal-header,
+#cams-alpine-modal-body .cams-alpine-embedded .modal-header {
+  display: none !important;
+}
+
+#cams-alpine-modal-body .cams-alpine-embedded > .modal-body,
+#cams-alpine-modal-body .cams-alpine-embedded .modal-body {
+  padding: 0 !important;
+  background: transparent !important;
+}
+
+#cams-alpine-modal-body .cams-alpine-embedded > .modal-footer,
+#cams-alpine-modal-body .cams-alpine-embedded .modal-footer {
+  margin: 24px -24px -24px !important;
+  padding: 16px 24px !important;
+  border-top: 1px solid var(--cams-border) !important;
+  background: var(--cams-surface-muted) !important;
+}
+
+#cams-alpine-modal-body .cams-alpine-embedded > form > .modal-header {
+  display: none !important;
+}
+
+#cams-alpine-modal-body .cams-alpine-embedded > form > .modal-body {
+  padding: 0 !important;
+}
+
+#cams-alpine-modal-body .cams-alpine-embedded > form > .modal-footer {
+  margin: 24px -24px -24px !important;
+  padding: 16px 24px !important;
+  border-top: 1px solid var(--cams-border) !important;
+  background: var(--cams-surface-muted) !important;
+}
+
+
+/* Keep confirmation dialogs above Alpine-driven CAMS modals. */
+body .swal2-container {
+  z-index: 12050 !important;
+}
+
+body #toast-container {
+  z-index: 12100 !important;
+}
+
+/* ------------------------------------------------------------
+   Modern authenticated topbar + light / dark themes
+   ------------------------------------------------------------ */
+body.cams-app .main-header { border-top: 0; }
+
+body.cams-app .main-header .navbar.cams-topbar {
+  min-height: 56px;
+  height: 56px;
+  padding: 0 14px 0 0;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-bottom: 1px solid var(--cams-border);
+  background: var(--cams-surface) !important;
+  color: var(--cams-text);
+  box-shadow: 0 6px 22px rgba(15, 23, 42, .05);
+}
+
+body.cams-app .cams-topbar-left {
+  min-width: 0;
+  height: 56px;
+  display: flex;
+  align-items: center;
+}
+
+body.cams-app .main-header .sidebar-toggle.cams-sidebar-toggle {
+  width: 56px;
+  height: 56px;
+  flex: 0 0 56px;
+  padding: 0 !important;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-right: 1px solid var(--cams-border);
+  color: var(--cams-text) !important;
+  font-size: 14px;
+}
+
+body.cams-app .main-header .sidebar-toggle.cams-sidebar-toggle::before {
+  display: none !important;
+  content: none !important;
+}
+
+body.cams-app .main-header .sidebar-toggle.cams-sidebar-toggle .cams-sidebar-toggle-icon {
+  width: 20px;
+  height: 20px;
+  display: block;
+  flex: 0 0 20px;
+  color: currentColor;
+  pointer-events: none;
+}
+
+body.cams-app .main-header .sidebar-toggle.cams-sidebar-toggle:hover,
+body.cams-app .main-header .sidebar-toggle.cams-sidebar-toggle:focus {
+  background: var(--cams-surface-soft) !important;
+  color: var(--cams-primary) !important;
+  outline: none;
+}
+
+body.cams-app .cams-topbar-context {
+  min-width: 0;
+  padding-left: 16px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  line-height: 1.15;
+}
+
+body.cams-app .cams-topbar-context > span {
+  max-width: 360px;
+  margin-bottom: 3px;
+  overflow: hidden;
+  color: var(--cams-text-muted);
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: .075em;
+  text-overflow: ellipsis;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+
+body.cams-app .cams-topbar-context > strong {
+  color: var(--cams-text);
+  font-size: 14px;
+  font-weight: 750;
+  letter-spacing: -.01em;
+}
+
+body.cams-app .cams-topbar-actions {
+  height: 56px;
+  margin-left: auto;
+  display: flex;
+  align-items: center;
+}
+
+body.cams-app .cams-topbar-actions > .navbar-nav {
+  height: 56px;
+  margin: 0;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  float: none;
+}
+
+body.cams-app .cams-topbar-actions > .navbar-nav > li { float: none; }
+
+body.cams-app .cams-theme-control {
+  height: 56px;
+  display: flex !important;
+  align-items: center;
+}
+
+body.cams-app .cams-theme-toggle {
+  height: 38px;
+  min-width: 38px;
+  padding: 0 11px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 7px;
+  border: 1px solid var(--cams-border);
+  border-radius: 12px;
+  outline: 0;
+  background: var(--cams-surface-muted);
+  color: var(--cams-text);
+  font-size: 12px;
+  font-weight: 700;
+  line-height: 1;
+  transition: background var(--cams-transition), border-color var(--cams-transition), color var(--cams-transition), transform var(--cams-transition), box-shadow var(--cams-transition);
+}
+
+body.cams-app .cams-theme-toggle:hover,
+body.cams-app .cams-theme-toggle:focus {
+  border-color: var(--cams-primary);
+  background: var(--cams-primary-soft);
+  color: var(--cams-primary);
+  box-shadow: 0 7px 18px rgba(15, 23, 42, .08);
+  transform: translateY(-1px);
+}
+
+body.cams-app .cams-theme-toggle-icon {
+  width: 17px;
+  height: 17px;
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 15px;
+}
+
+body.cams-app .cams-theme-icon-light { display: none; }
+html[data-cams-theme="dark"] body.cams-app .cams-theme-icon-dark { display: none; }
+html[data-cams-theme="dark"] body.cams-app .cams-theme-icon-light { display: inline-block; }
+
+body.cams-app .cams-user-menu {
+  height: 56px;
+  display: flex !important;
+  align-items: center;
+}
+
+body.cams-app .main-header .navbar .nav > li.cams-user-menu > a.cams-profile-trigger {
+  min-height: 42px;
+  height: 42px;
+  margin: 7px 0;
+  padding: 5px 9px 5px 6px;
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  border: 1px solid transparent;
+  border-radius: 13px;
+  background: transparent !important;
+  color: var(--cams-text) !important;
+  transition: background var(--cams-transition), border-color var(--cams-transition), box-shadow var(--cams-transition);
+}
+
+body.cams-app .main-header .navbar .nav > li.cams-user-menu.open > a.cams-profile-trigger,
+body.cams-app .main-header .navbar .nav > li.cams-user-menu > a.cams-profile-trigger:hover,
+body.cams-app .main-header .navbar .nav > li.cams-user-menu > a.cams-profile-trigger:focus {
+  border-color: var(--cams-border);
+  background: var(--cams-surface-muted) !important;
+  color: var(--cams-text) !important;
+  box-shadow: 0 7px 18px rgba(15, 23, 42, .06);
+}
+
+body.cams-app .main-header .navbar .nav > li.cams-user-menu > a.cams-profile-trigger > .user-image {
+  width: 32px;
+  height: 32px;
+  margin: 0;
+  flex: 0 0 32px;
+  border: 2px solid var(--cams-border);
+  border-radius: 10px;
+  object-fit: cover;
+}
+
+body.cams-app .cams-profile-copy {
+  min-width: 0;
+  max-width: 160px;
+  display: flex !important;
+  flex-direction: column;
+  justify-content: center;
+  line-height: 1.05;
+}
+
+body.cams-app .cams-profile-copy > strong,
+body.cams-app .cams-profile-copy > small {
+  display: block;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+body.cams-app .cams-profile-copy > strong {
+  color: var(--cams-text);
+  font-size: 12px;
+  font-weight: 750;
+}
+
+body.cams-app .cams-profile-copy > small {
+  margin-top: 4px;
+  color: var(--cams-text-muted);
+  font-size: 10px;
+  font-weight: 600;
+}
+
+body.cams-app .cams-profile-caret {
+  margin-left: 2px;
+  color: var(--cams-text-muted);
+  font-size: 11px;
+  transition: transform var(--cams-transition);
+}
+
+body.cams-app .cams-user-menu.open .cams-profile-caret { transform: rotate(180deg); }
+
+body.cams-app .navbar-custom-menu > .navbar-nav > li > .dropdown-menu.cams-profile-menu {
+  top: 52px;
+  right: 0;
+  width: 290px;
+  min-width: 290px;
+  margin-top: 4px;
+  padding: 8px;
+  border: 1px solid var(--cams-border);
+  border-radius: 16px;
+  background: var(--cams-surface);
+  box-shadow: 0 24px 60px rgba(15, 23, 42, .16);
+  overflow: hidden;
+}
+
+body.cams-app .navbar-nav > .user-menu > .dropdown-menu.cams-profile-menu > .user-header {
+  min-height: 154px;
+  padding: 22px 18px 18px;
+  border-radius: 12px;
+  background: linear-gradient(145deg, var(--cams-primary), var(--cams-primary-dark));
+}
+
+body.cams-app .navbar-nav > .user-menu > .dropdown-menu.cams-profile-menu > .user-header > img {
+  width: 68px;
+  height: 68px;
+  border: 3px solid rgba(255, 255, 255, .78);
+  object-fit: cover;
+}
+
+body.cams-app .navbar-nav > .user-menu > .dropdown-menu.cams-profile-menu > .user-header > p {
+  margin-top: 8px;
+  color: #fff;
+  font-size: 14px;
+  font-weight: 750;
+}
+
+body.cams-app .navbar-nav > .user-menu > .dropdown-menu.cams-profile-menu > .user-header > p > small {
+  margin-top: 3px;
+  color: rgba(255, 255, 255, .72);
+  font-size: 11px;
+}
+
+body.cams-app .navbar-nav > .user-menu > .dropdown-menu.cams-profile-menu > .user-footer {
+  padding: 8px 0 0;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+  background: transparent;
+}
+
+body.cams-app .navbar-nav > .user-menu > .dropdown-menu.cams-profile-menu > .user-footer::before,
+body.cams-app .navbar-nav > .user-menu > .dropdown-menu.cams-profile-menu > .user-footer::after {
+  display: none;
+}
+
+body.cams-app .cams-profile-menu .user-footer .btn {
+  min-height: 38px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 7px;
+  border-radius: 10px;
+  font-size: 12px;
+}
+
+html[data-cams-theme="dark"] {
+  --cams-bg: #0c1210;
+  --cams-surface: #121a17;
+  --cams-surface-muted: #18221e;
+  --cams-text: #e9f1ed;
+  --cams-text-muted: #9aaea5;
+  --cams-border: #29362f;
+  --cams-primary: #3fc28c;
+  --cams-primary-dark: #269e70;
+  --cams-primary-soft: #153328;
+  --cams-accent: #68a9ff;
+  --cams-danger: #f16f78;
+  --cams-warning: #f0b84b;
+  --cams-shadow-sm: 0 2px 12px rgba(0, 0, 0, .22);
+  --cams-shadow-md: 0 18px 42px rgba(0, 0, 0, .30);
+  --cams-sidebar: #081d17;
+  --cams-sidebar-2: #0d2b21;
+  --cams-sidebar-text: #d5e8df;
+}
+
+html[data-cams-theme="dark"] body.cams-app,
+html[data-cams-theme="dark"] body.cams-app .wrapper,
+html[data-cams-theme="dark"] body.cams-app .content-wrapper,
+html[data-cams-theme="dark"] body.cams-app .right-side {
+  background: var(--cams-bg) !important;
+  color: var(--cams-text);
+}
+
+html[data-cams-theme="dark"] body.cams-app .main-header {
+  box-shadow: 0 1px 0 rgba(255, 255, 255, .035), 0 8px 22px rgba(0, 0, 0, .20);
+}
+
+html[data-cams-theme="dark"] body.cams-app .main-header .navbar.cams-topbar {
+  background: #101815 !important;
+  border-bottom-color: var(--cams-border);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, .18);
+}
+
+html[data-cams-theme="dark"] body.cams-app .main-header .logo { background: #071b15 !important; }
+html[data-cams-theme="dark"] body.cams-app .main-header .logo:hover { background: #0b271e !important; }
+
+html[data-cams-theme="dark"] body.cams-app .main-sidebar,
+html[data-cams-theme="dark"] body.cams-app .left-side {
+  background: linear-gradient(180deg, #081d17 0%, #061510 100%) !important;
+  box-shadow: 5px 0 28px rgba(0, 0, 0, .24);
+}
+
+html[data-cams-theme="dark"] body.cams-app .box,
+html[data-cams-theme="dark"] body.cams-app .panel,
+html[data-cams-theme="dark"] body.cams-app .nav-tabs-custom,
+html[data-cams-theme="dark"] body.cams-app .info-box,
+html[data-cams-theme="dark"] body.cams-app .card,
+html[data-cams-theme="dark"] body.cams-app .card-block,
+html[data-cams-theme="dark"] body.cams-app .cams-management-shell,
+html[data-cams-theme="dark"] body.cams-app .cams-dashboard-card,
+html[data-cams-theme="dark"] body.cams-app .cams-page-card {
+  border-color: var(--cams-border) !important;
+  background: var(--cams-surface) !important;
+  color: var(--cams-text);
+  box-shadow: var(--cams-shadow-sm);
+}
+
+html[data-cams-theme="dark"] body.cams-app .box-header,
+html[data-cams-theme="dark"] body.cams-app .box-body,
+html[data-cams-theme="dark"] body.cams-app .panel-heading,
+html[data-cams-theme="dark"] body.cams-app .panel-body {
+  border-color: var(--cams-border) !important;
+  background: var(--cams-surface) !important;
+  color: var(--cams-text);
+}
+
+html[data-cams-theme="dark"] body.cams-app .box-footer,
+html[data-cams-theme="dark"] body.cams-app .panel-footer {
+  border-color: var(--cams-border) !important;
+  background: var(--cams-surface-muted) !important;
+  color: var(--cams-text);
+}
+
+html[data-cams-theme="dark"] body.cams-app .box-title,
+html[data-cams-theme="dark"] body.cams-app .panel-title,
+html[data-cams-theme="dark"] body.cams-app h1,
+html[data-cams-theme="dark"] body.cams-app h2,
+html[data-cams-theme="dark"] body.cams-app h3,
+html[data-cams-theme="dark"] body.cams-app h4,
+html[data-cams-theme="dark"] body.cams-app h5,
+html[data-cams-theme="dark"] body.cams-app h6 { color: var(--cams-text); }
+
+html[data-cams-theme="dark"] body.cams-app label,
+html[data-cams-theme="dark"] body.cams-app .text-muted,
+html[data-cams-theme="dark"] body.cams-app .help-block { color: var(--cams-text-muted) !important; }
+
+html[data-cams-theme="dark"] body.cams-app .form-control,
+html[data-cams-theme="dark"] body.cams-app select.form-control,
+html[data-cams-theme="dark"] body.cams-app textarea.form-control,
+html[data-cams-theme="dark"] body.cams-app .select2-selection,
+html[data-cams-theme="dark"] body.cams-app .select2-container .select2-selection--single,
+html[data-cams-theme="dark"] body.cams-app .select2-container--default .select2-selection--multiple {
+  border-color: var(--cams-border) !important;
+  background: #101815 !important;
+  color: var(--cams-text) !important;
+}
+
+html[data-cams-theme="dark"] body.cams-app .form-control::placeholder { color: #71847b; }
+
+html[data-cams-theme="dark"] body.cams-app .input-group-addon {
+  border-color: var(--cams-border) !important;
+  background: var(--cams-surface-muted) !important;
+  color: var(--cams-text-muted) !important;
+}
+
+html[data-cams-theme="dark"] body.cams-app .btn-default {
+  border-color: var(--cams-border);
+  background: var(--cams-surface-muted);
+  color: var(--cams-text);
+}
+
+html[data-cams-theme="dark"] body.cams-app .btn-default:hover,
+html[data-cams-theme="dark"] body.cams-app .btn-default:focus {
+  border-color: #3b4c44;
+  background: #202c27;
+  color: #fff;
+}
+
+html[data-cams-theme="dark"] body.cams-app .table {
+  color: var(--cams-text);
+  background: transparent;
+}
+
+html[data-cams-theme="dark"] body.cams-app .table > thead > tr > th {
+  border-color: var(--cams-border) !important;
+  background: var(--cams-surface-muted) !important;
+  color: #b7c7c0 !important;
+}
+
+html[data-cams-theme="dark"] body.cams-app .table > tbody > tr > td,
+html[data-cams-theme="dark"] body.cams-app .table > tfoot > tr > td {
+  border-color: #222f29 !important;
+  background: transparent;
+  color: var(--cams-text);
+}
+
+html[data-cams-theme="dark"] body.cams-app .table-striped > tbody > tr:nth-of-type(odd) { background: #101815; }
+
+html[data-cams-theme="dark"] body.cams-app .table-hover > tbody > tr:hover,
+html[data-cams-theme="dark"] body.cams-app table.dataTable tbody tr:hover { background: #1a2521 !important; }
+
+html[data-cams-theme="dark"] body.cams-app .dataTables_wrapper,
+html[data-cams-theme="dark"] body.cams-app .dataTables_info,
+html[data-cams-theme="dark"] body.cams-app .dataTables_length,
+html[data-cams-theme="dark"] body.cams-app .dataTables_filter { color: var(--cams-text-muted) !important; }
+
+html[data-cams-theme="dark"] body.cams-app .dataTables_wrapper input,
+html[data-cams-theme="dark"] body.cams-app .dataTables_wrapper select {
+  border-color: var(--cams-border) !important;
+  background: #101815 !important;
+  color: var(--cams-text) !important;
+}
+
+html[data-cams-theme="dark"] body.cams-app .pagination > li > a,
+html[data-cams-theme="dark"] body.cams-app .pagination > li > span,
+html[data-cams-theme="dark"] body.cams-app .dataTables_wrapper .dataTables_paginate .paginate_button {
+  border-color: var(--cams-border) !important;
+  background: var(--cams-surface) !important;
+  color: var(--cams-text-muted) !important;
+}
+
+html[data-cams-theme="dark"] body.cams-app .pagination > .active > a,
+html[data-cams-theme="dark"] body.cams-app .pagination > .active > span,
+html[data-cams-theme="dark"] body.cams-app .dataTables_wrapper .dataTables_paginate .paginate_button.current {
+  border-color: var(--cams-primary) !important;
+  background: var(--cams-primary) !important;
+  color: #07150f !important;
+}
+
+html[data-cams-theme="dark"] body.cams-app .dropdown-menu,
+html[data-cams-theme="dark"] body.cams-app .cams-profile-menu {
+  border-color: var(--cams-border) !important;
+  background: var(--cams-surface) !important;
+  color: var(--cams-text);
+}
+
+html[data-cams-theme="dark"] body.cams-app .dropdown-menu > li > a { color: var(--cams-text); }
+
+html[data-cams-theme="dark"] body.cams-app .dropdown-menu > li > a:hover,
+html[data-cams-theme="dark"] body.cams-app .dropdown-menu > li > a:focus {
+  background: var(--cams-surface-muted);
+  color: #fff;
+}
+
+html[data-cams-theme="dark"] body.cams-app .modal-content {
+  border: 1px solid var(--cams-border);
+  background: var(--cams-surface);
+  color: var(--cams-text);
+  box-shadow: 0 30px 90px rgba(0, 0, 0, .45);
+}
+
+html[data-cams-theme="dark"] body.cams-app .modal-header,
+html[data-cams-theme="dark"] body.cams-app .modal-footer {
+  border-color: var(--cams-border);
+  background: var(--cams-surface-muted);
+}
+
+html[data-cams-theme="dark"] body.cams-app .modal-body {
+  background: var(--cams-surface);
+  color: var(--cams-text);
+}
+
+html[data-cams-theme="dark"] body.cams-app .list-group-item {
+  border-color: var(--cams-border);
+  background: var(--cams-surface);
+  color: var(--cams-text);
+}
+
+html[data-cams-theme="dark"] body.cams-app hr { border-color: var(--cams-border); }
+
+html[data-cams-theme="dark"] body.cams-app .main-footer {
+  border-color: var(--cams-border);
+  background: #101815;
+  color: var(--cams-text-muted);
+}
+
+html[data-cams-theme="dark"] body.cams-app .swal2-popup {
+  background: var(--cams-surface);
+  color: var(--cams-text);
+}
+
+html[data-cams-theme="dark"] body.cams-app .swal2-title,
+html[data-cams-theme="dark"] body.cams-app .swal2-content { color: var(--cams-text) !important; }
+
+html[data-cams-theme="dark"] body.cams-app .cams-booking-hero,
+html[data-cams-theme="dark"] body.cams-app .cams-wizard,
+html[data-cams-theme="dark"] body.cams-app .cams-wizard-nav,
+html[data-cams-theme="dark"] body.cams-app .cams-complaint-card,
+html[data-cams-theme="dark"] body.cams-app .cams-provider-card,
+html[data-cams-theme="dark"] body.cams-app .cams-date-card,
+html[data-cams-theme="dark"] body.cams-app .cams-custom-box,
+html[data-cams-theme="dark"] body.cams-app .cams-empty-state,
+html[data-cams-theme="dark"] body.cams-app .cams-selected-provider,
+html[data-cams-theme="dark"] body.cams-app .cams-review-card,
+html[data-cams-theme="dark"] body.cams-app .cams-btn-secondary {
+  border-color: var(--cams-border) !important;
+  background: var(--cams-surface) !important;
+  color: var(--cams-text) !important;
+}
+
+html[data-cams-theme="dark"] body.cams-app .cams-booking-hero {
+  background: linear-gradient(135deg, #121a17 0%, #16231e 100%) !important;
+}
+
+html[data-cams-theme="dark"] body.cams-app .cams-wizard-nav,
+html[data-cams-theme="dark"] body.cams-app .cams-custom-box,
+html[data-cams-theme="dark"] body.cams-app .cams-empty-state,
+html[data-cams-theme="dark"] body.cams-app .cams-selected-provider,
+html[data-cams-theme="dark"] body.cams-app .cams-review-card {
+  background: var(--cams-surface-muted) !important;
+}
+
+html[data-cams-theme="dark"] body.cams-app .cams-step-tab,
+html[data-cams-theme="dark"] body.cams-app .cams-panel-heading p,
+html[data-cams-theme="dark"] body.cams-app .cams-provider-meta div,
+html[data-cams-theme="dark"] body.cams-app .cams-selected-provider span,
+html[data-cams-theme="dark"] body.cams-app .cams-review-row span,
+html[data-cams-theme="dark"] body.cams-app .cams-loading,
+html[data-cams-theme="dark"] body.cams-app .cams-date-card .dow,
+html[data-cams-theme="dark"] body.cams-app .cams-date-card .month {
+  color: var(--cams-text-muted) !important;
+}
+
+html[data-cams-theme="dark"] body.cams-app .cams-booking-hero h1,
+html[data-cams-theme="dark"] body.cams-app .cams-panel-heading h2,
+html[data-cams-theme="dark"] body.cams-app .cams-complaint-card strong,
+html[data-cams-theme="dark"] body.cams-app .cams-provider-name,
+html[data-cams-theme="dark"] body.cams-app .cams-selected-provider strong,
+html[data-cams-theme="dark"] body.cams-app .cams-review-card h4,
+html[data-cams-theme="dark"] body.cams-app .cams-review-row strong,
+html[data-cams-theme="dark"] body.cams-app .cams-date-card .day {
+  color: var(--cams-text) !important;
+}
+
+html[data-cams-theme="dark"] body.cams-app .cams-complaint-card.is-selected,
+html[data-cams-theme="dark"] body.cams-app .cams-provider-card.is-selected,
+html[data-cams-theme="dark"] body.cams-app .cams-date-card.is-selected,
+html[data-cams-theme="dark"] body.cams-app .cams-step-tab.is-active {
+  border-color: var(--cams-primary) !important;
+  background: var(--cams-primary-soft) !important;
+}
+
+html[data-cams-theme="dark"] body.cams-app .cams-date-card:disabled {
+  background: #0e1513 !important;
+}
+
+html[data-cams-theme="dark"] body.cams-app .cams-wizard-actions {
+  border-color: var(--cams-border) !important;
+}
+
+@media (max-width: 767px) {
+  body.cams-app .main-header .navbar.cams-topbar { padding-right: 8px; }
+  body.cams-app .cams-topbar-context { display: none; }
+  body.cams-app .cams-profile-copy.hidden-xs,
+  body.cams-app .cams-profile-caret.hidden-xs { display: none !important; }
+  body.cams-app .cams-topbar-actions > .navbar-nav { gap: 3px; }
+
+  body.cams-app .cams-theme-toggle {
+    width: 38px;
+    min-width: 38px;
+    padding: 0;
+  }
+
+  body.cams-app .main-header .navbar .nav > li.cams-user-menu > a.cams-profile-trigger {
+    width: 42px;
+    min-width: 42px;
+    padding: 5px;
+    justify-content: center;
+  }
+
+  body.cams-app .main-header .navbar .nav > li.cams-user-menu > a.cams-profile-trigger > .user-image {
+    width: 30px;
+    height: 30px;
+    flex-basis: 30px;
+  }
+
+  body.cams-app .navbar-custom-menu > .navbar-nav > li > .dropdown-menu.cams-profile-menu {
+    position: absolute;
+    right: 0;
+    left: auto;
+    width: calc(100vw - 18px);
+    max-width: 290px;
+    min-width: 0;
+  }
+}
+
+
+/* ------------------------------------------------------------
+   Project-wide readability + DataTables pagination normalization
+   ------------------------------------------------------------ */
+body.cams-app,
+body.cams-auth {
+  font-size: 15px;
+  line-height: 1.55;
+}
+
+body.cams-app p,
+body.cams-app li,
+body.cams-app td,
+body.cams-app th,
+body.cams-app input,
+body.cams-app select,
+body.cams-app textarea,
+body.cams-app button,
+body.cams-auth p,
+body.cams-auth li,
+body.cams-auth input,
+body.cams-auth select,
+body.cams-auth textarea,
+body.cams-auth button {
+  font-size: inherit;
+}
+
+body.cams-app .sidebar-menu > li > a {
+  font-size: 14px;
+}
+
+body.cams-app .sidebar-menu .treeview-menu > li > a {
+  font-size: 13.5px;
+}
+
+body.cams-app .sidebar-menu > li.header {
+  font-size: 11.5px;
+}
+
+body.cams-app .content-header > h1 > small,
+body.cams-app .content-header h1 small,
+body.cams-app #todaysDate {
+  font-size: 13.5px;
+}
+
+body.cams-app label,
+body.cams-auth label {
+  font-size: 14px;
+}
+
+body.cams-app .form-control,
+body.cams-auth .form-control,
+body.cams-app select,
+body.cams-auth select,
+body.cams-app textarea,
+body.cams-auth textarea {
+  font-size: 14px;
+}
+
+body.cams-app .btn,
+body.cams-auth .btn {
+  font-size: 13.5px;
+}
+
+body.cams-app .help-block,
+body.cams-auth .help-block,
+body.cams-app .text-muted,
+body.cams-auth .text-muted {
+  font-size: 13px;
+}
+
+body.cams-app .table {
+  font-size: 13.5px;
+}
+
+body.cams-app .table > thead > tr > th,
+body.cams-app table.dataTable > thead > tr > th {
+  font-size: 13px !important;
+  line-height: 1.35;
+}
+
+body.cams-app .table > tbody > tr > td,
+body.cams-app table.dataTable > tbody > tr > td {
+  font-size: 13.5px !important;
+  line-height: 1.45;
+}
+
+body.cams-app .table td .btn,
+body.cams-app .cams-dt-button,
+body.cams-app .cams-row-edit {
+  font-size: 12.5px !important;
+}
+
+body.cams-app .dataTables_wrapper .dataTables_info,
+body.cams-app .dataTables_wrapper .dataTables_filter,
+body.cams-app .dataTables_wrapper .dataTables_filter label,
+body.cams-app .dataTables_wrapper .dataTables_length,
+body.cams-app .dataTables_wrapper .dataTables_length label {
+  font-size: 13.5px !important;
+}
+
+body.cams-app .dataTables_wrapper .dataTables_filter input,
+body.cams-app .dataTables_wrapper .dataTables_length select {
+  font-size: 13.5px !important;
+}
+
+body.cams-app .cams-dt-footer {
+  min-height: 48px;
+  padding-top: 16px;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: space-between !important;
+  gap: 14px;
+}
+
+body.cams-app .dataTables_wrapper .dataTables_info {
+  float: none !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  color: var(--cams-text-muted) !important;
+}
+
+body.cams-app .dataTables_wrapper .dataTables_paginate {
+  float: none !important;
+  margin: 0 0 0 auto !important;
+  padding: 0 !important;
+  text-align: right !important;
+}
+
+body.cams-app .dataTables_wrapper .dataTables_paginate .pagination {
+  display: inline-flex !important;
+  align-items: center;
+  gap: 6px;
+  margin: 0 !important;
+  padding: 0 !important;
+  white-space: nowrap;
+}
+
+body.cams-app .dataTables_wrapper .dataTables_paginate .pagination > li {
+  display: block !important;
+  margin: 0 !important;
+}
+
+body.cams-app .dataTables_wrapper .dataTables_paginate .pagination > li > a,
+body.cams-app .dataTables_wrapper .dataTables_paginate .pagination > li > span {
+  min-width: 36px;
+  height: 36px;
+  margin: 0 !important;
+  padding: 7px 10px !important;
+  display: inline-flex !important;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid var(--cams-border) !important;
+  border-radius: 9px !important;
+  background: var(--cams-surface) !important;
+  color: var(--cams-text) !important;
+  font-size: 13px !important;
+  font-weight: 700;
+  line-height: 1 !important;
+  text-decoration: none !important;
+  box-shadow: none !important;
+}
+
+body.cams-app .dataTables_wrapper .dataTables_paginate .pagination > li.previous > a,
+body.cams-app .dataTables_wrapper .dataTables_paginate .pagination > li.next > a {
+  min-width: 72px;
+  padding-left: 12px !important;
+  padding-right: 12px !important;
+}
+
+body.cams-app .dataTables_wrapper .dataTables_paginate .pagination > li > a:hover,
+body.cams-app .dataTables_wrapper .dataTables_paginate .pagination > li > a:focus {
+  border-color: var(--cams-primary) !important;
+  background: var(--cams-primary-soft) !important;
+  color: var(--cams-primary-dark) !important;
+}
+
+body.cams-app .dataTables_wrapper .dataTables_paginate .pagination > li.active > a,
+body.cams-app .dataTables_wrapper .dataTables_paginate .pagination > li.active > span {
+  border-color: var(--cams-primary) !important;
+  background: var(--cams-primary) !important;
+  color: #fff !important;
+}
+
+body.cams-app .dataTables_wrapper .dataTables_paginate .pagination > li.disabled > a,
+body.cams-app .dataTables_wrapper .dataTables_paginate .pagination > li.disabled > span {
+  cursor: not-allowed !important;
+  opacity: .48;
+  background: var(--cams-surface-muted) !important;
+  color: var(--cams-text-muted) !important;
+}
+
+/* Tailwind utility text sizes used by the migrated dashboard/UI */
+body.cams-app .text-xs,
+body.cams-auth .text-xs {
+  font-size: 13px !important;
+  line-height: 1.45 !important;
+}
+
+body.cams-app .text-sm,
+body.cams-auth .text-sm {
+  font-size: 14px !important;
+  line-height: 1.5 !important;
+}
+
+body.cams-app [class~="text-[11px]"],
+body.cams-auth [class~="text-[11px]"] {
+  font-size: 12px !important;
+  line-height: 1.4 !important;
+}
+
+body.cams-app .cams-topbar-context > span {
+  font-size: 11.5px;
+}
+
+body.cams-app .cams-topbar-context > strong {
+  font-size: 14.5px;
+}
+
+body.cams-app .cams-profile-copy > strong {
+  font-size: 13px;
+}
+
+body.cams-app .cams-profile-copy > small {
+  font-size: 11.5px;
+}
+
+@media (max-width: 767px) {
+  body.cams-app,
+  body.cams-auth {
+    font-size: 14px;
+  }
+
+  body.cams-app .cams-dt-footer {
+    align-items: stretch !important;
+    flex-direction: column;
+  }
+
+  body.cams-app .dataTables_wrapper .dataTables_paginate {
+    width: 100%;
+    margin-left: 0 !important;
+    overflow-x: auto;
+    text-align: left !important;
+  }
+
+  body.cams-app .dataTables_wrapper .dataTables_paginate .pagination {
+    min-width: max-content;
+  }
+}
+
+
+/* Actual DataTables direct-anchor pagination markup */
+body.cams-app .dataTables_wrapper .dataTables_paginate {
+  display: flex !important;
+  align-items: center !important;
+  justify-content: flex-end !important;
+  gap: 6px !important;
+}
+
+body.cams-app .dataTables_wrapper .dataTables_paginate > span {
+  display: inline-flex !important;
+  align-items: center !important;
+  gap: 6px !important;
+  margin: 0 !important;
+}
+
+body.cams-app .dataTables_wrapper .dataTables_paginate .paginate_button {
+  min-width: 38px !important;
+  height: 38px !important;
+  margin: 0 !important;
+  padding: 8px 11px !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  border: 1px solid var(--cams-border) !important;
+  border-radius: 10px !important;
+  background: var(--cams-surface) !important;
+  background-image: none !important;
+  color: var(--cams-text) !important;
+  font-size: 13px !important;
+  font-weight: 700 !important;
+  line-height: 1 !important;
+  text-decoration: none !important;
+  box-shadow: none !important;
+}
+
+body.cams-app .dataTables_wrapper .dataTables_paginate > .paginate_button.previous,
+body.cams-app .dataTables_wrapper .dataTables_paginate > .paginate_button.next,
+body.cams-app .dataTables_wrapper .dataTables_paginate > .paginate_button.first,
+body.cams-app .dataTables_wrapper .dataTables_paginate > .paginate_button.last {
+  min-width: 68px !important;
+  padding-left: 12px !important;
+  padding-right: 12px !important;
+}
+
+body.cams-app .dataTables_wrapper .dataTables_paginate .paginate_button:hover,
+body.cams-app .dataTables_wrapper .dataTables_paginate .paginate_button:focus {
+  border-color: var(--cams-primary) !important;
+  background: var(--cams-primary-soft) !important;
+  background-image: none !important;
+  color: var(--cams-primary-dark) !important;
+}
+
+body.cams-app .dataTables_wrapper .dataTables_paginate .paginate_button.current,
+body.cams-app .dataTables_wrapper .dataTables_paginate .paginate_button.current:hover {
+  border-color: var(--cams-primary) !important;
+  background: var(--cams-primary) !important;
+  background-image: none !important;
+  color: #fff !important;
+}
+
+body.cams-app .dataTables_wrapper .dataTables_paginate .paginate_button.disabled,
+body.cams-app .dataTables_wrapper .dataTables_paginate .paginate_button.disabled:hover {
+  cursor: not-allowed !important;
+  opacity: .45 !important;
+  border-color: var(--cams-border) !important;
+  background: var(--cams-surface-muted) !important;
+  color: var(--cams-text-muted) !important;
+}
+
+/* Form readability: override Tailwind CDN important utilities */
+body.cams-app form .form-group > label,
+body.cams-app form .control-label,
+body.cams-app form label,
+body.cams-auth form .form-group > label,
+body.cams-auth form .control-label,
+body.cams-auth form label {
+  font-size: 15px !important;
+  line-height: 1.4 !important;
+  font-weight: 700 !important;
+}
+
+body.cams-app form .form-control,
+body.cams-app form input.form-control,
+body.cams-app form select.form-control,
+body.cams-app form textarea.form-control,
+body.cams-auth form .form-control,
+body.cams-auth form input.form-control,
+body.cams-auth form select.form-control,
+body.cams-auth form textarea.form-control,
+body.cams-app .select2-container .select2-selection--single,
+body.cams-app .select2-container--default .select2-selection--multiple {
+  font-size: 16px !important;
+  line-height: 1.45 !important;
+}
+
+body.cams-app form .help-block,
+body.cams-auth form .help-block,
+body.cams-app form small,
+body.cams-auth form small {
+  font-size: 13.5px !important;
+  line-height: 1.45 !important;
+}
+
+body.cams-app form .btn,
+body.cams-auth form .btn,
+body.cams-app form button,
+body.cams-auth form button {
+  font-size: 14px !important;
+}
+
+@media (max-width: 767px) {
+  body.cams-app .dataTables_wrapper .dataTables_paginate {
+    justify-content: flex-start !important;
+    min-width: max-content;
+  }
+}
+
+
+/* ------------------------------------------------------------
+   CAMS page alignment
+   Main page/report/dashboard content always starts from the left edge.
+   ------------------------------------------------------------ */
+body.cams-app .content-wrapper > .content-header,
+body.cams-app .content-wrapper > .content,
+body.cams-app .content-header .cams-page-heading,
+body.cams-app .cams-dashboard-shell {
+  width: 100% !important;
+  max-width: none !important;
+  margin-left: 0 !important;
+  margin-right: 0 !important;
+  text-align: left !important;
+}
+
+body.cams-app .content-header > div:not(.pull-right):not(.float-right),
+body.cams-app .content > div:not(.modal):not(.text-center) {
+  text-align: left;
+}
+
+/* ------------------------------------------------------------
+   CAMS unified typography system
+   Google Sans first, with safe system fallbacks.
+   ------------------------------------------------------------ */
+:root {
+  --cams-font-ui: "Google Sans", Arial, sans-serif;
+  --cams-type-caption: 12.5px;
+  --cams-type-helper: 13.5px;
+  --cams-type-body: 15px;
+  --cams-type-control: 15px;
+  --cams-type-label: 15px;
+  --cams-type-button: 14px;
+  --cams-type-table: 14.5px;
+  --cams-type-section: 18px;
+  --cams-type-modal: 20px;
+  --cams-type-page: 26px;
+}
+
+body.cams-app,
+body.cams-auth,
+body.cams-app input,
+body.cams-app select,
+body.cams-app textarea,
+body.cams-app button,
+body.cams-auth input,
+body.cams-auth select,
+body.cams-auth textarea,
+body.cams-auth button,
+body.cams-app table,
+body.cams-auth table,
+body.cams-app .dropdown-menu,
+body.cams-auth .dropdown-menu,
+body.cams-app .popover,
+body.cams-auth .popover,
+body.cams-app .tooltip,
+body.cams-auth .tooltip {
+  font-family: var(--cams-font-ui) !important;
+}
+
+body.cams-app,
+body.cams-auth {
+  font-size: var(--cams-type-body) !important;
+  line-height: 1.55;
+  letter-spacing: -.005em;
+}
+
+body.cams-app h1,
+body.cams-app h2,
+body.cams-app h3,
+body.cams-app h4,
+body.cams-app h5,
+body.cams-app h6,
+body.cams-auth h1,
+body.cams-auth h2,
+body.cams-auth h3,
+body.cams-auth h4,
+body.cams-auth h5,
+body.cams-auth h6,
+body.cams-app .box-title,
+body.cams-app .panel-title,
+body.cams-app .modal-title,
+body.cams-auth .modal-title {
+  font-family: var(--cams-font-ui) !important;
+  letter-spacing: -.02em;
+}
+
+body.cams-app p,
+body.cams-auth p,
+body.cams-app li,
+body.cams-auth li {
+  font-size: var(--cams-type-body);
+  line-height: 1.55;
+}
+
+body.cams-app .content-header > h1,
+body.cams-app .content-header h1,
+body.cams-app .cams-page-heading h1,
+body.cams-app .cams-dashboard-shell > div:first-child h1 {
+  font-size: var(--cams-type-page) !important;
+  line-height: 1.2 !important;
+  font-weight: 800 !important;
+}
+
+body.cams-app .content-header > h1 > small,
+body.cams-app .content-header h1 small,
+body.cams-app .cams-page-heading p,
+body.cams-app .content-header #todaysDate,
+body.cams-app #todaysDate {
+  font-size: var(--cams-type-helper) !important;
+  line-height: 1.45 !important;
+}
+
+body.cams-app .box-header .box-title,
+body.cams-app .panel-title,
+body.cams-app .cams-data-card-header h2,
+body.cams-app .cams-panel-heading h2,
+body.cams-app .cams-review-card h4,
+body.cams-app .modal-title,
+body.cams-auth .modal-title {
+  font-size: var(--cams-type-section) !important;
+  line-height: 1.3 !important;
+  font-weight: 750 !important;
+}
+
+body.cams-app .modal-title,
+body.cams-auth .modal-title {
+  font-size: var(--cams-type-modal) !important;
+}
+
+body.cams-app form label,
+body.cams-app form .control-label,
+body.cams-app form .form-group > label,
+body.cams-auth form label,
+body.cams-auth form .control-label,
+body.cams-auth form .form-group > label {
+  font-size: var(--cams-type-label) !important;
+  line-height: 1.4 !important;
+  font-weight: 700 !important;
+}
+
+body.cams-app form .form-control,
+body.cams-app form input.form-control,
+body.cams-app form select.form-control,
+body.cams-app form textarea.form-control,
+body.cams-auth form .form-control,
+body.cams-auth form input.form-control,
+body.cams-auth form select.form-control,
+body.cams-auth form textarea.form-control,
+body.cams-app .select2-container .select2-selection--single,
+body.cams-app .select2-container--default .select2-selection--multiple,
+body.cams-app .select2-container--default .select2-selection--single .select2-selection__rendered {
+  font-size: var(--cams-type-control) !important;
+  line-height: 1.45 !important;
+}
+
+body.cams-app form .help-block,
+body.cams-auth form .help-block,
+body.cams-app form small,
+body.cams-auth form small,
+body.cams-app .form-text,
+body.cams-auth .form-text {
+  font-size: var(--cams-type-helper) !important;
+  line-height: 1.45 !important;
+}
+
+body.cams-app .btn,
+body.cams-auth .btn,
+body.cams-app button,
+body.cams-auth button,
+body.cams-app .cams-dt-button,
+body.cams-app .cams-row-edit,
+body.cams-app .cams-icon-btn {
+  font-size: var(--cams-type-button) !important;
+  line-height: 1.35 !important;
+  font-weight: 650 !important;
+}
+
+body.cams-app .table,
+body.cams-app table.dataTable {
+  font-size: var(--cams-type-table) !important;
+}
+
+body.cams-app .table > thead > tr > th,
+body.cams-app table.dataTable > thead > tr > th,
+body.cams-app table.dataTable thead th {
+  font-size: var(--cams-type-table) !important;
+  line-height: 1.4 !important;
+  font-weight: 750 !important;
+}
+
+body.cams-app .table > tbody > tr > td,
+body.cams-app table.dataTable > tbody > tr > td,
+body.cams-app table.dataTable tbody td {
+  font-size: var(--cams-type-table) !important;
+  line-height: 1.5 !important;
+}
+
+body.cams-app .dataTables_wrapper .dataTables_info,
+body.cams-app .dataTables_wrapper .dataTables_filter,
+body.cams-app .dataTables_wrapper .dataTables_filter label,
+body.cams-app .dataTables_wrapper .dataTables_length,
+body.cams-app .dataTables_wrapper .dataTables_length label,
+body.cams-app .dataTables_wrapper .dataTables_filter input,
+body.cams-app .dataTables_wrapper .dataTables_length select,
+body.cams-app .dataTables_wrapper .dataTables_paginate .paginate_button {
+  font-size: 14px !important;
+}
+
+body.cams-app .sidebar-menu > li > a {
+  font-size: 14.5px !important;
+  line-height: 1.4 !important;
+}
+
+body.cams-app .sidebar-menu .treeview-menu > li > a {
+  font-size: 14px !important;
+  line-height: 1.4 !important;
+}
+
+body.cams-app .sidebar-menu > li.header {
+  font-size: 11.5px !important;
+  line-height: 1.3 !important;
+}
+
+body.cams-app .user-panel > .info > p {
+  font-size: 14.5px !important;
+}
+
+body.cams-app .user-panel > .info > a {
+  font-size: 12.5px !important;
+}
+
+body.cams-app .cams-topbar-context > span {
+  font-size: 11.5px !important;
+}
+
+body.cams-app .cams-topbar-context > strong {
+  font-size: 14.5px !important;
+}
+
+body.cams-app .cams-profile-copy > strong {
+  font-size: 13.5px !important;
+}
+
+body.cams-app .cams-profile-copy > small {
+  font-size: 12px !important;
+}
+
+body.cams-app .cams-status,
+body.cams-app .label,
+body.cams-app .badge {
+  font-size: 12.5px !important;
+}
+
+body.cams-app .text-muted,
+body.cams-auth .text-muted,
+body.cams-app .cams-provider-meta,
+body.cams-app .cams-date-card .month,
+body.cams-app .cams-date-card .dow {
+  font-size: var(--cams-type-helper) !important;
+}
+
+body.cams-app .text-xs,
+body.cams-auth .text-xs {
+  font-size: 13px !important;
+  line-height: 1.45 !important;
+}
+
+body.cams-app .text-sm,
+body.cams-auth .text-sm {
+  font-size: 14px !important;
+  line-height: 1.5 !important;
+}
+
+body.cams-app .text-base,
+body.cams-auth .text-base {
+  font-size: 15px !important;
+  line-height: 1.55 !important;
+}
+
+body.cams-app .text-lg,
+body.cams-auth .text-lg {
+  font-size: 18px !important;
+  line-height: 1.35 !important;
+}
+
+body.cams-app .text-xl,
+body.cams-auth .text-xl {
+  font-size: 20px !important;
+  line-height: 1.3 !important;
+}
+
+body.cams-app .text-2xl,
+body.cams-auth .text-2xl {
+  font-size: 24px !important;
+  line-height: 1.25 !important;
+}
+
+body.cams-app .text-3xl,
+body.cams-auth .text-3xl {
+  font-size: 30px !important;
+  line-height: 1.15 !important;
+}
+
+body.cams-app .fa,
+body.cams-auth .fa,
+body.cams-app .glyphicon,
+body.cams-auth .glyphicon,
+body.cams-app .ion,
+body.cams-auth .ion {
+  letter-spacing: normal;
+}
+
+@media (max-width: 767px) {
+  :root {
+    --cams-type-body: 14px;
+    --cams-type-control: 15px;
+    --cams-type-label: 15px;
+    --cams-type-table: 14px;
+    --cams-type-section: 17px;
+    --cams-type-page: 23px;
+  }
+}
+
+/* Secondary UI typography */
+body.cams-app .cams-page-eyebrow,
+body.cams-app .cams-modal-eyebrow,
+body.cams-app .cams-live-indicator,
+body.cams-app .cams-muted-action,
+body.cams-app .cams-empty-state span,
+body.cams-app .cams-edit-summary span,
+body.cams-app .cams-status-pill {
+  font-size: 12.5px !important;
+  line-height: 1.4 !important;
+}
+
+body.cams-app .cams-filter-tabs a,
+body.cams-app .breadcrumb,
+body.cams-app .breadcrumb a,
+body.cams-app .nav-tabs > li > a,
+body.cams-app .pagination > li > a,
+body.cams-app .pagination > li > span {
+  font-size: 14px !important;
+}
+
+body.cams-app .cams-data-card-header p,
+body.cams-app .cams-empty-state span,
+body.cams-app .cams-modern-table td small,
+body.cams-app .navbar-nav > .user-menu > .dropdown-menu.cams-profile-menu > .user-header > p > small {
+  font-size: 13.5px !important;
+  line-height: 1.45 !important;
+}
+
+body.cams-app .cams-id {
+  font-size: 12.5px !important;
+}
+
+body.cams-app .cams-edit-summary strong {
+  font-size: 14.5px !important;
+}
+
+body.cams-app .select2-results__option,
+body.cams-app .select2-selection__rendered,
+body.cams-app .select2-search__field {
+  font-family: var(--cams-font-ui) !important;
+  font-size: 15px !important;
+}
+
+body.cams-app .fc,
+body.cams-app .fc-button,
+body.cams-app .fc-event,
+body.cams-app .fc-day-header {
+  font-family: var(--cams-font-ui) !important;
+  font-size: 14px !important;
+}
+
+body.cams-app .fc-toolbar h2 {
+  font-family: var(--cams-font-ui) !important;
+  font-size: 20px !important;
+  font-weight: 750 !important;
+}
+
+body.cams-app .alert,
+body.cams-auth .alert {
+  font-size: 14px !important;
+  line-height: 1.5 !important;
+}
+
+body .toast-title {
+  font-family: var(--cams-font-ui) !important;
+  font-size: 14px !important;
+  font-weight: 750 !important;
+}
+
+body .toast-message {
+  font-family: var(--cams-font-ui) !important;
+  font-size: 14px !important;
+  line-height: 1.45 !important;
+}
+
+body .swal2-popup,
+body .swal2-title,
+body .swal2-content,
+body .swal2-styled {
+  font-family: var(--cams-font-ui) !important;
+}
+
+body .swal2-title {
+  font-size: 22px !important;
+  font-weight: 750 !important;
+}
+
+body .swal2-content {
+  font-size: 15px !important;
+  line-height: 1.5 !important;
+}
+
+body .swal2-styled {
+  font-size: 14px !important;
+}
+
+body.cams-app legend,
+body.cams-auth legend,
+body.cams-app .input_field_sections > h5,
+body.cams-auth .input_field_sections > h5 {
+  font-family: var(--cams-font-ui) !important;
+  font-size: 15px !important;
+  line-height: 1.4 !important;
+  font-weight: 700 !important;
+}

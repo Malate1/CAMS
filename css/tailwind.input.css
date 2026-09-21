@@ -1,0 +1,417 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  html { @apply bg-slate-50; }
+  body { @apply m-0 min-h-screen bg-slate-50 font-sans text-slate-800 antialiased; }
+  *, *::before, *::after { box-sizing: border-box; }
+  a { @apply no-underline; }
+  button, input, select, textarea { font: inherit; }
+}
+
+@layer components {
+  /* Tailwind-native CAMS shell */
+  .cams-tw-shell { @apply min-h-screen bg-slate-50; }
+  .cams-tw-sidebar { @apply fixed inset-y-0 left-0 z-40 flex w-64 flex-col border-r border-white/10 bg-cams-950 text-white shadow-panel transition-transform duration-200; }
+  .cams-tw-sidebar.is-collapsed { @apply -translate-x-full; }
+  .cams-tw-brand { @apply flex h-20 items-center gap-3 border-b border-white/10 px-5; }
+  .cams-tw-brand img { @apply h-10 w-10 rounded-full object-cover ring-2 ring-white/20; }
+  .cams-tw-user { @apply mx-3 mt-4 flex items-center gap-3 rounded-2xl border border-white/10 bg-white/10 p-3 backdrop-blur-md; }
+  .cams-tw-user img { @apply h-11 w-11 shrink-0 rounded-full object-cover ring-2 ring-white/20; }
+  .cams-tw-user-copy { @apply min-w-0; }
+  .cams-tw-user-name { @apply truncate font-semibold text-white; }
+  .cams-tw-user-role { @apply text-xs font-medium text-emerald-200; }
+  .cams-tw-search { @apply mx-3 mt-4; }
+  .cams-tw-search input { @apply w-full rounded-xl border border-white/10 bg-white/10 px-4 py-3 text-sm text-white outline-none placeholder:text-emerald-100/60 focus:border-emerald-300/60 focus:ring-2 focus:ring-emerald-300/20; }
+  .cams-tw-nav { @apply mt-5 flex-1 overflow-y-auto px-3 pb-6; }
+  .cams-tw-nav-label { @apply px-3 pb-2 pt-4 text-[11px] font-bold uppercase tracking-[0.18em] text-emerald-300; }
+  .cams-tw-nav-link { @apply mb-1 flex items-center gap-3 rounded-xl px-3 py-3 text-sm font-semibold text-emerald-50/90 transition hover:bg-white/10 hover:text-white; }
+  .cams-tw-nav-link.is-active { @apply bg-white/15 text-white shadow-sm; }
+  .cams-tw-nav-link i { @apply w-5 text-center text-emerald-200; }
+  .cams-tw-submenu { @apply mb-2 ml-3 hidden rounded-xl border border-white/10 bg-white/5 p-1.5; }
+  .cams-tw-submenu.is-open { @apply block; }
+  .cams-tw-submenu a { @apply flex items-center gap-2 rounded-lg px-3 py-2.5 text-sm text-emerald-50/90 hover:bg-white/10 hover:text-white; }
+  .cams-tw-main { @apply min-h-screen md:pl-64; }
+  .cams-tw-topbar { @apply sticky top-0 z-30 flex h-16 items-center justify-between border-b border-slate-200/80 bg-white/90 px-4 backdrop-blur md:px-6; }
+  .cams-tw-mobile-toggle { @apply inline-flex h-10 w-10 items-center justify-center rounded-xl border border-slate-200 bg-white text-slate-700 shadow-sm md:hidden; }
+  .cams-tw-top-user { @apply flex items-center gap-3; }
+  .cams-tw-top-user img { @apply h-9 w-9 rounded-full object-cover; }
+  .cams-tw-page { @apply p-4 md:p-6; }
+
+  /* Legacy-markup compatibility, rendered entirely by Tailwind */
+  .content-wrapper { @apply min-h-screen bg-slate-50 md:ml-64; }
+  .content-header { @apply px-4 pb-2 pt-6 md:px-6; }
+  .content-header h1 { @apply m-0 text-2xl font-bold tracking-tight text-slate-900; }
+  .content { @apply px-4 pb-8 pt-3 md:px-6; }
+  .row { @apply -mx-2 flex flex-wrap; }
+  [class*="col-xs-"], [class*="col-sm-"], [class*="col-md-"], [class*="col-lg-"] { @apply w-full px-2; }
+  .col-xs-4 { @apply w-1/3; }
+  .col-xs-8 { @apply w-2/3; }
+  .col-xs-12 { @apply w-full; }
+  .col-sm-4 { @apply sm:w-1/3; }
+  .col-md-3 { @apply md:w-1/4; }
+  .col-md-4 { @apply md:w-1/3; }
+  .col-md-6, .col-lg-6 { @apply md:w-1/2; }
+  .col-md-8 { @apply md:w-2/3; }
+  .col-md-9 { @apply md:w-3/4; }
+  .col-md-10 { @apply md:w-5/6; }
+  .col-lg-4 { @apply lg:w-1/3; }
+  .col-lg-8 { @apply lg:w-2/3; }
+  .col-lg-10 { @apply lg:w-5/6; }
+  .box { @apply mb-5 overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-soft; }
+  .box-header { @apply flex items-center justify-between border-b border-slate-100 px-5 py-4; }
+  .box-title { @apply m-0 text-base font-semibold text-slate-900; }
+  .box-body { @apply p-5; }
+  .box-footer { @apply flex flex-wrap gap-2 border-t border-slate-100 bg-slate-50 px-5 py-4; }
+  .small-box { @apply relative mb-5 overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-soft; }
+  .small-box .inner { @apply px-5 pb-4 pt-5; }
+  .small-box .inner h3 { @apply m-0 text-3xl font-bold tracking-tight text-slate-900; }
+  .small-box .inner p { @apply mt-1 text-sm font-medium text-slate-500; }
+  .small-box .icon { @apply absolute right-5 top-5 flex h-11 w-11 items-center justify-center rounded-xl bg-slate-100 text-xl text-slate-500; }
+  .small-box-footer { @apply flex items-center justify-between border-t border-slate-100 bg-slate-50 px-5 py-3 text-sm font-semibold text-cams-700 hover:bg-slate-100; }
+  .bg-green .icon { @apply bg-emerald-50 text-emerald-700; }
+  .bg-yellow .icon { @apply bg-amber-50 text-amber-700; }
+  .bg-red .icon { @apply bg-rose-50 text-rose-700; }
+  .box-profile { @apply text-center; }
+  .profile-user-img { @apply mx-auto mb-4 h-24 w-24 rounded-2xl object-cover ring-4 ring-slate-100; }
+  .profile-username { @apply m-0 text-xl font-bold text-slate-900; }
+  .list-group { @apply my-5 divide-y divide-slate-100 overflow-hidden rounded-xl border border-slate-200 text-left; }
+  .list-group-item { @apply flex items-center justify-between gap-4 bg-white px-4 py-3 text-sm text-slate-700; }
+  .list-group-item b { @apply font-semibold text-slate-900; }
+  .btn-block { @apply w-full; }
+  .text-muted { @apply text-slate-500; }
+  .text-left { @apply text-left; }
+  .text-center { @apply text-center; }
+  .pull-right { @apply ml-auto; }
+  .input_field_sections { @apply mb-4; }
+  .input_field_sections h5 { @apply mb-2 text-sm font-semibold text-slate-700; }
+  .box-body hr { @apply my-5 border-slate-200; }
+  .alert { @apply relative mb-4 rounded-xl border px-4 py-3 text-sm; }
+  .alert-success { @apply border-emerald-200 bg-emerald-50 text-emerald-800; }
+  .alert-danger { @apply border-rose-200 bg-rose-50 text-rose-800; }
+  .alert-warning { @apply border-amber-200 bg-amber-50 text-amber-800; }
+  .alert-info { @apply border-sky-200 bg-sky-50 text-sky-800; }
+  .alert .close { @apply absolute right-3 top-2 text-lg text-current opacity-60 hover:opacity-100; }
+  .input-group { @apply flex w-full items-stretch; }
+  .input-group .form-control { @apply min-w-0 flex-1; }
+  .input-group-addon { @apply inline-flex items-center rounded-r-xl border border-l-0 border-slate-300 bg-slate-50 px-3 text-slate-500; }
+  .input-group .form-control:not(:last-child) { @apply rounded-r-none; }
+  .control-label { @apply mb-2 block text-sm font-semibold text-slate-700; }
+  .center-block { @apply mx-auto block; }
+  .img-responsive { @apply h-auto max-w-full; }
+  .img-circle { @apply rounded-full; }
+  .img-thumbnail { @apply rounded-xl border border-slate-200 bg-white p-1 shadow-sm; }
+  .text-danger { @apply text-rose-600; }
+  .hidden-xs { @apply hidden sm:block; }
+  .m-t-35 { @apply mt-9; }
+  .card-block { @apply p-5; }
+  .content-header h1 small { @apply ml-1 text-sm font-medium text-slate-500; }
+  .form-group { @apply mb-4; }
+  .form-group label, .modal-body label { @apply mb-2 block text-sm font-semibold text-slate-700; }
+  .form-control { @apply block w-full rounded-xl border border-slate-300 bg-white px-3.5 py-2.5 text-sm text-slate-900 outline-none transition placeholder:text-slate-400 focus:border-cams-500 focus:ring-4 focus:ring-cams-500/10; }
+  select.form-control { @apply pr-9; }
+  .help-block { @apply mt-1.5 text-xs leading-5 text-slate-500; }
+  .alert { @apply relative mb-4 rounded-xl border px-4 py-3 text-sm; }
+  .alert-success { @apply border-emerald-200 bg-emerald-50 text-emerald-800; }
+  .alert-danger, .alert-error { @apply border-rose-200 bg-rose-50 text-rose-800; }
+  .alert-warning { @apply border-amber-200 bg-amber-50 text-amber-800; }
+  .alert-info { @apply border-sky-200 bg-sky-50 text-sky-800; }
+  .alert .close { @apply absolute right-3 top-2 text-lg text-current opacity-60 hover:opacity-100; }
+  .btn { @apply inline-flex cursor-pointer items-center justify-center gap-2 rounded-xl border border-transparent px-4 py-2.5 text-sm font-semibold transition focus:outline-none focus:ring-4 disabled:cursor-not-allowed disabled:opacity-50; }
+  .btn-primary, .btn-success { @apply bg-cams-700 text-white hover:bg-cams-800 focus:ring-cams-600/20; }
+  .btn-danger { @apply bg-rose-600 text-white hover:bg-rose-700 focus:ring-rose-600/20; }
+  .btn-warning { @apply bg-amber-500 text-white hover:bg-amber-600 focus:ring-amber-500/20; }
+  .btn-default { @apply border-slate-300 bg-white text-slate-700 hover:bg-slate-50 focus:ring-slate-300/30; }
+  .table-responsive { @apply w-full overflow-x-auto; }
+  table { @apply w-full border-collapse text-sm; }
+  table thead th { @apply border-b border-slate-200 bg-slate-50 px-4 py-3 text-left text-xs font-bold uppercase tracking-wider text-slate-500; }
+  table tbody td { @apply border-b border-slate-100 px-4 py-3 align-middle text-slate-700; }
+  table tbody tr:hover { @apply bg-slate-50/80; }
+
+  .modal { @apply fixed inset-0 z-50 hidden overflow-y-auto bg-slate-950/50 p-4 backdrop-blur-sm; }
+  .modal.in, .modal.show { @apply block; }
+  body.cams-modal-open { @apply overflow-hidden; }
+  .modal-dialog { @apply mx-auto my-8 w-full max-w-2xl; }
+  .modal-content { @apply overflow-hidden rounded-2xl border border-white/60 bg-white shadow-2xl; }
+  .modal-header { @apply relative border-b border-slate-100 px-5 pb-4 pt-5 md:px-6; }
+  .modal-title { @apply m-0 text-xl font-bold text-slate-900; }
+  .modal-header .close { @apply absolute right-4 top-4 inline-flex h-9 w-9 items-center justify-center rounded-lg border border-slate-200 bg-white text-xl leading-none text-slate-500 hover:bg-slate-50 hover:text-slate-900; }
+  .modal-body { @apply max-h-[70vh] overflow-y-auto px-5 py-5 md:px-6; }
+  .modal-footer { @apply flex flex-wrap justify-end gap-2 border-t border-slate-100 bg-slate-50 px-5 py-4 md:px-6; }
+  .cams-modal-form-row { @apply grid grid-cols-1 gap-4 md:grid-cols-2; }
+  .cams-modal-eyebrow { @apply mb-1 block text-[11px] font-bold uppercase tracking-[0.16em] text-cams-700; }
+  .cams-modal-description { @apply mb-0 mt-1 text-sm text-slate-500; }
+  .main-footer { @apply border-t border-slate-200 bg-white px-6 py-4 text-sm text-slate-500 md:ml-64; }
+
+  /* Transitional shell selectors: Tailwind owns the visuals, not AdminLTE. */
+  .wrapper { @apply min-h-screen bg-slate-50; }
+  .main-header { @apply fixed inset-x-0 top-0 z-40 h-16 border-b border-slate-200 bg-white md:left-64; }
+  .main-header .logo { @apply fixed left-0 top-0 hidden h-16 w-64 items-center gap-3 bg-cams-950 px-5 text-lg font-bold text-white md:flex; }
+  .main-header .logo-mini { @apply hidden; }
+  .main-header .logo-lg { @apply flex items-center gap-3; }
+  .main-header .logo-lg img { @apply h-9 w-9 rounded-full object-cover ring-2 ring-white/20; }
+  .main-header .navbar { @apply flex h-16 items-center justify-between px-4 md:px-6; }
+  .sidebar-toggle { @apply inline-flex h-10 w-10 items-center justify-center rounded-xl text-slate-700 hover:bg-slate-100 md:hidden; }
+  .navbar-custom-menu { @apply ml-auto; }
+  .navbar-nav { @apply m-0 flex list-none items-center p-0; }
+  .user-menu > a { @apply flex items-center gap-2 rounded-xl px-3 py-2 text-sm font-semibold text-slate-700 hover:bg-slate-100; }
+  .user-image { @apply h-8 w-8 rounded-full object-cover; }
+  .dropdown-menu { @apply absolute right-4 top-14 hidden min-w-64 overflow-hidden rounded-2xl border border-slate-200 bg-white p-2 shadow-xl; }
+  .open > .dropdown-menu { @apply block; }
+  .user-header { @apply rounded-xl bg-slate-50 p-4 text-center; }
+  .user-header img { @apply mx-auto mb-2 h-16 w-16 rounded-full object-cover; }
+  .user-header p { @apply m-0 font-semibold text-slate-900; }
+  .user-header small { @apply mt-1 block text-xs text-slate-500; }
+  .user-footer { @apply flex gap-2 p-2; }
+  .main-sidebar { @apply fixed inset-y-0 left-0 z-50 w-64 -translate-x-full overflow-y-auto bg-cams-950 text-white shadow-panel transition-transform duration-200 md:translate-x-0; }
+  .cams-sidebar-open .main-sidebar { @apply translate-x-0; }
+  .cams-mobile-brand { @apply absolute inset-x-0 top-0 flex h-16 items-center gap-3 border-b border-white/10 px-5 text-lg font-bold text-white md:hidden; }
+  .cams-mobile-brand img { @apply h-9 w-9 rounded-full object-cover ring-2 ring-white/20; }
+  .sidebar { @apply min-h-full pb-6 pt-20; }
+  .user-panel { @apply mx-3 mt-3 flex items-center gap-3 rounded-2xl border border-white/10 bg-white/10 p-3 backdrop-blur-md; }
+  .user-panel .image { @apply shrink-0; }
+  .user-panel .image img { @apply h-11 w-11 rounded-full object-cover ring-2 ring-white/20; }
+  .user-panel .info { @apply min-w-0; }
+  .user-panel .info p { @apply m-0 truncate font-semibold text-white; }
+  .user-panel .info a { @apply mt-0.5 block text-xs font-medium text-emerald-200; }
+  .sidebar-form { @apply mx-3 my-4; }
+  .sidebar-form .input-group { @apply block; }
+  .sidebar-form .form-control { @apply border-white/10 bg-white/10 text-white placeholder:text-emerald-100/60 focus:border-emerald-300/60 focus:ring-emerald-300/20; }
+  .sidebar-form .input-group-btn { @apply hidden; }
+  .sidebar-menu { @apply m-0 list-none px-3 pb-5; }
+  .sidebar-menu > .header { @apply px-3 pb-2 pt-4 text-[11px] font-bold uppercase tracking-[0.18em] text-emerald-300; }
+  .sidebar-menu > div > a { @apply mb-1 flex items-center gap-3 rounded-xl px-3 py-3 text-sm font-semibold text-emerald-50/90 transition hover:bg-white/10 hover:text-white; }
+  .sidebar-menu > div > a svg { @apply h-5 w-5 shrink-0 text-emerald-200; }
+  .sidebar-menu a.is-active { @apply bg-white/15 text-white shadow-sm; }
+  .pull-right-container { @apply ml-auto; }
+  .cams-tree-chevron { @apply transition-transform duration-200; }
+  .treeview.menu-open > a .cams-tree-chevron { @apply rotate-90; }
+  .treeview-menu { @apply mb-2 ml-3 hidden list-none rounded-xl border border-white/10 bg-white/5 p-1.5; }
+  .treeview.menu-open > .treeview-menu { @apply block; }
+  .treeview.menu-open > a .fa-chevron-circle-left { @apply -rotate-90; }
+  .treeview-menu > a { @apply flex items-center gap-2 rounded-lg px-3 py-2.5 text-sm text-emerald-50/90 transition hover:bg-white/10 hover:text-white; }
+  .cams-submenu-dot { @apply h-1.5 w-1.5 shrink-0 rounded-full bg-emerald-300/80; }
+  .cams-role-pill { @apply mt-1 flex items-center gap-1.5 text-xs font-medium text-emerald-200; }
+  .cams-role-dot { @apply h-2 w-2 rounded-full bg-emerald-400 shadow-[0_0_0_3px_rgba(52,211,153,0.12)]; }
+  .cams-sidebar-backdrop { @apply fixed inset-0 z-40 hidden bg-slate-950/45 backdrop-blur-sm md:hidden; }
+  .cams-sidebar-open .cams-sidebar-backdrop { @apply block; }
+  .content-wrapper { padding-top: 4rem; }
+
+  .dataTables_wrapper { @apply w-full text-sm text-slate-700; }
+  .dataTables_wrapper .cams-dt-toolbar { @apply mb-4 flex flex-col gap-3 border-b border-slate-100 pb-4 md:flex-row md:items-center md:justify-between; }
+  .dataTables_wrapper .cams-dt-length { @apply flex items-center; }
+  .dataTables_wrapper .cams-dt-actions { @apply flex flex-col gap-2 sm:flex-row sm:items-center; }
+  .dataTables_wrapper .dataTables_filter { @apply m-0; }
+  .dataTables_wrapper .dataTables_filter label,
+  .dataTables_wrapper .dataTables_length label { @apply flex items-center gap-2 text-sm font-medium text-slate-600; }
+  .dataTables_wrapper .dataTables_filter input { @apply ml-0 min-w-0 w-full sm:w-64; }
+  .dataTables_wrapper .dataTables_filter input,
+  .dataTables_wrapper .dataTables_length select { @apply rounded-xl border border-slate-300 bg-white px-3 py-2 outline-none focus:border-cams-500 focus:ring-4 focus:ring-cams-500/10; }
+  .dataTables_wrapper .dataTables_length select { @apply min-w-20; }
+  .dataTables_wrapper .cams-dt-footer { @apply mt-4 flex flex-col gap-3 border-t border-slate-100 pt-4 sm:flex-row sm:items-center sm:justify-between; }
+  .dataTables_wrapper .dataTables_info { @apply m-0 p-0 text-sm text-slate-500; }
+  .dataTables_wrapper .dataTables_paginate { @apply m-0 flex flex-wrap items-center gap-1 p-0; }
+  .dataTables_wrapper .dataTables_paginate .paginate_button { @apply !m-0 !inline-flex !min-h-9 !min-w-9 !items-center !justify-center !rounded-lg !border !border-slate-200 !bg-white !px-3 !py-1.5 !text-slate-700 !shadow-none; }
+  .dataTables_wrapper .dataTables_paginate .paginate_button:hover { @apply !border-cams-300 !bg-cams-50 !text-cams-800; }
+  .dataTables_wrapper .dataTables_paginate .paginate_button.current { @apply !border-cams-700 !bg-cams-700 !text-white; }
+  .dataTables_wrapper .dataTables_paginate .paginate_button.disabled { @apply !cursor-not-allowed !border-slate-100 !bg-slate-50 !text-slate-300; }
+  .dataTables_wrapper .dt-buttons { @apply flex flex-wrap gap-2; }
+  .dataTables_wrapper .cams-dt-button { @apply border-slate-200 bg-white text-slate-700 hover:border-cams-300 hover:bg-cams-50 hover:text-cams-800; }
+  .cams-modern-table { @apply w-full; table-layout: auto; }
+  .cams-modern-table[data-kind="user"] { min-width: 1100px; }
+  .cams-modern-table th,
+  .cams-modern-table td { @apply whitespace-normal break-words align-middle; }
+  .cams-modern-table tbody tr { @apply min-h-20; }
+  .cams-modern-table tbody td { @apply py-3; }
+  .cams-user-avatar { @apply mx-auto h-14 w-14 rounded-xl object-cover ring-1 ring-slate-200; }
+  .cams-modern-table .btn { @apply whitespace-nowrap; }
+  .cams-modern-table td.text-right { @apply whitespace-nowrap; }
+  .dataTables_processing { @apply !fixed !left-1/2 !top-1/2 !z-50 !m-0 !w-auto !-translate-x-1/2 !-translate-y-1/2 !rounded-2xl !border !border-slate-200 !bg-white !px-5 !py-4 !shadow-xl; }
+  .cams-table-loader { @apply flex items-center gap-2 text-sm font-medium text-slate-600; }
+  .cams-table-loader span { @apply h-2 w-2 rounded-full bg-cams-600; }
+  .cams-table-loader small { @apply ml-1 text-xs text-slate-500; }
+  .cams-empty-state { @apply flex flex-col items-center justify-center gap-1 py-10 text-center text-slate-400; }
+  .cams-empty-state strong { @apply text-sm font-semibold text-slate-700; }
+  .cams-empty-state span { @apply text-xs text-slate-500; }
+  @media (max-width: 767px) {
+    .cams-modern-table { min-width: 760px; }
+    .dataTables_wrapper .cams-dt-toolbar,
+    .dataTables_wrapper .cams-dt-footer { @apply items-stretch; }
+    .dataTables_wrapper .dataTables_paginate { @apply justify-start; }
+  }
+
+  /* Standalone authentication pages */
+  .login-page, .cams-auth { @apply min-h-screen bg-gradient-to-br from-cams-950 via-cams-900 to-slate-950 px-4 py-10; }
+  .login-box { @apply mx-auto w-full max-w-md; }
+  .login-logo { @apply mb-6 text-center text-white; }
+  .login-logo a { @apply inline-flex flex-col items-center text-white; }
+  .login-logo img { @apply mb-4 h-24 w-24 rounded-full object-cover ring-4 ring-white/15 shadow-xl; }
+  .login-logo h3 { @apply max-w-sm text-2xl font-bold leading-tight tracking-tight; }
+  .login-box-body { @apply rounded-3xl border border-white/60 bg-white p-6 shadow-2xl md:p-8; }
+  .login-box-msg { @apply mb-6 text-center text-xl font-bold text-slate-900; }
+  .cams-auth .form-group { @apply mb-4; }
+  .cams-auth .form-control { @apply w-full; }
+  .cams-auth .btn-block { @apply w-full; }
+  .cams-auth label { @apply text-sm font-semibold text-slate-700; }
+  .cams-auth select:not(.form-control) { @apply mt-2 w-full rounded-xl border border-slate-300 bg-white px-3.5 py-2.5 text-sm text-slate-900 outline-none focus:border-cams-500 focus:ring-4 focus:ring-cams-500/10; }
+  .cams-auth .text-muted { @apply text-sm text-white/65; }
+  .cams-auth .modal-dialog { @apply max-w-3xl; }
+  .cams-auth .modal-body .row { @apply gap-y-2; }
+  .cams-auth .input_field_sections { @apply mb-3; }
+  .cams-auth hr { @apply my-6 border-slate-200; }
+  .cams-auth input[type="checkbox"], .cams-auth input[type="radio"] { @apply h-4 w-4 rounded border-slate-300 text-cams-700 focus:ring-cams-600/20; }
+  .cams-auth input[type="file"] { @apply block w-full rounded-xl border border-dashed border-slate-300 bg-slate-50 px-3 py-3 text-sm text-slate-700; }
+  .cams-auth .radio-button { @apply mr-4 inline-flex items-center gap-2; }
+  .cams-auth a[data-toggle="modal"] { @apply cursor-pointer text-sm font-semibold text-cams-700 hover:text-cams-800; }
+  #meter_wrapper { @apply mt-2 h-2 overflow-hidden rounded-full bg-slate-200; }
+  #meter { @apply h-full rounded-full bg-cams-600 transition-all; }
+
+  /* Public landing page */
+  .cams-landing-page { @apply min-h-screen bg-slate-950 text-white; }
+  .cams-landing-hero { @apply relative overflow-hidden; }
+  .cams-landing-hero > img { @apply absolute inset-0 h-full w-full object-cover opacity-30; }
+  .cams-landing-overlay { @apply absolute inset-0 bg-gradient-to-br from-cams-950/95 via-cams-900/85 to-slate-950/95; }
+  .cams-landing-hero-inner { @apply relative mx-auto flex min-h-[480px] max-w-7xl items-center px-6 py-20 lg:px-8; }
+  .cams-landing-copy { @apply max-w-3xl; }
+  .cams-landing-badge { @apply inline-flex rounded-full border border-emerald-300/20 bg-white/10 px-4 py-2 text-sm font-semibold text-emerald-100 backdrop-blur; }
+  .cams-landing-title { @apply mt-6 text-4xl font-bold tracking-tight sm:text-5xl lg:text-6xl; }
+  .cams-landing-text { @apply mt-5 max-w-2xl text-lg leading-8 text-slate-200; }
+  .cams-landing-cta { @apply mt-8 inline-flex items-center justify-center rounded-xl bg-white px-5 py-3 text-sm font-bold text-cams-900 shadow-lg transition hover:bg-emerald-50; }
+  .cams-landing-portals { @apply bg-slate-50 px-6 py-14 text-slate-900 lg:px-8; }
+  .cams-landing-container { @apply mx-auto max-w-7xl; }
+  .cams-landing-grid { @apply grid gap-5 sm:grid-cols-2 lg:grid-cols-4; }
+  .cams-portal-card { @apply rounded-3xl border border-slate-200 bg-white p-6 shadow-soft transition hover:-translate-y-1 hover:border-cams-300 hover:shadow-lg; }
+  .cams-portal-icon { @apply mb-5 inline-flex h-12 w-12 items-center justify-center rounded-2xl bg-cams-50 text-cams-700; }
+  .cams-portal-icon svg { @apply h-6 w-6; }
+  .cams-landing-footer { @apply border-t border-white/10 bg-slate-950 px-6 py-6 text-center text-sm text-slate-400; }
+
+  /* Appointment booking wizard */
+  .cams-booking-shell { @apply mx-auto w-full max-w-7xl; }
+  .cams-booking-hero { @apply relative mb-6 flex flex-col gap-6 overflow-hidden rounded-3xl border border-cams-800/20 bg-gradient-to-br from-cams-950 via-cams-900 to-slate-900 p-6 text-white shadow-panel md:flex-row md:items-center md:justify-between md:p-8; }
+  .cams-booking-hero::after { content: ''; @apply pointer-events-none absolute -right-20 -top-24 h-64 w-64 rounded-full bg-emerald-300/10 blur-3xl; }
+  .cams-booking-hero-copy { @apply relative z-10 max-w-3xl; }
+  .cams-booking-kicker { @apply mb-3 inline-flex rounded-full border border-emerald-300/20 bg-white/10 px-3 py-1.5 text-xs font-bold uppercase tracking-[0.14em] text-emerald-100; }
+  .cams-booking-hero h1 { @apply m-0 text-2xl font-bold tracking-tight text-white md:text-3xl; }
+  .cams-booking-hero p { @apply mt-3 max-w-3xl text-sm leading-6 text-emerald-50/80 md:text-[15px]; }
+  .cams-booking-trust { @apply mt-5 flex flex-wrap gap-2; }
+  .cams-booking-trust span { @apply inline-flex items-center rounded-full bg-white/10 px-3 py-1.5 text-xs font-semibold text-emerald-50; }
+  .cams-booking-trust span::before { content: ''; @apply mr-2 h-1.5 w-1.5 rounded-full bg-emerald-300; }
+  .cams-booking-hero-side { @apply relative z-10 flex shrink-0 flex-col items-start gap-2 md:items-end; }
+  .cams-booking-hero-side small { @apply text-xs text-emerald-100/70; }
+  .cams-booking-hero-badge { @apply inline-flex rounded-full bg-white px-4 py-2 text-xs font-bold text-cams-900 shadow-lg; }
+  .cams-flash { @apply mb-4 rounded-2xl border px-4 py-3 text-sm font-medium; }
+  .cams-flash-error { @apply border-rose-200 bg-rose-50 text-rose-700; }
+
+  .cams-wizard { @apply overflow-hidden rounded-3xl border border-slate-200 bg-white shadow-soft; }
+  .cams-wizard-nav { @apply grid grid-cols-2 border-b border-slate-200 bg-slate-50/80 lg:grid-cols-4; }
+  .cams-step-tab { @apply relative flex min-w-0 items-center gap-3 border-b border-r border-slate-200 px-4 py-4 text-slate-500 lg:border-b-0 lg:px-5; }
+  .cams-step-tab:nth-child(2n) { @apply border-r-0 lg:border-r; }
+  .cams-step-tab:last-child { @apply border-r-0; }
+  .cams-step-number { @apply grid h-9 w-9 shrink-0 place-items-center rounded-full bg-slate-200 text-sm font-bold text-slate-600 transition; }
+  .cams-step-tab > div { @apply min-w-0; }
+  .cams-step-tab strong { @apply block truncate text-sm font-bold text-inherit; }
+  .cams-step-tab small { @apply mt-0.5 block truncate text-[11px] text-slate-400; }
+  .cams-step-tab.is-active { @apply bg-cams-50 text-cams-800; }
+  .cams-step-tab.is-active .cams-step-number { @apply bg-cams-700 text-white shadow-md ring-4 ring-cams-100; }
+  .cams-step-tab.is-complete { @apply bg-emerald-50/50 text-emerald-800; }
+  .cams-step-tab.is-complete .cams-step-number { @apply bg-emerald-100 text-emerald-800; }
+  .cams-step-tab.is-complete .cams-step-number::after { content: '✓'; }
+  .cams-step-tab.is-complete .cams-step-number { font-size: 0; }
+  .cams-step-tab.is-complete .cams-step-number::after { @apply text-sm; }
+  .cams-step-summary { @apply mt-1 hidden truncate text-[10px] font-semibold text-cams-700; }
+  .cams-step-tab.is-complete .cams-step-summary { @apply block; }
+
+  .cams-wizard-body { @apply p-5 md:p-7 lg:p-8; }
+  .cams-wizard-panel { @apply hidden; }
+  .cams-wizard-panel.is-active { @apply block; animation: camsBookingFade .2s ease-out; }
+  .cams-panel-heading { @apply mb-6 flex items-start justify-between gap-5; }
+  .cams-panel-heading h2 { @apply m-0 text-xl font-bold tracking-tight text-slate-900 md:text-2xl; }
+  .cams-panel-heading p { @apply mt-2 max-w-3xl text-sm leading-6 text-slate-500; }
+  .cams-section-label { @apply block text-xs font-bold uppercase tracking-[0.12em] text-slate-500; }
+
+  .cams-choice-grid { @apply grid grid-cols-1 gap-3 sm:grid-cols-2 xl:grid-cols-3; }
+  .cams-complaint-card, .cams-provider-card, .cams-date-card { @apply relative w-full cursor-pointer border border-slate-200 bg-white text-left outline-none transition duration-150 focus-visible:ring-4 focus-visible:ring-cams-500/10; }
+  .cams-complaint-card { @apply flex min-h-24 items-center gap-4 rounded-2xl p-4; }
+  .cams-complaint-card:hover, .cams-provider-card:hover, .cams-date-card:not(:disabled):hover { @apply -translate-y-0.5 border-cams-300 shadow-md; }
+  .cams-complaint-card.is-selected, .cams-provider-card.is-selected, .cams-date-card.is-selected { @apply border-cams-600 bg-cams-50 ring-2 ring-cams-600/10; }
+  .cams-complaint-card.is-selected::after, .cams-provider-card.is-selected::after, .cams-date-card.is-selected::after { content: '✓'; @apply absolute right-3 top-3 grid h-6 w-6 place-items-center rounded-full bg-cams-700 text-xs font-bold text-white shadow-sm; }
+  .cams-complaint-icon { @apply grid h-11 w-11 shrink-0 place-items-center rounded-xl bg-cams-50 text-lg font-bold text-cams-700; }
+  .cams-complaint-icon::before { content: '+'; }
+  .cams-complaint-icon i { @apply hidden; }
+  .cams-complaint-card strong { @apply block pr-8 text-sm font-bold text-slate-800; }
+  .cams-complaint-card > span:last-child > span { @apply mt-1 block text-xs leading-5 text-slate-500; }
+
+  .cams-custom-box { @apply mt-5 rounded-2xl border border-dashed border-cams-300 bg-cams-50/50 p-4 md:p-5; }
+  .cams-custom-row { @apply grid grid-cols-1 gap-4 md:grid-cols-[1.4fr_1fr]; }
+  .cams-field label { @apply mb-2 block text-xs font-bold uppercase tracking-wide text-slate-600; }
+  .cams-field .form-control { @apply min-h-11; }
+
+  .cams-provider-toolbar { @apply mb-4 flex flex-col gap-3 rounded-2xl border border-slate-200 bg-slate-50 p-4 sm:flex-row sm:items-center sm:justify-between; }
+  .cams-recommendation { @apply mt-2 flex flex-wrap gap-2; }
+  .cams-specialty-chip { @apply inline-flex items-center rounded-full bg-cams-100 px-3 py-1.5 text-xs font-bold text-cams-800; }
+  .cams-provider-count { @apply inline-flex shrink-0 rounded-full border border-slate-200 bg-white px-3 py-1.5 text-xs font-semibold text-slate-600; }
+  .cams-provider-grid { @apply grid grid-cols-1 gap-4 lg:grid-cols-2; }
+  .cams-provider-card { @apply rounded-2xl p-5; }
+  .cams-provider-top { @apply flex items-center gap-4; }
+  .cams-provider-avatar { @apply h-14 w-14 shrink-0 rounded-2xl border border-slate-200 bg-slate-100 object-cover; }
+  .cams-provider-name { @apply block pr-8 text-base font-bold text-slate-900; }
+  .cams-provider-specialties { @apply mt-1 block text-xs font-semibold leading-5 text-cams-700; }
+  .cams-provider-meta { @apply mt-4 grid gap-2 border-t border-slate-100 pt-4; }
+  .cams-provider-meta > div { @apply flex items-start gap-2 text-xs leading-5 text-slate-600; }
+  .cams-provider-meta i { @apply hidden; }
+  .cams-provider-meta > div::before { content: ''; @apply mt-1.5 h-1.5 w-1.5 shrink-0 rounded-full bg-cams-500; }
+
+  .cams-selected-provider { @apply mb-4 flex flex-col gap-3 rounded-2xl border border-cams-200 bg-cams-50 p-4 sm:flex-row sm:items-center sm:justify-between; }
+  .cams-selected-provider strong { @apply block text-sm font-bold text-slate-900; }
+  .cams-selected-provider span { @apply mt-1 block text-xs leading-5 text-slate-600; }
+  .cams-date-help { @apply mb-3 flex flex-col gap-1 sm:flex-row sm:items-center sm:justify-between; }
+  .cams-date-help strong { @apply text-sm font-bold text-slate-800; }
+  .cams-date-help span { @apply text-xs text-slate-500; }
+  .cams-loading { @apply my-4 rounded-2xl border border-slate-200 bg-slate-50 px-4 py-8 text-center text-sm font-semibold text-slate-500; }
+  .cams-date-grid { @apply grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5; }
+  .cams-date-card { @apply min-h-32 rounded-2xl p-4 text-center; }
+  .cams-date-card .dow { @apply block text-[10px] font-bold uppercase tracking-[0.12em] text-slate-400; }
+  .cams-date-card .day { @apply my-1 block text-3xl font-bold tracking-tight text-slate-900; }
+  .cams-date-card .month { @apply block text-xs font-semibold text-slate-600; }
+  .cams-date-card .slot { @apply mt-2 block rounded-full bg-emerald-50 px-2 py-1 text-[10px] font-bold text-emerald-700; }
+  .cams-date-card:disabled { @apply cursor-not-allowed bg-slate-50 opacity-60; }
+  .cams-date-card:disabled .slot { @apply bg-rose-50 text-rose-600; }
+
+  .cams-review { @apply grid grid-cols-1 gap-4 lg:grid-cols-2; }
+  .cams-review-card { @apply overflow-hidden rounded-2xl border border-slate-200 bg-white; }
+  .cams-review-card h4 { @apply m-0 border-b border-slate-100 bg-slate-50 px-5 py-4 text-xs font-bold uppercase tracking-[0.12em] text-slate-600; }
+  .cams-review-row { @apply flex items-start justify-between gap-6 border-b border-slate-100 px-5 py-3.5 last:border-b-0; }
+  .cams-review-row span { @apply text-xs text-slate-500; }
+  .cams-review-row strong { @apply max-w-[65%] text-right text-xs font-semibold leading-5 text-slate-800; }
+  .cams-booking-note { @apply mt-4 rounded-2xl border border-amber-200 bg-amber-50 px-4 py-3 text-xs leading-5 text-amber-800; }
+  .cams-booking-note i { @apply hidden; }
+  .cams-empty-state { @apply rounded-2xl border border-dashed border-slate-300 bg-slate-50 px-5 py-10 text-center text-sm text-slate-500; }
+  .cams-empty-state i { @apply hidden; }
+
+  .cams-wizard-actions { @apply mt-7 flex items-center justify-between gap-3 border-t border-slate-100 pt-5; }
+  .cams-wizard-actions .btn { @apply min-h-11; }
+  .cams-next-wrap { @apply ml-auto; }
+  .cams-btn-secondary { @apply border-slate-300 bg-white text-slate-700 hover:bg-slate-50; }
+  .cams-wizard-actions .btn:disabled { @apply cursor-not-allowed bg-slate-200 text-slate-400 shadow-none; }
+
+  @media (max-width: 767px) {
+    .cams-booking-hero { @apply rounded-2xl p-5; }
+    .cams-wizard { @apply rounded-2xl; }
+    .cams-wizard-body { @apply p-4; }
+    .cams-step-tab { @apply gap-2 px-3 py-3; }
+    .cams-step-number { @apply h-8 w-8; }
+    .cams-step-tab small { @apply hidden; }
+    .cams-panel-heading { @apply mb-5 block; }
+    .cams-wizard-actions { @apply sticky bottom-0 z-20 -mx-4 -mb-4 mt-6 bg-white/95 px-4 py-3 shadow-[0_-10px_30px_rgba(15,23,42,0.08)] backdrop-blur; }
+    .cams-wizard-actions .btn { @apply flex-1; }
+    .cams-next-wrap { @apply ml-0 flex flex-1; }
+    .cams-next-wrap .btn { @apply w-full; }
+  }
+}
+
+@keyframes camsBookingFade { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: translateY(0); } }
+
+@media (max-width: 767px) {
+  .content-wrapper, .main-footer { margin-left: 0 !important; }
+}

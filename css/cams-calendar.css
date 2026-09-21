@@ -1,0 +1,439 @@
+/* CAMS modern FullCalendar skin */
+.cams-modern-calendar {
+  --cal-border: #e2e8f0;
+  --cal-surface: #ffffff;
+  --cal-surface-soft: #f8fafc;
+  --cal-text: #0f172a;
+  --cal-muted: #64748b;
+  --cal-primary: #0f7a58;
+  --cal-primary-soft: #ecfdf5;
+  font-family: var(--cams-font-ui, "Google Sans", Arial, sans-serif);
+}
+
+html.dark .cams-modern-calendar {
+  --cal-border: #273449;
+  --cal-surface: #0f172a;
+  --cal-surface-soft: #111c2e;
+  --cal-text: #e5edf6;
+  --cal-muted: #94a3b8;
+  --cal-primary: #34d399;
+  --cal-primary-soft: #0f2f25;
+}
+
+.cams-modern-calendar .fc {
+  color: var(--cal-text);
+  font-family: inherit;
+}
+
+.cams-modern-calendar .fc-toolbar {
+  margin: 0 0 14px !important;
+  padding: 0 2px;
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
+  align-items: center;
+  gap: 12px;
+}
+
+.cams-modern-calendar .fc-toolbar .fc-left,
+.cams-modern-calendar .fc-toolbar .fc-center,
+.cams-modern-calendar .fc-toolbar .fc-right {
+  float: none !important;
+  display: flex;
+  align-items: center;
+}
+
+.cams-modern-calendar .fc-toolbar .fc-left {
+  justify-content: flex-start;
+}
+
+.cams-modern-calendar .fc-toolbar .fc-center {
+  justify-content: center;
+}
+
+.cams-modern-calendar .fc-toolbar .fc-right {
+  justify-content: flex-end;
+}
+
+.cams-modern-calendar .fc-toolbar h2 {
+  margin: 0 !important;
+  color: var(--cal-text);
+  font-size: 22px !important;
+  line-height: 1.2;
+  font-weight: 800 !important;
+  letter-spacing: -.025em;
+}
+
+.cams-modern-calendar .fc-button {
+  min-height: 38px;
+  margin: 0 !important;
+  padding: 0 12px !important;
+  border: 1px solid var(--cal-border) !important;
+  border-radius: 10px !important;
+  background: var(--cal-surface) !important;
+  background-image: none !important;
+  color: var(--cal-text) !important;
+  font-family: inherit;
+  font-size: 13px !important;
+  font-weight: 750 !important;
+  line-height: 36px !important;
+  text-shadow: none !important;
+  box-shadow: none !important;
+  transition: border-color .16s ease, background .16s ease, color .16s ease, transform .16s ease;
+}
+
+.cams-modern-calendar .fc-button:hover,
+.cams-modern-calendar .fc-button:focus {
+  z-index: 2;
+  border-color: #86d1b6 !important;
+  background: var(--cal-primary-soft) !important;
+  color: #0b6a4c !important;
+  outline: none !important;
+}
+
+html.dark .cams-modern-calendar .fc-button:hover,
+html.dark .cams-modern-calendar .fc-button:focus {
+  color: #a7f3d0 !important;
+}
+
+.cams-modern-calendar .fc-state-active,
+.cams-modern-calendar .fc-state-down {
+  border-color: #0f7a58 !important;
+  background: #0f7a58 !important;
+  color: #fff !important;
+}
+
+html.dark .cams-modern-calendar .fc-state-active,
+html.dark .cams-modern-calendar .fc-state-down {
+  border-color: #34d399 !important;
+  background: #1d8e68 !important;
+}
+
+.cams-modern-calendar .fc-button-group {
+  display: inline-flex;
+  gap: 4px;
+}
+
+.cams-modern-calendar .fc-button-group > .fc-button {
+  border-radius: 10px !important;
+}
+
+.cams-modern-calendar .fc-view-container {
+  overflow: hidden;
+  border: 1px solid var(--cal-border);
+  border-radius: 14px;
+  background: var(--cal-surface);
+}
+
+.cams-modern-calendar .fc-widget-header,
+.cams-modern-calendar .fc-widget-content {
+  border-color: var(--cal-border) !important;
+}
+
+.cams-modern-calendar .fc-head {
+  background: var(--cal-surface-soft);
+}
+
+.cams-modern-calendar .fc-day-header {
+  padding: 10px 8px !important;
+  background: var(--cal-surface-soft);
+  color: var(--cal-muted);
+  font-size: 12.5px !important;
+  font-weight: 800 !important;
+  text-transform: uppercase;
+  letter-spacing: .06em;
+}
+
+.cams-modern-calendar .fc-day {
+  background: var(--cal-surface);
+  transition: background .14s ease;
+}
+
+.cams-modern-calendar .fc-day:hover {
+  background: #fbfefd;
+}
+
+html.dark .cams-modern-calendar .fc-day:hover {
+  background: #142034;
+}
+
+.cams-modern-calendar .fc-sat,
+.cams-modern-calendar .fc-sun {
+  background: #fbfcfd;
+}
+
+html.dark .cams-modern-calendar .fc-sat,
+html.dark .cams-modern-calendar .fc-sun {
+  background: #101a2a;
+}
+
+.cams-modern-calendar .fc-other-month {
+  background: #fafbfc !important;
+}
+
+html.dark .cams-modern-calendar .fc-other-month {
+  background: #0c1421 !important;
+}
+
+.cams-modern-calendar .fc-other-month .fc-day-number {
+  color: #b4bdca !important;
+}
+
+html.dark .cams-modern-calendar .fc-other-month .fc-day-number {
+  color: #536276 !important;
+}
+
+.cams-modern-calendar .fc-today {
+  background: #fff9df !important;
+  box-shadow: inset 0 0 0 1px #f4d86d;
+}
+
+html.dark .cams-modern-calendar .fc-today {
+  background: #292516 !important;
+  box-shadow: inset 0 0 0 1px #7a6828;
+}
+
+.cams-modern-calendar .fc-day-number {
+  padding: 8px 9px 0 !important;
+  color: var(--cal-text);
+  font-size: 14px !important;
+  font-weight: 700;
+}
+
+.cams-modern-calendar .fc-today .fc-day-number {
+  color: #9a6b00;
+  font-weight: 850;
+}
+
+html.dark .cams-modern-calendar .fc-today .fc-day-number {
+  color: #fbd45d;
+}
+
+.cams-modern-calendar .fc-day-grid .fc-row {
+  min-height: 112px !important;
+}
+
+.cams-modern-calendar .fc-day-grid-container {
+  overflow: visible !important;
+  height: auto !important;
+}
+
+.cams-modern-calendar .fc-event-container {
+  padding: 1px 3px !important;
+}
+
+.cams-modern-calendar .fc-event.cams-calendar-event {
+  margin: 2px 3px !important;
+  padding: 0 !important;
+  overflow: hidden;
+  border: 1px solid transparent !important;
+  border-radius: 10px !important;
+  background: #eff6ff !important;
+  color: #1e3a5f !important;
+  cursor: pointer;
+  box-shadow: none !important;
+  transition: transform .14s ease, box-shadow .14s ease, border-color .14s ease;
+}
+
+.cams-modern-calendar .fc-event.cams-calendar-event:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 8px 18px rgba(15, 23, 42, .10);
+}
+
+.cams-modern-calendar .fc-event.cams-calendar-event-pending {
+  border-color: #f4d47b !important;
+  background: #fff8df !important;
+  color: #855f00 !important;
+}
+
+.cams-modern-calendar .fc-event.cams-calendar-event-done {
+  border-color: #a7dfc7 !important;
+  background: #ecfdf5 !important;
+  color: #086342 !important;
+}
+
+.cams-modern-calendar .fc-event.cams-calendar-event-cancelled {
+  border-color: #f3b8c0 !important;
+  background: #fff1f2 !important;
+  color: #a61b35 !important;
+}
+
+.cams-modern-calendar .fc-event.cams-calendar-event-mixed {
+  border-color: #b9d4f7 !important;
+  background: #eff6ff !important;
+  color: #1d4f91 !important;
+}
+
+html.dark .cams-modern-calendar .fc-event.cams-calendar-event-pending {
+  border-color: #6d5a1f !important;
+  background: #2d2714 !important;
+  color: #f6d76d !important;
+}
+
+html.dark .cams-modern-calendar .fc-event.cams-calendar-event-done {
+  border-color: #1f6a4d !important;
+  background: #102d23 !important;
+  color: #7ee2b9 !important;
+}
+
+html.dark .cams-modern-calendar .fc-event.cams-calendar-event-cancelled {
+  border-color: #70303b !important;
+  background: #331923 !important;
+  color: #f5a3af !important;
+}
+
+html.dark .cams-modern-calendar .fc-event.cams-calendar-event-mixed {
+  border-color: #315a91 !important;
+  background: #14263e !important;
+  color: #9fc5fb !important;
+}
+
+.cams-modern-calendar .fc-event .fc-content {
+  padding: 7px 8px !important;
+  overflow: visible !important;
+  white-space: normal !important;
+}
+
+.cams-cal-event-title {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  line-height: 1.2;
+}
+
+.cams-cal-event-title strong {
+  color: currentColor;
+  font-size: 12.5px;
+  font-weight: 850;
+}
+
+.cams-cal-event-title span {
+  flex: 0 0 auto;
+  opacity: .7;
+  font-size: 10.5px;
+  font-weight: 700;
+}
+
+.cams-cal-event-statuses {
+  margin-top: 5px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+}
+
+.cams-cal-chip {
+  display: inline-flex;
+  align-items: center;
+  border-radius: 999px;
+  padding: 2px 6px;
+  font-size: 9.5px;
+  font-weight: 800;
+  line-height: 1.35;
+  background: rgba(255,255,255,.64);
+}
+
+html.dark .cams-cal-chip {
+  background: rgba(255,255,255,.07);
+}
+
+.cams-cal-chip-pending { color: #936800; }
+.cams-cal-chip-done { color: #08704b; }
+.cams-cal-chip-cancelled { color: #b32643; }
+
+html.dark .cams-cal-chip-pending { color: #f5d96f; }
+html.dark .cams-cal-chip-done { color: #82e4bd; }
+html.dark .cams-cal-chip-cancelled { color: #f4a7b2; }
+
+.cams-modern-calendar .fc-more {
+  margin: 3px 7px !important;
+  color: var(--cal-primary) !important;
+  font-size: 11.5px !important;
+  font-weight: 800;
+}
+
+.cams-modern-calendar .fc-popover {
+  border: 1px solid var(--cal-border) !important;
+  border-radius: 12px;
+  background: var(--cal-surface) !important;
+  box-shadow: 0 18px 45px rgba(15,23,42,.16) !important;
+  overflow: hidden;
+}
+
+.cams-modern-calendar .fc-popover .fc-header {
+  padding: 8px 10px;
+  background: var(--cal-surface-soft) !important;
+  color: var(--cal-text);
+}
+
+.cams-modern-calendar .fc-time-grid .fc-slats td,
+.cams-modern-calendar .fc-time-grid .fc-axis,
+.cams-modern-calendar .fc-list-view {
+  border-color: var(--cal-border) !important;
+}
+
+.cams-modern-calendar .fc-axis,
+.cams-modern-calendar .fc-time {
+  color: var(--cal-muted);
+  font-size: 12px !important;
+}
+
+/* FullCalendar v3 week/day all-day events */
+.cams-modern-calendar .fc-agenda-view .fc-day-grid .fc-row {
+  min-height: 74px !important;
+}
+
+@media (max-width: 900px) {
+  .cams-modern-calendar .fc-toolbar {
+    grid-template-columns: 1fr;
+    gap: 10px;
+  }
+
+  .cams-modern-calendar .fc-toolbar .fc-left,
+  .cams-modern-calendar .fc-toolbar .fc-center,
+  .cams-modern-calendar .fc-toolbar .fc-right {
+    justify-content: center;
+  }
+
+  .cams-modern-calendar .fc-toolbar .fc-center {
+    order: -1;
+  }
+
+  .cams-modern-calendar .fc-toolbar h2 {
+    font-size: 20px !important;
+  }
+
+  .cams-modern-calendar .fc-day-grid .fc-row {
+    min-height: 92px !important;
+  }
+
+  .cams-cal-event-title span,
+  .cams-cal-event-statuses {
+    display: none;
+  }
+
+  .cams-modern-calendar .fc-event .fc-content {
+    padding: 6px !important;
+  }
+}
+
+@media (max-width: 575px) {
+  .cams-modern-calendar .fc-view-container {
+    overflow-x: auto;
+  }
+
+  .cams-modern-calendar .fc-view {
+    min-width: 720px;
+  }
+
+  .cams-modern-calendar .fc-toolbar .fc-left,
+  .cams-modern-calendar .fc-toolbar .fc-right {
+    flex-wrap: wrap;
+  }
+
+  .cams-modern-calendar .fc-button {
+    min-height: 36px;
+    padding: 0 9px !important;
+    font-size: 12px !important;
+    line-height: 34px !important;
+  }
+}
