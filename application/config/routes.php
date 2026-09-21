@@ -58,11 +58,8 @@ $route['logout-s']			= 'Login/logoutSec';
 $route['logout-phy']		= 'Login/logoutPhysician';
 $route['logout-p']			= 'Login/logoutPatient';
 
-//routes for change pass
-$route['change-pass']		= 'Admin/Change_pass';
-$route['change-pass-s']		= 'Secretary/Change_pass';
-$route['change-pass-phy']	= 'Physician/Change_pass';
-$route['change-pass-p']		= 'Patient/Change_pass';
+// Account tools are modal-driven. Password changes post directly to the
+// role controller handlers; there are no standalone change-password pages.
 $route['account-tools/profile']	= 'AccountTools/profile';
 $route['account-tools/password']	= 'AccountTools/password';
 $route['check-q']			= 'Login/checkAnswer';
@@ -111,6 +108,7 @@ $route['view-patient-a'] 			    = 'Admin/ViewPatient';
 $route['patient-register-a'] 			= 'Secretary/PatientRegister';
 $route['patient-a-edit'] 				= 'Admin/PatientUpdate';
 $route['patient-a-edit/(\d+)'] 		    = 'Admin/PatientUpdateView/$1';
+$route['admin-password-reset-token/(:any)/(:num)'] = 'Admin/RegenerateTemporaryPassword/$1/$2';
 $route['patient-a-delete/(\d+)'] 		= 'Admin/PatientDelete/$1';
 //manage physician
 $route['view-physician-a'] 			    = 'Admin/ViewPhysician';

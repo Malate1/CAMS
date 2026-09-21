@@ -36,7 +36,8 @@ $isHttps = (!empty($_SERVER['HTTPS']) && strtolower((string) $_SERVER['HTTPS']) 
     || (isset($_SERVER['SERVER_PORT']) && (int) $_SERVER['SERVER_PORT'] === 443);
 $scheme = $isHttps ? 'https://' : 'http://';
 $basePath = str_replace(basename($scriptName), '', $scriptName);
-$config['base_url'] = $scheme.$host.rtrim($basePath, '/').'/';
+// $config['base_url'] = $scheme.$host.rtrim($basePath, '/').'/';
+$config['base_url'] = 'https://clinicapp.freehosting.dev/';
 
 /*
 |--------------------------------------------------------------------------

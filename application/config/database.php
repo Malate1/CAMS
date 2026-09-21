@@ -75,10 +75,10 @@ $query_builder = TRUE;
 
 $db['default'] = array(
 	'dsn'	=> '',
-	'hostname' => 'localhost',
-	'username' => 'root',
-	'password' => '',
-	'database' => 'cams',
+	'hostname' => 'sql111.infinityfree.com',
+	'username' => 'if0_42948121',
+	'password' => 'Malate2026',
+	'database' => 'if0_42948121_cams',
 	'dbdriver' => 'mysqli',
 	'dbprefix' => '',
 	'pconnect' => FALSE,

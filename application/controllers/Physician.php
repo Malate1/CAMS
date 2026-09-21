@@ -16,7 +16,17 @@ class Physician extends CI_Controller {
 		$this->load->model('Admin_Model','Admin_Model');
 		$this->load->model('ClinicAssignment_Model','ClinicAssignment_Model');
 		$this->load->model('Dashboard_Model','Dashboard_Model');
+		$this->load->model('PasswordReset_Model','PasswordReset_Model');
 		$this->ClinicAssignment_Model->ensureSchema();
+		$this->PasswordReset_Model->ensureSchema();
+
+		if ((int) $this->session->userdata('must_change_password') === 1) {
+			$method = strtolower((string) $this->router->method);
+			if (!in_array($method, array('index', 'change_pass'), true)) {
+				redirect('profile-phy');
+				return;
+			}
+		}
 	} 
 
 	
@@ -503,6 +513,8 @@ class Physician extends CI_Controller {
 				if($query -> num_rows() > 0)
 				{
 					$result = $this->Physician_Model->changePassword($physician_id, $info);
+					$this->PasswordReset_Model->setRequired('physician', $physician_id, false);
+					$this->session->must_change_password = 0;
 
 					$fname = $this->session->fname;
 				    $lname = $this->session->lname;
@@ -521,9 +533,11 @@ class Physician extends CI_Controller {
 				    $this->Patient_Model->addLogs($data1);
 
 					$successMessage = 'Password updated successfully.';
-					if ($this->ajaxTransactionResponse(true, $successMessage)) return;
+					if ($this->ajaxTransactionResponse(true, $successMessage, '', array(
+						'password_change_completed' => true,
+					))) return;
 					$this->session->set_flashdata('success', $successMessage);
-					redirect('change-pass-phy');
+					redirect('profile-phy');
 				}else{
 
 

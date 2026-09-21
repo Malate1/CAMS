@@ -16,7 +16,9 @@
 			$this->load->model('Clinic_Model','Clinic_Model');
 			$this->load->model('ClinicAssignment_Model','ClinicAssignment_Model');
 			$this->load->model('Dashboard_Model','Dashboard_Model');
+			$this->load->model('PasswordReset_Model','PasswordReset_Model');
 			$this->ClinicAssignment_Model->ensureSchema();
+			$this->PasswordReset_Model->ensureSchema();
 			$this->load->library('form_validation');
 			//$this->load->library('security');
 			$this->load->helper('url');
@@ -36,6 +38,116 @@
 			), $extra);
 			$this->output->set_status_header($success ? 200 : 422)->set_content_type('application/json')->set_output(json_encode($payload));
 			return true;
+		}
+
+		private function generateTemporaryPassword($length = 12)
+		{
+			$length = max(10, min(20, (int) $length));
+			$lower = 'abcdefghijkmnopqrstuvwxyz';
+			$upper = 'ABCDEFGHJKLMNPQRSTUVWXYZ';
+			$digits = '23456789';
+			$special = '!@#$%?';
+			$all = $lower . $upper . $digits . $special;
+
+			$password = array(
+				$lower[random_int(0, strlen($lower) - 1)],
+				$upper[random_int(0, strlen($upper) - 1)],
+				$digits[random_int(0, strlen($digits) - 1)],
+				$special[random_int(0, strlen($special) - 1)],
+			);
+
+			while (count($password) < $length) {
+				$password[] = $all[random_int(0, strlen($all) - 1)];
+			}
+
+			for ($i = count($password) - 1; $i > 0; $i--) {
+				$j = random_int(0, $i);
+				$tmp = $password[$i];
+				$password[$i] = $password[$j];
+				$password[$j] = $tmp;
+			}
+
+			return implode('', $password);
+		}
+
+		private function resetSessionKey($type, $id)
+		{
+			return 'cams_password_reset_' . strtolower((string) $type) . '_' . (int) $id;
+		}
+
+		private function issueTemporaryPassword($type, $id)
+		{
+			$payload = array(
+				'token' => bin2hex(random_bytes(24)),
+				'password' => $this->generateTemporaryPassword(12),
+				'expires_at' => time() + 600,
+			);
+
+			$this->session->set_userdata($this->resetSessionKey($type, $id), $payload);
+			return $payload;
+		}
+
+		private function consumeTemporaryPassword($type, $id, $token)
+		{
+			$key = $this->resetSessionKey($type, $id);
+			$payload = $this->session->userdata($key);
+
+			if (!is_array($payload)
+				|| empty($payload['token'])
+				|| empty($payload['password'])
+				|| empty($payload['expires_at'])
+				|| (int) $payload['expires_at'] < time()
+				|| !hash_equals((string) $payload['token'], (string) $token)) {
+				$this->session->unset_userdata($key);
+				return null;
+			}
+
+			$this->session->unset_userdata($key);
+			return (string) $payload['password'];
+		}
+
+		private function passwordResetTargetExists($type, $id)
+		{
+			$map = array(
+				'patient' => array('table' => 'patient', 'id' => 'patient_id'),
+				'physician' => array('table' => 'physician', 'id' => 'physician_id'),
+				'secretary' => array('table' => 'secretary', 'id' => 'secretary_id'),
+			);
+
+			$type = strtolower((string) $type);
+			if (!isset($map[$type])) return false;
+
+			return $this->db
+				->where($map[$type]['id'], (int) $id)
+				->count_all_results($map[$type]['table']) > 0;
+		}
+
+		public function RegenerateTemporaryPassword($type = '', $id = 0)
+		{
+			$type = strtolower(trim((string) $type));
+			$id = (int) $id;
+
+			if (!$this->passwordResetTargetExists($type, $id)) {
+				return $this->output
+					->set_status_header(404)
+					->set_content_type('application/json')
+					->set_output(json_encode(array(
+						'success' => false,
+						'message' => 'The selected account could not be found.',
+						'csrf' => array('name' => $this->security->get_csrf_token_name(), 'hash' => $this->security->get_csrf_hash()),
+					)));
+			}
+
+			$issued = $this->issueTemporaryPassword($type, $id);
+			return $this->output
+				->set_content_type('application/json')
+				->set_output(json_encode(array(
+					'success' => true,
+					'temporary_password' => $issued['password'],
+					'reset_token' => $issued['token'],
+					'expires_in' => 600,
+					'csrf' => array('name' => $this->security->get_csrf_token_name(), 'hash' => $this->security->get_csrf_hash()),
+				)));
 		}
 
 		public function searchSecfunction()
@@ -386,7 +498,7 @@
 					$successMessage = 'Password updated successfully.';
 					if ($this->ajaxTransactionResponse(true, $successMessage)) return;
 					$this->session->set_flashdata('success', $successMessage);
-					redirect('change-pass');
+					redirect('profile');
 				}else{
 					if ($this->ajaxTransactionResponse(false, 'Old password is incorrect.')) return;
 					$this->session->set_flashdata('errormsg','Old password is incorrect');
@@ -397,25 +509,42 @@
 
 		public function PatientUpdateView() {
 			$this->load->helper('form');
-			$patient_id = $this->uri->segment('2');
+			$patient_id = (int) $this->uri->segment('2');
+			if (!$this->passwordResetTargetExists('patient', $patient_id)) {
+				show_404();
+				return;
+			}
 			$query = $this->db->get_where("patient",array("patient_id"=>$patient_id));
+			$issued = $this->issueTemporaryPassword('patient', $patient_id);
 			$data['getPatient'] = $query->result();
 			$data['old_patient_id'] = $patient_id;
+			$data['temporaryPassword'] = $issued['password'];
+			$data['resetToken'] = $issued['token'];
+			$data['regenerateUrl'] = base_url('admin-password-reset-token/patient/' . $patient_id);
 			$this->load->view('Admin/Patient_edit',$data);
 		}  
 		public function PatientUpdate()
 		{
 			if(!empty($_POST))
 			{
+				$patient_id = (int) $this->input->post('old_patient_id');
+				$resetToken = (string) $this->input->post('reset_token', true);
+				$temporaryPassword = $this->consumeTemporaryPassword('patient', $patient_id, $resetToken);
+
+				if ($temporaryPassword === null || !$this->passwordResetTargetExists('patient', $patient_id)) {
+					$message = 'The reset request expired or is invalid. Generate a new temporary password and try again.';
+					if ($this->ajaxTransactionResponse(false, $message)) return;
+					$this->session->set_flashdata('ERRORMSG', $message);
+					redirect('view-patient-a');
+					return;
+				}
+
 				$data = array(
-
-
-					'password'     => $this->security->xss_clean(md5($this->input->post('newPassword'))),
-
+					'password' => md5($temporaryPassword),
 				);
-				$patient_id = $this->input->post('old_patient_id');
 				$this->Patient_Model->update($data,$patient_id);
-				$successMessage = "Patient password updated successfully.";
+				$this->PasswordReset_Model->setRequired('patient', $patient_id, true);
+				$successMessage = "Patient temporary password generated successfully.";
 
 				$fname = $this->session->fname;
 				$lname = $this->session->lname;
@@ -433,8 +562,10 @@
 
 				);
 				$this->Patient_Model->addLogs($data1);
-				if ($this->ajaxTransactionResponse(true, $successMessage, base_url('view-patient-a'))) return;
-				$this->session->set_flashdata('SUCCESSMSG', $successMessage);
+				if ($this->ajaxTransactionResponse(true, $successMessage, '', array(
+					'temporary_password' => $temporaryPassword,
+				))) return;
+				$this->session->set_flashdata('SUCCESSMSG', $successMessage . ' Temporary password: ' . $temporaryPassword);
 				redirect('view-patient-a');
 
 
@@ -451,10 +582,18 @@
 
 		public function PhysicianUpdateView() {
 			$this->load->helper('form');
-			$physician_id = $this->uri->segment('2');
+			$physician_id = (int) $this->uri->segment('2');
+			if (!$this->passwordResetTargetExists('physician', $physician_id)) {
+				show_404();
+				return;
+			}
 			$query = $this->db->get_where("physician",array("physician_id"=>$physician_id));
+			$issued = $this->issueTemporaryPassword('physician', $physician_id);
 			$data['getPhysician'] = $query->result();
 			$data['old_physician_id'] = $physician_id;
+			$data['temporaryPassword'] = $issued['password'];
+			$data['resetToken'] = $issued['token'];
+			$data['regenerateUrl'] = base_url('admin-password-reset-token/physician/' . $physician_id);
 			$this->load->view('Admin/Physician_edit',$data);
 
 		}
@@ -464,14 +603,24 @@
 		{
 			if(!empty($_POST))
 			{
+				$physician_id = (int) $this->input->post('old_physician_id');
+				$resetToken = (string) $this->input->post('reset_token', true);
+				$temporaryPassword = $this->consumeTemporaryPassword('physician', $physician_id, $resetToken);
+
+				if ($temporaryPassword === null || !$this->passwordResetTargetExists('physician', $physician_id)) {
+					$message = 'The reset request expired or is invalid. Generate a new temporary password and try again.';
+					if ($this->ajaxTransactionResponse(false, $message)) return;
+					$this->session->set_flashdata('ERRORMSG', $message);
+					redirect('view-physician-a');
+					return;
+				}
+
 				$data = array(
-
-
-					'password'     => $this->security->xss_clean(md5($this->input->post('newPassword'))),
+					'password' => md5($temporaryPassword),
 				);
-				$physician_id = $this->input->post('old_physician_id');
 				$this->Physician_Model->update($data,$physician_id);
-				$successMessage = 'Physician password updated successfully.';
+				$this->PasswordReset_Model->setRequired('physician', $physician_id, true);
+				$successMessage = 'Physician temporary password generated successfully.';
 				$fname = $this->session->fname;
 				$lname = $this->session->lname;
 				$user = 'Admin';
@@ -488,8 +637,10 @@
 
 				);
 				$this->Patient_Model->addLogs($data1);
-				if ($this->ajaxTransactionResponse(true, $successMessage, base_url('view-physician-a'))) return;
-				$this->session->set_flashdata('SUCCESSMSG', $successMessage);
+				if ($this->ajaxTransactionResponse(true, $successMessage, '', array(
+					'temporary_password' => $temporaryPassword,
+				))) return;
+				$this->session->set_flashdata('SUCCESSMSG', $successMessage . ' Temporary password: ' . $temporaryPassword);
 				redirect('view-physician-a');
 
 
@@ -505,10 +656,18 @@
 
 		public function SecretaryUpdateView() {
 			$this->load->helper('form');
-			$secretary_id = $this->uri->segment('2');
+			$secretary_id = (int) $this->uri->segment('2');
+			if (!$this->passwordResetTargetExists('secretary', $secretary_id)) {
+				show_404();
+				return;
+			}
 			$query = $this->db->get_where("secretary",array("secretary_id"=>$secretary_id));
+			$issued = $this->issueTemporaryPassword('secretary', $secretary_id);
 			$data['getSecretary'] = $query->result();
 			$data['old_secretary_id'] = $secretary_id;
+			$data['temporaryPassword'] = $issued['password'];
+			$data['resetToken'] = $issued['token'];
+			$data['regenerateUrl'] = base_url('admin-password-reset-token/secretary/' . $secretary_id);
 			$this->load->view('Admin/Secretary_edit',$data);
 		}
 
@@ -519,12 +678,24 @@
 		{
 			if(!empty($_POST))
 			{
-				$data = array(								 
-					'password'     => $this->security->xss_clean(md5($this->input->post('newPassword'))),
+				$secretary_id = (int) $this->input->post('old_secretary_id');
+				$resetToken = (string) $this->input->post('reset_token', true);
+				$temporaryPassword = $this->consumeTemporaryPassword('secretary', $secretary_id, $resetToken);
+
+				if ($temporaryPassword === null || !$this->passwordResetTargetExists('secretary', $secretary_id)) {
+					$message = 'The reset request expired or is invalid. Generate a new temporary password and try again.';
+					if ($this->ajaxTransactionResponse(false, $message)) return;
+					$this->session->set_flashdata('ERRORMSG', $message);
+					redirect('view-secretary-a');
+					return;
+				}
+
+				$data = array(
+					'password' => md5($temporaryPassword),
 				);
-				$secretary_id = $this->input->post('old_secretary_id');
 				$this->Secretary_Model->update($data,$secretary_id);
-				$successMessage = 'Secretary password updated successfully.';
+				$this->PasswordReset_Model->setRequired('secretary', $secretary_id, true);
+				$successMessage = 'Secretary temporary password generated successfully.';
 				$fname = $this->session->fname;
 				$lname = $this->session->lname;
 				$user = 'Admin';
@@ -541,8 +712,10 @@
 
 				);
 				$this->Patient_Model->addLogs($data1);
-				if ($this->ajaxTransactionResponse(true, $successMessage, base_url('view-secretary-a'))) return;
-				$this->session->set_flashdata('SUCCESSMSG', $successMessage);
+				if ($this->ajaxTransactionResponse(true, $successMessage, '', array(
+					'temporary_password' => $temporaryPassword,
+				))) return;
+				$this->session->set_flashdata('SUCCESSMSG', $successMessage . ' Temporary password: ' . $temporaryPassword);
 				redirect('view-secretary-a');
 			}
 			else

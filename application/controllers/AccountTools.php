@@ -93,6 +93,7 @@ class AccountTools extends CI_Controller
         $this->load->view('account_tools/password_modal', array(
             'role' => (string) $this->session->userdata('role'),
             'passwordAction' => base_url($config['password_action']),
+            'forcedPasswordChange' => (int) $this->session->userdata('must_change_password') === 1,
             'csrfName' => $this->security->get_csrf_token_name(),
             'csrfHash' => $this->security->get_csrf_hash(),
         ));

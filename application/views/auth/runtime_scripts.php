@@ -24,6 +24,8 @@ foreach ($errorKeys as $key) {
     }
 }
 ?>
+<script src="<?=base_url()?>assets/bower_components/select2/dist/js/select2.full.min.js"></script>
+<script src="<?=base_url()?>js/cams-select2.js?v=<?=@filemtime(FCPATH.'js/cams-select2.js')?>"></script>
 <script src="<?=base_url()?>assets/plugins/toastr/toastr.min.js"></script>
 <script src="<?=base_url()?>assets/plugins/sweetalert2/sweetalert2.min.js"></script>
 <script src="<?=base_url()?>js/cams-ui.js?v=<?=@filemtime(FCPATH.'js/cams-ui.js')?>"></script>

@@ -1,6 +1,8 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
 
+$forcedPasswordChange = !empty($forcedPasswordChange);
+
 if (!function_exists('cams_password_e')) {
     function cams_password_e($value) {
         return htmlspecialchars((string)$value, ENT_QUOTES, 'UTF-8');
@@ -11,8 +13,9 @@ if (!function_exists('cams_password_e')) {
   data-cams-modal-content
   data-modal-title="Update Password"
   data-modal-eyebrow="Account security"
-  data-modal-description="Confirm your current password, then choose a stronger password for your CAMS account."
+  data-modal-description="<?=$forcedPasswordChange ? 'Your current password is temporary. Set a new password before continuing in CAMS.' : 'Confirm your current password, then choose a stronger password for your CAMS account.'?>"
   data-modal-width="720px"
+  data-modal-locked="<?=$forcedPasswordChange ? 'true' : 'false'?>"
 >
   <div class="space-y-5">
     <div class="rounded-2xl border border-emerald-100 bg-emerald-50 p-4 text-sm text-emerald-900 dark:border-emerald-900/60 dark:bg-emerald-950/30 dark:text-emerald-200">
@@ -21,9 +24,9 @@ if (!function_exists('cams_password_e')) {
           <i class="fa fa-lock"></i>
         </span>
         <div>
-          <strong class="block text-base">Secure your <?=cams_password_e($role)?> account</strong>
+          <strong class="block text-base"><?=$forcedPasswordChange ? 'Replace your temporary password' : 'Secure your ' . cams_password_e($role) . ' account'?></strong>
           <span class="mt-1 block leading-6 text-emerald-800/80 dark:text-emerald-200/75">
-            Use a password that combines letters, numbers, and special characters.
+            <?=$forcedPasswordChange ? 'Enter the temporary password as your current password, then create your own password to continue.' : 'Use a password that combines letters, numbers, and special characters.'?>
           </span>
         </div>
       </div>

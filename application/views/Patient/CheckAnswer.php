@@ -11,7 +11,9 @@
 	<link rel="stylesheet" href="<?=base_url()?>assets/dist/css/skins/_all-skins.min.css"/>
 	<link rel="stylesheet" href="<?=base_url()?>assets/plugins/sweetalert2/sweetalert2.min.css"/>
 	<link rel="stylesheet" href="<?=base_url()?>assets/plugins/toastr/toastr.min.css"/>
+	<link rel="stylesheet" href="<?=base_url()?>assets/bower_components/select2/dist/css/select2.min.css"/>
 	<link rel="stylesheet" href="<?=base_url()?>css/cams-modern.css"/>
+	<link rel="stylesheet" href="<?=base_url()?>css/cams-select2.css?v=<?=@filemtime(FCPATH.'css/cams-select2.css')?>"/>
 	<!--End of plugin styles-->
 	<!--Page level styles-->
 	<!--<link type="text/css" rel="stylesheet" href="<?=base_url()?>css/pages/tables.css" /> Ug naa ni maguba ag pagination pero ug wla ni dili responsive -->
@@ -120,6 +122,8 @@
 
 		<script src="<?php echo base_url(); ?>assets/js/jQuery-2.1.4.min.js"></script>
 <script src="<?php echo base_url(); ?>assets/bootstrap/js/bootstrap.min.js" type="text/javascript"></script>
+<script src="<?=base_url()?>assets/bower_components/select2/dist/js/select2.full.min.js"></script>
+<script src="<?=base_url()?>js/cams-select2.js?v=<?=@filemtime(FCPATH.'js/cams-select2.js')?>"></script>
 
 		<script type="text/javascript">
 			function Validate() {

@@ -8,12 +8,61 @@ class Login extends CI_Controller {
         parent::__construct();				
         $this->load->model('LoginModel','LoginModel');
         $this->load->model('Patient_Model','Patient_Model');
+        $this->load->model('PasswordReset_Model','PasswordReset_Model');
+        $this->PasswordReset_Model->ensureSchema();
         
     } 
 
     public function index()
     {
-        $this->load->view('loginPage');
+        $this->load->model('Landing_Model', 'Landing_Model');
+
+        $scheduleRows = $this->Landing_Model->physicianClinicSchedules();
+        $clinics = array();
+        $physicianIds = array();
+
+        foreach ($scheduleRows as $row) {
+            $clinicId = (int) $row->clinic_id;
+            $physicianId = (int) $row->physician_id;
+            $physicianIds[$physicianId] = true;
+
+            if (!isset($clinics[$clinicId])) {
+                $clinics[$clinicId] = array(
+                    'clinic_id' => $clinicId,
+                    'name' => (string) $row->clinic_name,
+                    'location' => (string) $row->clinic_location,
+                    'contact' => (string) $row->clinic_contact,
+                    'physicians' => array(),
+                );
+            }
+
+            if (!isset($clinics[$clinicId]['physicians'][$physicianId])) {
+                $clinics[$clinicId]['physicians'][$physicianId] = array(
+                    'physician_id' => $physicianId,
+                    'name' => trim((string) $row->fname . ' ' . (string) $row->lname),
+                    'image' => (string) $row->image,
+                    'schedules' => array(),
+                );
+            }
+
+            $clinics[$clinicId]['physicians'][$physicianId]['schedules'][] = array(
+                'schedule_id' => (int) $row->schedule_id,
+                'day' => (string) $row->day,
+                'time_in' => (string) $row->time_in,
+                'time_out' => (string) $row->time_out,
+            );
+        }
+
+        foreach ($clinics as &$clinic) {
+            $clinic['physicians'] = array_values($clinic['physicians']);
+        }
+        unset($clinic);
+
+        $this->load->view('loginPage', array(
+            'landingClinics' => array_values($clinics),
+            'landingScheduleCount' => count($scheduleRows),
+            'landingPhysicianCount' => count($physicianIds),
+        ));
     }
 
     /**
@@ -35,6 +84,36 @@ class Login extends CI_Controller {
         }
     }
 
+    private function generateTemporaryPassword($length = 12)
+    {
+        $length = max(10, min(20, (int) $length));
+        $lower = 'abcdefghijkmnopqrstuvwxyz';
+        $upper = 'ABCDEFGHJKLMNPQRSTUVWXYZ';
+        $digits = '23456789';
+        $special = '!@#$%?';
+        $all = $lower . $upper . $digits . $special;
+
+        $password = array(
+            $lower[random_int(0, strlen($lower) - 1)],
+            $upper[random_int(0, strlen($upper) - 1)],
+            $digits[random_int(0, strlen($digits) - 1)],
+            $special[random_int(0, strlen($special) - 1)],
+        );
+
+        while (count($password) < $length) {
+            $password[] = $all[random_int(0, strlen($all) - 1)];
+        }
+
+        for ($i = count($password) - 1; $i > 0; $i--) {
+            $j = random_int(0, $i);
+            $tmp = $password[$i];
+            $password[$i] = $password[$j];
+            $password[$j] = $tmp;
+        }
+
+        return implode('', $password);
+    }
+
     public function SecQValidateView()
     {
 
@@ -52,8 +131,7 @@ class Login extends CI_Controller {
                 if($result1 -> num_rows() > 0)
                 {
                     $email = $this->security->xss_clean($this->input->post('email'));
-                    $chars = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
-                    $password = substr( str_shuffle( $chars ), 0, 8 ); 
+                    $password = $this->generateTemporaryPassword(12);
                     //$defaultPass = '123malate';
                     $data = array(
 
@@ -62,7 +140,11 @@ class Login extends CI_Controller {
                     );
                 //$patient_id = $this->input->post('old_patient_id');
                     $this->Patient_Model->updateRecovery($data,$email);
-                    $this->session->set_flashdata('successR','Your New Password is: ' .$password);
+                    $patientRow = $this->db->select('patient_id')->where('email', $email)->get('patient')->row();
+                    if ($patientRow) {
+                        $this->PasswordReset_Model->setRequired('patient', (int) $patientRow->patient_id, true);
+                    }
+                    $this->session->set_flashdata('successR','Your temporary password is: ' .$password . '. Please change it after signing in.');
                     $this->load->view('Patient/loginPatient');
             //redirect('login-p');  
 
@@ -159,6 +241,7 @@ public function logPatient()
                 $this->session->lname =  $row->lname;
                 $this->session->status =  $row->status;
                 $this->session->image =  $row->image;
+                $this->session->must_change_password = isset($row->must_change_password) ? (int) $row->must_change_password : 0;
 
 
 
@@ -186,8 +269,8 @@ public function logPatient()
                         'action'   => $action
 
                     );
-                    $this->Patient_Model->addLogs($data1);   
-                    redirect('app-register');
+                    $this->Patient_Model->addLogs($data1);
+                    redirect('profile-p');
                 }
 
             }
@@ -336,6 +419,7 @@ public function logSec()
                 $this->session->status =  $row->status;
                 $this->session->physician_id =  $row->physician_id;
                 $this->session->image =  $row->image;
+                $this->session->must_change_password = isset($row->must_change_password) ? (int) $row->must_change_password : 0;
 
                 if ($this->session->status == "Inactive") {
                     $this->session->set_flashdata('errormsg1','This account is deactivated');
@@ -398,6 +482,7 @@ public function logDoctor()
                 $this->session->lname =  $row->lname;
                 $this->session->status =  $row->status;
                 $this->session->image =  $row->image;
+                $this->session->must_change_password = isset($row->must_change_password) ? (int) $row->must_change_password : 0;
 
                 if ($this->session->status == "Inactive") {
                     $this->session->set_flashdata('errormsg1','This account is deactivated');

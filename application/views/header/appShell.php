@@ -6,6 +6,7 @@ $logout = isset($camsLogout) ? $camsLogout : '';
 $nav = isset($camsNav) && is_array($camsNav) ? $camsNav : array();
 $image = isset($this->session->image) && $this->session->image ? $this->session->image : 'default.png';
 $displayName = trim((string)$this->session->fname . ' ' . (string)$this->session->lname);
+$mustChangePassword = (int) $this->session->userdata('must_change_password') === 1;
 
 $flashSuccess = '';
 $flashError = '';
@@ -117,18 +118,21 @@ if (!function_exists('cams_legacy_icon')) {
         eyebrow: '',
         description: '',
         maxWidth: '48rem',
+        locked: false,
         show: function (meta) {
           meta = meta || {};
           this.title = meta.title || 'Manage record';
           this.eyebrow = meta.eyebrow || 'Manage';
           this.description = meta.description || '';
           this.maxWidth = meta.maxWidth || '48rem';
+          this.locked = meta.locked === true;
           var modalRoot = document.querySelector('.cams-alpine-modal-root');
           if (modalRoot) modalRoot.removeAttribute('hidden');
           this.open = true;
           document.body.classList.add('overflow-hidden');
         },
         close: function () {
+          if (this.locked) return;
           this.open = false;
           document.body.classList.remove('overflow-hidden');
           window.dispatchEvent(new CustomEvent('cams:alpine-modal-close'));
@@ -149,10 +153,12 @@ if (!function_exists('cams_legacy_icon')) {
   <link rel="stylesheet" href="<?=base_url()?>assets/plugins/sweetalert2/sweetalert2.min.css">
   <link rel="stylesheet" href="<?=base_url()?>assets/plugins/toastr/toastr.min.css">
   <link rel="stylesheet" href="<?=base_url()?>assets/plugins/timepicker/bootstrap-timepicker.min.css">
+  <link rel="stylesheet" href="<?=base_url()?>assets/bower_components/select2/dist/css/select2.min.css">
   <link rel="stylesheet" href="<?=base_url()?>vendors/datatables/css/dataTables.bootstrap.min.css">
   <link rel="stylesheet" href="<?=base_url()?>vendors/datatables/css/buttons.bootstrap.css">
   <link rel="stylesheet" href="<?=base_url()?>css/cams-booking.css?v=<?=@filemtime(FCPATH.'css/cams-booking.css')?>">
   <link rel="stylesheet" href="<?=base_url()?>css/cams-modern.css?v=<?=@filemtime(FCPATH.'css/cams-modern.css')?>">
+  <link rel="stylesheet" href="<?=base_url()?>css/cams-select2.css?v=<?=@filemtime(FCPATH.'css/cams-select2.css')?>">
 
   <script src="<?=base_url()?>assets/bower_components/jquery/dist/jquery.min.js"></script>
   <script src="<?=base_url()?>assets/bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
@@ -162,6 +168,8 @@ if (!function_exists('cams_legacy_icon')) {
   <script src="<?=base_url()?>assets/plugins/sweetalert2/sweetalert2.min.js"></script>
   <script src="<?=base_url()?>assets/plugins/toastr/toastr.min.js"></script>
   <script src="<?=base_url()?>assets/plugins/timepicker/bootstrap-timepicker.min.js"></script>
+  <script src="<?=base_url()?>assets/bower_components/select2/dist/js/select2.full.min.js"></script>
+  <script src="<?=base_url()?>js/cams-select2.js?v=<?=@filemtime(FCPATH.'js/cams-select2.js')?>"></script>
   <script src="<?=base_url()?>js/cams-ui.js?v=<?=@filemtime(FCPATH.'js/cams-ui.js')?>"></script>
   <script src="<?=base_url()?>js/cams-tailwind-ui.js?v=<?=@filemtime(FCPATH.'js/cams-tailwind-ui.js')?>"></script>
   <script src="<?=base_url()?>js/cams-alpine-modals.js?v=<?=@filemtime(FCPATH.'js/cams-alpine-modals.js')?>"></script>
@@ -189,6 +197,35 @@ if (!function_exists('cams_legacy_icon')) {
     </script>
   <?php endif; ?>
 
+  <?php if ($mustChangePassword): ?>
+    <a id="cams-required-password-modal"
+       class="cams-modal-form-link hidden"
+       data-modal-title="Update Password"
+       data-modal-locked="true"
+       href="<?=base_url('account-tools/password')?>"
+       aria-hidden="true"
+       tabindex="-1"></a>
+    <script>
+      (function () {
+        var opened = false;
+        function openRequiredPasswordModal() {
+          if (opened) return;
+          var link = document.getElementById('cams-required-password-modal');
+          if (!link || !window.jQuery) return;
+          opened = true;
+          window.jQuery(link).trigger('click');
+        }
+
+        document.addEventListener('alpine:initialized', function () {
+          window.setTimeout(openRequiredPasswordModal, 0);
+        });
+        window.addEventListener('load', function () {
+          window.setTimeout(openRequiredPasswordModal, 50);
+        });
+      })();
+    </script>
+  <?php endif; ?>
+
   <div hidden
        x-cloak
        x-init="$el.removeAttribute('hidden')"
@@ -207,6 +244,7 @@ if (!function_exists('cams_legacy_icon')) {
           <p class="mt-1 text-sm text-slate-500 dark:text-slate-400" x-show.important="$store.camsModal.description" x-text="$store.camsModal.description"></p>
         </div>
         <button type="button" @click="$store.camsModal.close()"
+                x-show.important="!$store.camsModal.locked"
                 class="inline-flex h-10 w-10 items-center justify-center rounded-xl border border-slate-200 bg-white text-slate-500 transition hover:bg-slate-50 hover:text-slate-900 dark:border-slate-700 dark:bg-slate-800 dark:text-slate-300 dark:hover:bg-slate-700 dark:hover:text-white"
                 aria-label="Close modal">
           <i class="fa fa-times"></i>
@@ -224,8 +262,11 @@ if (!function_exists('cams_legacy_icon')) {
 
     <nav class="navbar navbar-static-top cams-topbar !bg-white dark:!bg-slate-950">
       <div class="cams-topbar-left">
-        <a href="#" class="sidebar-toggle cams-sidebar-toggle" data-toggle="push-menu" role="button" aria-label="Toggle navigation">
-          <span class="sr-only">Toggle navigation</span>
+        <a href="#" class="sidebar-toggle cams-sidebar-toggle" data-toggle="push-menu" role="button" aria-label="Collapse or expand sidebar" title="Collapse or expand sidebar">
+          <svg class="cams-sidebar-toggle-icon" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+            <path d="M4 7h16M4 12h16M4 17h16" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+          </svg>
+          <span class="sr-only">Collapse or expand sidebar</span>
         </a>
 
         <div class="cams-topbar-context">
