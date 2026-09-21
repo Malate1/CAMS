@@ -12,14 +12,14 @@
         "source": "https://github.com/bcit-ci/CodeIgniter"
     },
 
-    
+
     "require": {
         "php": ">=8.1.10"
     },
 
     "config": {
         "platform": {
-            "php": "8.3.27"
+            "php": ">=8.1.10"
         },
         "sort-packages": true
     },
