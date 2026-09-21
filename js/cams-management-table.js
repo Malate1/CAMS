@@ -566,11 +566,27 @@
 
   function populateClinicSpecializations(physicianId) {
     var $special = $('#clinic-special-id');
+    var $physician = $('#clinic-physician-id');
     if (!$special.length) return;
 
-    var map = window.CAMS_PHYSICIAN_SPECIALIZATIONS || {};
-    var normalizedPhysicianId = String(parseInt(physicianId, 10) || '');
-    var items = map[normalizedPhysicianId] || map[String(physicianId)] || map[physicianId] || [];
+    var items = [];
+    var selectedOption = $physician.find('option:selected').first();
+    var embedded = selectedOption.attr('data-specializations');
+
+    if (embedded) {
+      try {
+        items = JSON.parse(embedded) || [];
+      } catch (e) {
+        items = [];
+      }
+    }
+
+    if (!items.length) {
+      var map = window.CAMS_PHYSICIAN_SPECIALIZATIONS || {};
+      var normalizedPhysicianId = String(parseInt(physicianId, 10) || '');
+      items = map[normalizedPhysicianId] || map[String(physicianId)] || map[physicianId] || [];
+    }
+
     $special.empty();
 
     if (!physicianId) {
@@ -586,10 +602,28 @@
     }
 
     items.forEach(function (item) {
-      $special.append($('<option>', { value: item.id, text: item.name }));
+      $special.append($('<option>', {
+        value: item.id,
+        text: item.name
+      }));
     });
+
     $special.prop('disabled', false);
-    if (window.CamsSelect2) window.CamsSelect2.refresh($special[0]);
+
+    // When there is only one specialization, select it automatically.
+    // For physicians with multiple specializations, leave the choices open so
+    // the admin can choose which services are offered at this clinic.
+    if (items.length === 1) {
+      $special.val(String(items[0].id));
+    } else {
+      $special.val(null);
+    }
+
+    if (window.CamsSelect2) {
+      window.CamsSelect2.refresh($special[0]);
+    }
+
+    $special.trigger('change');
   }
 
   $(document).on('change', '#clinic-physician-id', function () {

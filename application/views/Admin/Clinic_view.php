@@ -91,8 +91,14 @@ $this->session->unset_userdata('errormsg1');
             <label>Physician <span class="text-danger">*</span></label>
             <select required name="physician_id" id="clinic-physician-id" class="form-control">
               <option value="">Select physician</option>
-              <?php foreach ($getPhysician as $value) { ?>
-                <option value="<?=$value->physician_id?>"><?=$value->fname?> <?=$value->lname?></option>
+              <?php foreach ($getPhysician as $value) {
+                $physicianId = (int) $value->physician_id;
+                $physicianSpecials = isset($physicianSpecializations[$physicianId]) ? $physicianSpecializations[$physicianId] : array();
+              ?>
+                <option
+                  value="<?=$physicianId?>"
+                  data-specializations="<?=htmlspecialchars(json_encode($physicianSpecials, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES), ENT_QUOTES, 'UTF-8')?>"
+                ><?=htmlspecialchars($value->fname.' '.$value->lname, ENT_QUOTES, 'UTF-8')?></option>
               <?php } ?>
             </select>
           </div>
