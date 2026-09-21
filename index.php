@@ -2,12 +2,12 @@
 
 /*
  * CAMS runtime requirement.
- * The application is maintained and validated against PHP 8.1.10.
+ * PHP 8.1.10 is the minimum supported version. Newer PHP releases are allowed.
  */
-if (PHP_VERSION_ID < 80110 || PHP_VERSION_ID >= 80200)
+if (PHP_VERSION_ID < 80110)
 {
 	header('HTTP/1.1 503 Service Unavailable.', TRUE, 503);
-	echo 'CAMS requires PHP 8.1.10 or newer within the PHP 8.1 release line.';
+	echo 'CAMS requires PHP 8.1.10 or newer.';
 	exit(1);
 }
 
