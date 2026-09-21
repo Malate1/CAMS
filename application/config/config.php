@@ -37,7 +37,7 @@ $isHttps = (!empty($_SERVER['HTTPS']) && strtolower((string) $_SERVER['HTTPS']) 
 $scheme = $isHttps ? 'https://' : 'http://';
 $basePath = str_replace(basename($scriptName), '', $scriptName);
 // $config['base_url'] = $scheme.$host.rtrim($basePath, '/').'/';
-$config['base_url'] = 'https://clinicapp.com/';
+$config['base_url'] = 'https://clinicapp.freehosting.dev/';
 
 /*
 |--------------------------------------------------------------------------
