@@ -35,6 +35,13 @@
         placeholder.parentNode.insertBefore(content, placeholder);
         placeholder.parentNode.removeChild(placeholder);
       }
+
+      // Select2 binds its dropdown parent at initialization time. Rebuild any
+      // controls after moving the content back so they point at the restored
+      // Bootstrap modal instead of the shared Alpine modal.
+      if (window.CamsSelect2 && typeof window.CamsSelect2.refresh === 'function') {
+        window.CamsSelect2.refresh(content);
+      }
     }
 
     active = null;
@@ -50,6 +57,10 @@
     var content = modal.querySelector('.modal-content');
     if (!content) return false;
 
+    // Read metadata before moving .modal-content out of the Bootstrap modal.
+    // Otherwise modal.querySelector() can no longer see its own header/title.
+    var meta = metaFrom(modal);
+
     var placeholder = document.createComment('cams-modal-content');
     content.parentNode.insertBefore(placeholder, content);
     content.classList.add('cams-alpine-embedded');
@@ -59,11 +70,17 @@
     host.setAttribute('data-cams-preserve-on-close', 'true');
     host.appendChild(content);
 
-    var meta = metaFrom(modal);
     modalStore.show(meta);
 
     if (window.CamsTailwindUI && typeof window.CamsTailwindUI.enhance === 'function') {
       window.CamsTailwindUI.enhance(host);
+    }
+
+    // Existing Select2 instances were initialized while the fields belonged to
+    // the hidden Bootstrap modal. Rebuild them now that the form lives inside
+    // the shared Alpine modal so dropdownParent resolves to the visible modal.
+    if (window.CamsSelect2 && typeof window.CamsSelect2.refresh === 'function') {
+      window.CamsSelect2.refresh(host);
     }
 
     return true;

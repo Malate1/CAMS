@@ -271,6 +271,22 @@
     if (store && typeof store.close === 'function') store.close();
   }
 
+  function resetClonedSelect2State($scope) {
+    if (!$scope || !$scope.length) return;
+
+    $scope.find('.select2-container').remove();
+    $scope.find('select').each(function () {
+      var $select = $(this);
+      $select
+        .removeClass('select2-hidden-accessible')
+        .removeAttr('data-select2-id')
+        .removeAttr('aria-hidden')
+        .removeAttr('tabindex');
+
+      $select.find('option').removeAttr('data-select2-id');
+    });
+  }
+
   function openRemoteForm(url, fallbackTitle, forceLocked) {
     var $body = $('#cams-alpine-modal-body');
     var store = alpineModalStore();
@@ -302,6 +318,7 @@
 
         if ($customContent.length) {
           var $customClone = $customContent.clone(true, true);
+          resetClonedSelect2State($customClone);
           var customTitle = String($customContent.data('modal-title') || fallbackTitle || 'Manage Record');
           var customEyebrow = String($customContent.data('modal-eyebrow') || 'Account tools');
           var customDescription = String($customContent.data('modal-description') || '');
@@ -338,6 +355,7 @@
         }
 
         var $clone = $form.clone(true, true);
+        resetClonedSelect2State($clone);
         $clone.addClass('space-y-4');
         $clone.find('.box-body').removeClass('box-body');
         $clone.find('.box-footer').remove();
