@@ -65,7 +65,16 @@ if (PHP_VERSION_ID < 80110)
  *
  * NOTE: If you change these, also change the error_reporting() code below
  */
-	define('ENVIRONMENT', isset($_SERVER['CI_ENV']) ? $_SERVER['CI_ENV'] : 'development');
+	$host = isset($_SERVER['HTTP_HOST']) ? strtolower((string) $_SERVER['HTTP_HOST']) : '';
+	$remoteAddress = isset($_SERVER['REMOTE_ADDR']) ? (string) $_SERVER['REMOTE_ADDR'] : '';
+	$isLocalEnvironment = (PHP_SAPI === 'cli'
+		OR $remoteAddress === '127.0.0.1'
+		OR $remoteAddress === '::1'
+		OR preg_match('/^(localhost|127\.0\.0\.1)(:\d+)?$/', $host));
+
+	define('ENVIRONMENT', isset($_SERVER['CI_ENV'])
+		? $_SERVER['CI_ENV']
+		: ($isLocalEnvironment ? 'development' : 'production'));
 
 /*
  *---------------------------------------------------------------
