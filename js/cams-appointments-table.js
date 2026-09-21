@@ -147,7 +147,11 @@
       url: availabilityUrl,
       type: 'GET',
       dataType: 'json',
-      data: { physician_id: appointment.physician_id, clinic_id: appointment.clinic_id }
+      data: {
+        physician_id: appointment.physician_id,
+        clinic_id: appointment.clinic_id,
+        patient_id: appointment.patient_id
+      }
     }).done(function (response) {
       var options = [];
       var foundCurrent = false;

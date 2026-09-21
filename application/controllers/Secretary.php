@@ -318,6 +318,21 @@ class Secretary extends CI_Controller {
 					'time_in' => $this->security->xss_clean($this->input->post('time_in')),
 					'time_out' => $this->security->xss_clean($this->input->post('time_out'))    
 				);
+
+				$scheduleValidation = $this->ClinicAssignment_Model->validatePhysicianSchedule(
+					(int) $physician_id,
+					$clinicId,
+					$data1['day'],
+					$data1['time_in'],
+					$data1['time_out']
+				);
+				if (!$scheduleValidation['success']) {
+					if ($this->ajaxTransactionResponse(false, $scheduleValidation['message'])) return;
+					$this->session->set_flashdata('error', $scheduleValidation['message']);
+					redirect('view-schedule-s');
+					return;
+				}
+
 				$this->Physician_Model->insert_schedule($data1);
 
 				$sched = (int) $this->db->insert_id();
@@ -427,7 +442,7 @@ class Secretary extends CI_Controller {
 				$linkId = (int) $this->input->post('old_schedule_link_id');
 				$physicianId = (int) $this->session->userdata['physician_id'];
 				$link = $this->db
-					->select('physician_clinic_schedule.id, physician_clinic_schedule.schedule_id, physician_clinic.physician_id')
+					->select('physician_clinic_schedule.id, physician_clinic_schedule.schedule_id, physician_clinic.physician_id, physician_clinic.clinic_id')
 					->from('physician_clinic_schedule')
 					->join('physician_clinic', 'physician_clinic.id = physician_clinic_schedule.physician_clinic_id')
 					->where('physician_clinic_schedule.id', $linkId)
@@ -436,6 +451,21 @@ class Secretary extends CI_Controller {
 					->limit(1)->get()->row();
 				if (!$link) {
 					if ($this->ajaxTransactionResponse(false, 'The clinic schedule could not be found.')) return;
+					redirect('view-schedule-s');
+					return;
+				}
+
+				$scheduleValidation = $this->ClinicAssignment_Model->validatePhysicianSchedule(
+					(int) $link->physician_id,
+					(int) $link->clinic_id,
+					$data['day'],
+					$data['time_in'],
+					$data['time_out'],
+					$linkId
+				);
+				if (!$scheduleValidation['success']) {
+					if ($this->ajaxTransactionResponse(false, $scheduleValidation['message'])) return;
+					$this->session->set_flashdata('error', $scheduleValidation['message']);
 					redirect('view-schedule-s');
 					return;
 				}
@@ -804,10 +834,11 @@ class Secretary extends CI_Controller {
 			$this->load->model('Appointment_Model', 'Appointment_Model');
 			$physicianId = (int) $this->session->userdata['physician_id'];
 			$clinicId = (int) $this->input->get('clinic_id');
+			$patientId = (int) $this->input->get('patient_id');
 			$assignment = $this->ClinicAssignment_Model->getAssignment($physicianId, $clinicId);
 			$dates = (!$assignment || (int) $assignment->secretary_id !== (int) $this->session->userdata['userid'])
 				? array()
-				: $this->Appointment_Model->getAvailableDates($physicianId, $clinicId);
+				: $this->Appointment_Model->getAvailableDates($physicianId, $clinicId, $patientId);
 			$this->output->set_content_type('application/json')->set_output(json_encode(array('success' => true, 'dates' => $dates)));
 		}
 

@@ -198,7 +198,13 @@
         button.setAttribute('data-date', item.date);
         button.setAttribute('data-label', item.label);
         button.setAttribute('data-schedule', item.schedule || '');
-        button.innerHTML = '<span class="dow">' + item.weekday + '</span><span class="day">' + item.day + '</span><span class="month">' + item.month + '</span><span class="slot">' + (item.full ? 'Fully booked' : item.remaining + ' slot' + (item.remaining === 1 ? '' : 's') + ' left') + '</span>';
+        if (item.unavailable_reason) button.title = item.unavailable_reason;
+        var availabilityLabel = item.patient_booked
+          ? 'Already booked'
+          : (item.schedule_conflict
+              ? 'Schedule conflict'
+              : (item.capacity_full ? 'Fully booked' : item.remaining + ' slot' + (item.remaining === 1 ? '' : 's') + ' left'));
+        button.innerHTML = '<span class="dow">' + item.weekday + '</span><span class="day">' + item.day + '</span><span class="month">' + item.month + '</span><span class="slot">' + availabilityLabel + '</span>';
         button.addEventListener('click', function () {
           Array.prototype.slice.call(dateGrid.querySelectorAll('.cams-date-card')).forEach(function (b) { b.classList.remove('is-selected'); });
           button.classList.add('is-selected');

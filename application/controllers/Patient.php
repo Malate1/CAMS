@@ -106,7 +106,11 @@ public function AppointmentAvailability()
 
     $physicianId = (int) $this->input->get('physician_id');
     $clinicId = (int) $this->input->get('clinic_id');
-    $dates = $this->Appointment_Model->getAvailableDates($physicianId, $clinicId);
+    $dates = $this->Appointment_Model->getAvailableDates(
+      $physicianId,
+      $clinicId,
+      (int) $this->session->userdata['userid']
+    );
 
     $this->output
       ->set_content_type('application/json')

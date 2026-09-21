@@ -98,8 +98,9 @@ class Appointment_Model extends CI_Model
     /**
      * Central appointment booking operation used by patients, physicians and secretaries.
      *
-     * The MySQL named lock serializes bookings for the same physician/date so the
-     * capacity check and queue-number assignment cannot race each other.
+     * MySQL named locks serialize both patient/date and physician/date booking
+     * operations so same-day patient checks, capacity checks and queue assignment
+     * cannot race each other.
      */
     public function book(array $input)
     {
@@ -118,19 +119,24 @@ class Appointment_Model extends CI_Model
 
         $patient = $validation['patient'];
         $clinic = $validation['clinic'];
-        $lockName = 'cams_appt_' . $physicianId . '_' . str_replace('-', '', $appDate);
-        $lock = $this->db->query('SELECT GET_LOCK(?, ?) AS acquired', array($lockName, self::BOOKING_LOCK_TIMEOUT))->row();
+        $dateKey = str_replace('-', '', $appDate);
+        $lockNames = array(
+            'cams_patient_' . $patientId . '_' . $dateKey,
+            'cams_appt_' . $physicianId . '_' . $dateKey,
+        );
+        $acquiredLocks = $this->acquireNamedLocks($lockNames);
 
-        if (!$lock || (int) $lock->acquired !== 1) {
-            return $this->failure('The appointment slot is being updated. Please try again.');
+        if ($acquiredLocks === false) {
+            return $this->failure('The appointment date is being updated. Please try again.');
         }
 
         $this->db->trans_begin();
 
         try {
-            if ($this->hasPendingDuplicate($patientId, $physicianId, $clinicId, $appDate)) {
+            $existingPatientAppointment = $this->getPendingPatientAppointment($patientId, $appDate);
+            if ($existingPatientAppointment) {
                 $this->db->trans_rollback();
-                return $this->failure('You already have an active appointment with this physician on this date.');
+                return $this->failure($this->patientDateConflictMessage($existingPatientAppointment, $appDate));
             }
 
             $limit = $this->getOrCreateDailyLimit($physicianId, $appDate);
@@ -180,7 +186,7 @@ class Appointment_Model extends CI_Model
                 'app_date' => $appDate,
             );
         } finally {
-            $this->db->query('SELECT RELEASE_LOCK(?)', array($lockName));
+            $this->releaseNamedLocks($acquiredLocks);
         }
     }
 
@@ -399,10 +405,11 @@ class Appointment_Model extends CI_Model
         return $rows;
     }
 
-    public function getAvailableDates($physicianId, $clinicId)
+    public function getAvailableDates($physicianId, $clinicId, $patientId = 0)
     {
         $physicianId = (int) $physicianId;
         $clinicId = (int) $clinicId;
+        $patientId = (int) $patientId;
 
         $validClinic = $this->db
             ->from('physician_clinic')
@@ -429,6 +436,10 @@ class Appointment_Model extends CI_Model
         $tz = new DateTimeZone('Asia/Manila');
         $cursor = new DateTimeImmutable('tomorrow', $tz);
         $end = (new DateTimeImmutable('today', $tz))->modify('+2 months');
+        $pendingByDate = $patientId > 0
+            ? $this->getPendingPatientAppointmentsByDate($patientId, $cursor->format('Y-m-d'), $end->format('Y-m-d'))
+            : array();
+        $scheduleConflictByWeekday = $this->ClinicAssignment_Model->getPhysicianClinicConflictWeekdays($physicianId, $clinicId);
         $dates = array();
 
         while ($cursor <= $end) {
@@ -445,6 +456,11 @@ class Appointment_Model extends CI_Model
                 $limit = $this->getConfiguredDailyLimit($physicianId, $dateValue);
                 $booked = $this->getDailyBookedCount($physicianId, $dateValue);
                 $remaining = max(0, $limit - $booked);
+                $patientAppointment = isset($pendingByDate[$dateValue]) ? $pendingByDate[$dateValue] : null;
+                $patientBooked = $patientAppointment !== null;
+                $scheduleConflict = isset($scheduleConflictByWeekday[$weekday])
+                    ? $scheduleConflictByWeekday[$weekday]
+                    : '';
                 $dates[] = array(
                     'date' => $dateValue,
                     'weekday' => $cursor->format('D'),
@@ -454,7 +470,15 @@ class Appointment_Model extends CI_Model
                     'schedule' => implode(', ', $matching),
                     'remaining' => $remaining,
                     'limit' => $limit,
-                    'full' => $remaining <= 0,
+                    'capacity_full' => $remaining <= 0,
+                    'patient_booked' => $patientBooked,
+                    'schedule_conflict' => $scheduleConflict !== '',
+                    'unavailable_reason' => $patientBooked
+                        ? $this->patientDateConflictMessage($patientAppointment, $dateValue)
+                        : ($scheduleConflict !== ''
+                            ? $scheduleConflict
+                            : ($remaining <= 0 ? 'This physician is fully booked for this date.' : '')),
+                    'full' => $remaining <= 0 || $patientBooked || $scheduleConflict !== '',
                 );
             }
 
@@ -521,7 +545,7 @@ class Appointment_Model extends CI_Model
         return isset($labels[$code]) ? $labels[$code] : $code;
     }
 
-    private function validateBookingRequest($patientId, $physicianId, $clinicId, $appDate, $purpose, $specialtyName = '', $enforceSpecialty = false)
+    private function validateBookingRequest($patientId, $physicianId, $clinicId, $appDate, $purpose, $specialtyName = '', $enforceSpecialty = false, $enforceScheduleConflict = true)
     {
         if ($patientId <= 0 || $physicianId <= 0 || $clinicId <= 0) {
             return $this->failure('Please select a valid patient, physician and clinic.');
@@ -635,6 +659,13 @@ class Appointment_Model extends CI_Model
 
         if (!$available) {
             return $this->failure('The physician is not scheduled at the clinic on the selected day.');
+        }
+
+        if ($enforceScheduleConflict) {
+            $scheduleConflicts = $this->ClinicAssignment_Model->getPhysicianClinicConflictWeekdays($physicianId, $clinicId);
+            if (isset($scheduleConflicts[$dayOfWeek])) {
+                return $this->failure($scheduleConflicts[$dayOfWeek]);
+            }
         }
 
         return array(
@@ -758,6 +789,7 @@ class Appointment_Model extends CI_Model
 
         return array(
             'appointment_id' => (int) $row->appointment_id,
+            'patient_id' => (int) $row->patient_id,
             'app_date' => $row->app_date,
             'purpose' => $row->purpose,
             'queue_number' => (int) $row->queueNum,
@@ -805,6 +837,8 @@ class Appointment_Model extends CI_Model
             return $this->failure('You are not allowed to edit this appointment.');
         }
 
+        $dateChanged = $appDate !== $current->app_date;
+
         $validation = $this->validateBookingRequest(
             (int) $current->patient_id,
             (int) $current->physician_id,
@@ -812,7 +846,8 @@ class Appointment_Model extends CI_Model
             $appDate,
             $purpose,
             '',
-            false
+            false,
+            $dateChanged
         );
         if (!$validation['success']) {
             return $validation;
@@ -834,7 +869,6 @@ class Appointment_Model extends CI_Model
             }
         }
 
-        $dateChanged = $appDate !== $current->app_date;
         if (!$dateChanged) {
             $this->db
                 ->where('appointment_id', $appointmentId)
@@ -843,26 +877,26 @@ class Appointment_Model extends CI_Model
             return array('success' => true, 'queue_number' => (int) $current->queueNum, 'app_date' => $appDate);
         }
 
-        $lockName = 'cams_appt_' . (int) $current->physician_id . '_' . str_replace('-', '', $appDate);
-        $lock = $this->db->query('SELECT GET_LOCK(?, ?) AS acquired', array($lockName, self::BOOKING_LOCK_TIMEOUT))->row();
-        if (!$lock || (int) $lock->acquired !== 1) {
+        $dateKey = str_replace('-', '', $appDate);
+        $lockNames = array(
+            'cams_patient_' . (int) $current->patient_id . '_' . $dateKey,
+            'cams_appt_' . (int) $current->physician_id . '_' . $dateKey,
+        );
+        $acquiredLocks = $this->acquireNamedLocks($lockNames);
+        if ($acquiredLocks === false) {
             return $this->failure('The selected date is being updated. Please try again.');
         }
 
         $this->db->trans_begin();
         try {
-            $duplicate = $this->db
-                ->from('appointment')
-                ->where('patient_id', (int) $current->patient_id)
-                ->where('physician_id', (int) $current->physician_id)
-                ->where('clinic_id', (int) $current->clinic_id)
-                ->where('app_date', $appDate)
-                ->where('app_status', 'Pending')
-                ->where('appointment_id !=', $appointmentId)
-                ->count_all_results();
-            if ($duplicate > 0) {
+            $existingPatientAppointment = $this->getPendingPatientAppointment(
+                (int) $current->patient_id,
+                $appDate,
+                $appointmentId
+            );
+            if ($existingPatientAppointment) {
                 $this->db->trans_rollback();
-                return $this->failure('This patient already has an active appointment with the physician on the selected date.');
+                return $this->failure($this->patientDateConflictMessage($existingPatientAppointment, $appDate));
             }
 
             $limit = $this->getOrCreateDailyLimit((int) $current->physician_id, $appDate);
@@ -889,7 +923,7 @@ class Appointment_Model extends CI_Model
             $this->db->trans_commit();
             return array('success' => true, 'queue_number' => $queueNumber, 'app_date' => $appDate);
         } finally {
-            $this->db->query('SELECT RELEASE_LOCK(?)', array($lockName));
+            $this->releaseNamedLocks($acquiredLocks);
         }
     }
 
@@ -947,16 +981,96 @@ class Appointment_Model extends CI_Model
         return isset($days[$scheduleCode]) && in_array((int) $dayOfWeek, $days[$scheduleCode], true);
     }
 
-    private function hasPendingDuplicate($patientId, $physicianId, $clinicId, $appDate)
+    private function getPendingPatientAppointment($patientId, $appDate, $excludeAppointmentId = 0)
     {
-        return $this->db
+        $this->db
+            ->select("appointment.appointment_id, appointment.app_date, appointment.purpose, appointment.queueNum, clinic.name AS clinic_name, CONCAT(physician.fname, ' ', physician.lname) AS physician_name", false)
             ->from('appointment')
-            ->where('patient_id', $patientId)
-            ->where('physician_id', $physicianId)
-            ->where('clinic_id', $clinicId)
-            ->where('app_date', $appDate)
-            ->where('app_status', 'Pending')
-            ->count_all_results() > 0;
+            ->join('clinic', 'clinic.clinic_id = appointment.clinic_id')
+            ->join('physician', 'physician.physician_id = appointment.physician_id')
+            ->where('appointment.patient_id', (int) $patientId)
+            ->where('appointment.app_date', (string) $appDate)
+            ->where('appointment.app_status', 'Pending');
+
+        if ((int) $excludeAppointmentId > 0) {
+            $this->db->where('appointment.appointment_id !=', (int) $excludeAppointmentId);
+        }
+
+        return $this->db
+            ->order_by('appointment.appointment_id', 'ASC')
+            ->limit(1)
+            ->get()
+            ->row();
+    }
+
+    private function getPendingPatientAppointmentsByDate($patientId, $startDate, $endDate)
+    {
+        if ((int) $patientId <= 0) {
+            return array();
+        }
+
+        $rows = $this->db
+            ->select("appointment.appointment_id, appointment.app_date, clinic.name AS clinic_name, CONCAT(physician.fname, ' ', physician.lname) AS physician_name", false)
+            ->from('appointment')
+            ->join('clinic', 'clinic.clinic_id = appointment.clinic_id')
+            ->join('physician', 'physician.physician_id = appointment.physician_id')
+            ->where('appointment.patient_id', (int) $patientId)
+            ->where('appointment.app_status', 'Pending')
+            ->where('appointment.app_date >=', (string) $startDate)
+            ->where('appointment.app_date <=', (string) $endDate)
+            ->order_by('appointment.app_date', 'ASC')
+            ->order_by('appointment.appointment_id', 'ASC')
+            ->get()
+            ->result();
+
+        $byDate = array();
+        foreach ($rows as $row) {
+            if (!isset($byDate[$row->app_date])) {
+                $byDate[$row->app_date] = $row;
+            }
+        }
+
+        return $byDate;
+    }
+
+    private function patientDateConflictMessage($appointment, $appDate)
+    {
+        $label = date('F j, Y', strtotime((string) $appDate));
+        $clinic = !empty($appointment->clinic_name) ? $appointment->clinic_name : 'another clinic';
+        $physician = !empty($appointment->physician_name) ? ' with Dr. ' . $appointment->physician_name : '';
+
+        return 'This patient already has a pending appointment on ' . $label
+            . ' at ' . $clinic . $physician
+            . '. Cancel or reschedule that appointment before booking another appointment on the same date.';
+    }
+
+    private function acquireNamedLocks(array $lockNames)
+    {
+        $lockNames = array_values(array_unique(array_filter(array_map('strval', $lockNames))));
+        sort($lockNames, SORT_STRING);
+        $acquired = array();
+
+        foreach ($lockNames as $lockName) {
+            $row = $this->db
+                ->query('SELECT GET_LOCK(?, ?) AS acquired', array($lockName, self::BOOKING_LOCK_TIMEOUT))
+                ->row();
+
+            if (!$row || (int) $row->acquired !== 1) {
+                $this->releaseNamedLocks($acquired);
+                return false;
+            }
+
+            $acquired[] = $lockName;
+        }
+
+        return $acquired;
+    }
+
+    private function releaseNamedLocks(array $lockNames)
+    {
+        foreach (array_reverse($lockNames) as $lockName) {
+            $this->db->query('SELECT RELEASE_LOCK(?)', array($lockName));
+        }
     }
 
     private function getOrCreateDailyLimit($physicianId, $appDate)

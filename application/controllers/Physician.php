@@ -293,6 +293,21 @@ class Physician extends CI_Controller {
 					'time_in' => $this->security->xss_clean($this->input->post('time_in')),
 					'time_out' => $this->security->xss_clean($this->input->post('time_out'))    
 				);
+
+				$scheduleValidation = $this->ClinicAssignment_Model->validatePhysicianSchedule(
+					(int) $userid,
+					$clinicId,
+					$data3['day'],
+					$data3['time_in'],
+					$data3['time_out']
+				);
+				if (!$scheduleValidation['success']) {
+					if ($this->ajaxTransactionResponse(false, $scheduleValidation['message'])) return;
+					$this->session->set_flashdata('error', $scheduleValidation['message']);
+					redirect('view-schedule-p');
+					return;
+				}
+
 				$this->Physician_Model->insert_schedule($data3);
 
 				$sched = (int) $this->db->insert_id();
@@ -397,7 +412,7 @@ class Physician extends CI_Controller {
 				);
 				$linkId = (int) $this->input->post('old_schedule_link_id');
 				$link = $this->db
-					->select('physician_clinic_schedule.id, physician_clinic_schedule.schedule_id, physician_clinic.physician_id')
+					->select('physician_clinic_schedule.id, physician_clinic_schedule.schedule_id, physician_clinic.physician_id, physician_clinic.clinic_id')
 					->from('physician_clinic_schedule')
 					->join('physician_clinic', 'physician_clinic.id = physician_clinic_schedule.physician_clinic_id')
 					->where('physician_clinic_schedule.id', $linkId)
@@ -405,6 +420,21 @@ class Physician extends CI_Controller {
 					->limit(1)->get()->row();
 				if (!$link) {
 					if ($this->ajaxTransactionResponse(false, 'The clinic schedule could not be found.')) return;
+					redirect('view-schedule-p');
+					return;
+				}
+
+				$scheduleValidation = $this->ClinicAssignment_Model->validatePhysicianSchedule(
+					(int) $link->physician_id,
+					(int) $link->clinic_id,
+					$data['day'],
+					$data['time_in'],
+					$data['time_out'],
+					$linkId
+				);
+				if (!$scheduleValidation['success']) {
+					if ($this->ajaxTransactionResponse(false, $scheduleValidation['message'])) return;
+					$this->session->set_flashdata('error', $scheduleValidation['message']);
 					redirect('view-schedule-p');
 					return;
 				}
@@ -749,7 +779,8 @@ class Physician extends CI_Controller {
 			$this->load->model('Appointment_Model', 'Appointment_Model');
 			$physicianId = (int) $this->session->userdata['userid'];
 			$clinicId = (int) $this->input->get('clinic_id');
-			$dates = $this->Appointment_Model->getAvailableDates($physicianId, $clinicId);
+			$patientId = (int) $this->input->get('patient_id');
+			$dates = $this->Appointment_Model->getAvailableDates($physicianId, $clinicId, $patientId);
 			$this->output->set_content_type('application/json')->set_output(json_encode(array('success' => true, 'dates' => $dates)));
 		}
 
