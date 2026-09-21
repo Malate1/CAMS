@@ -5,6 +5,13 @@
 
   var DEFAULT_SELECTOR = 'select:not([data-no-select2]):not(.no-select2)';
 
+  function isSelect2Excluded(select) {
+    if (!select || select.nodeType !== 1 || select.tagName !== 'SELECT') return true;
+
+    return select.matches('[data-no-select2], .no-select2, .swal2-select')
+      || !!select.closest('.swal2-container, .swal2-popup');
+  }
+
   function optionCount(select) {
     return select && select.options ? select.options.length : 0;
   }
@@ -70,7 +77,20 @@
 
   function rebuildSelect(select) {
     if (!select || select.nodeType !== 1 || select.tagName !== 'SELECT') return;
-    if (select.matches('[data-no-select2], .no-select2')) return;
+
+    if (isSelect2Excluded(select)) {
+      var $excluded = $(select);
+      if ($excluded.hasClass('select2-hidden-accessible')) {
+        try { $excluded.select2('destroy'); } catch (e) {}
+      }
+      $excluded
+        .removeClass('select2-hidden-accessible')
+        .removeAttr('data-cams-select2-ready')
+        .removeAttr('data-select2-id')
+        .removeAttr('aria-hidden')
+        .removeAttr('tabindex');
+      return;
+    }
 
     if (select.__camsSelect2RefreshTimer) {
       window.clearTimeout(select.__camsSelect2RefreshTimer);
@@ -100,7 +120,7 @@
   }
 
   function scheduleRebuild(select) {
-    if (!select || select.tagName !== 'SELECT') return;
+    if (!select || select.tagName !== 'SELECT' || isSelect2Excluded(select)) return;
     if (select.__camsSelect2RefreshTimer) {
       window.clearTimeout(select.__camsSelect2RefreshTimer);
     }
@@ -113,7 +133,7 @@
 
   function initSelect(select) {
     if (!select || select.nodeType !== 1 || select.tagName !== 'SELECT') return;
-    if (select.matches('[data-no-select2], .no-select2')) return;
+    if (isSelect2Excluded(select)) return;
 
     var $select = $(select);
 
