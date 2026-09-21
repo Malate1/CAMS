@@ -2,8 +2,10 @@
 <link rel="icon" type="image/jpeg" href="<?=base_url()?>assets/dist/img/hnumcfi.jpg">
 <link rel="shortcut icon" type="image/jpeg" href="<?=base_url()?>assets/dist/img/hnumcfi.jpg">
 <link rel="stylesheet" href="<?=base_url()?>assets/fonts/google-sans/google-sans.css?v=<?=@filemtime(FCPATH.'assets/fonts/google-sans/google-sans.css')?>">
+<link rel="stylesheet" href="<?=base_url()?>assets/bower_components/jquery-ui/themes/base/jquery-ui.min.css">
 <link rel="stylesheet" href="<?=base_url()?>assets/bower_components/select2/dist/css/select2.min.css">
 <link rel="stylesheet" href="<?=base_url()?>css/cams-select2.css?v=<?=@filemtime(FCPATH.'css/cams-select2.css')?>">
+<link rel="stylesheet" href="<?=base_url()?>css/cams-datepicker.css?v=<?=@filemtime(FCPATH.'css/cams-datepicker.css')?>">
 
 <script src="https://cdn.tailwindcss.com"></script>
 <script>

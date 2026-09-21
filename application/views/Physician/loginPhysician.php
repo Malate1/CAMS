@@ -317,6 +317,7 @@ Version 2.0 <strong>Copyright &copy; 2018 </strong> All rights
 <?php $this->load->view('auth/cover_outro'); ?>
 
 <script src="<?php echo base_url(); ?>assets/js/jQuery-2.1.4.min.js"></script>
+<script src="<?php echo base_url(); ?>assets/bower_components/jquery-ui/jquery-ui.min.js"></script>
 <script src="<?php echo base_url(); ?>assets/bootstrap/js/bootstrap.min.js" type="text/javascript"></script>
 <?php $this->load->view('auth/runtime_scripts'); ?>
 

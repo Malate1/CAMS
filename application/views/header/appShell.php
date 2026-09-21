@@ -155,14 +155,17 @@ if (!function_exists('cams_legacy_icon')) {
   <link rel="stylesheet" href="<?=base_url()?>assets/plugins/sweetalert2/sweetalert2.min.css">
   <link rel="stylesheet" href="<?=base_url()?>assets/plugins/toastr/toastr.min.css">
   <link rel="stylesheet" href="<?=base_url()?>assets/plugins/timepicker/bootstrap-timepicker.min.css">
+  <link rel="stylesheet" href="<?=base_url()?>assets/bower_components/jquery-ui/themes/base/jquery-ui.min.css">
   <link rel="stylesheet" href="<?=base_url()?>assets/bower_components/select2/dist/css/select2.min.css">
   <link rel="stylesheet" href="<?=base_url()?>vendors/datatables/css/dataTables.bootstrap.min.css">
   <link rel="stylesheet" href="<?=base_url()?>vendors/datatables/css/buttons.bootstrap.css">
   <link rel="stylesheet" href="<?=base_url()?>css/cams-booking.css?v=<?=@filemtime(FCPATH.'css/cams-booking.css')?>">
   <link rel="stylesheet" href="<?=base_url()?>css/cams-modern.css?v=<?=@filemtime(FCPATH.'css/cams-modern.css')?>">
   <link rel="stylesheet" href="<?=base_url()?>css/cams-select2.css?v=<?=@filemtime(FCPATH.'css/cams-select2.css')?>">
+  <link rel="stylesheet" href="<?=base_url()?>css/cams-datepicker.css?v=<?=@filemtime(FCPATH.'css/cams-datepicker.css')?>">
 
   <script src="<?=base_url()?>assets/bower_components/jquery/dist/jquery.min.js"></script>
+  <script src="<?=base_url()?>assets/bower_components/jquery-ui/jquery-ui.min.js"></script>
   <script src="<?=base_url()?>assets/bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
   <script src="<?=base_url()?>assets/bower_components/jquery-slimscroll/jquery.slimscroll.min.js"></script>
   <script src="<?=base_url()?>assets/bower_components/fastclick/lib/fastclick.js"></script>
@@ -172,6 +175,7 @@ if (!function_exists('cams_legacy_icon')) {
   <script src="<?=base_url()?>assets/plugins/timepicker/bootstrap-timepicker.min.js"></script>
   <script src="<?=base_url()?>assets/bower_components/select2/dist/js/select2.full.min.js"></script>
   <script src="<?=base_url()?>js/cams-select2.js?v=<?=@filemtime(FCPATH.'js/cams-select2.js')?>"></script>
+  <script src="<?=base_url()?>js/cams-datepicker.js?v=<?=@filemtime(FCPATH.'js/cams-datepicker.js')?>"></script>
   <script src="<?=base_url()?>js/cams-ui.js?v=<?=@filemtime(FCPATH.'js/cams-ui.js')?>"></script>
   <script src="<?=base_url()?>js/cams-tailwind-ui.js?v=<?=@filemtime(FCPATH.'js/cams-tailwind-ui.js')?>"></script>
   <script src="<?=base_url()?>js/cams-alpine-modals.js?v=<?=@filemtime(FCPATH.'js/cams-alpine-modals.js')?>"></script>

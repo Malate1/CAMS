@@ -8,8 +8,8 @@
   function isSelect2Excluded(select) {
     if (!select || select.nodeType !== 1 || select.tagName !== 'SELECT') return true;
 
-    return select.matches('[data-no-select2], .no-select2, .swal2-select')
-      || !!select.closest('.swal2-container, .swal2-popup');
+    return select.matches('[data-no-select2], .no-select2, .swal2-select, .ui-datepicker-month, .ui-datepicker-year')
+      || !!select.closest('.swal2-container, .swal2-popup, .ui-datepicker');
   }
 
   function optionCount(select) {
