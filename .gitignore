@@ -1,0 +1,39 @@
+# OS / editor files
+.DS_Store
+Thumbs.db
+Desktop.ini
+
+# CodeIgniter runtime data
+application/cache/*
+!application/cache/index.html
+!application/cache/.htaccess
+
+application/logs/*
+!application/logs/index.html
+!application/logs/.htaccess
+
+# IDE / editor metadata
+/nbproject/
+.idea/
+.vscode/
+*.tmlanguage.cache
+*.tmPreferences.cache
+*.stTheme.cache
+*.sublime-workspace
+*.sublime-project
+
+# User-guide generated build artifacts
+user_guide_src/build/*
+user_guide_src/cilexer/build/*
+user_guide_src/cilexer/dist/*
+user_guide_src/cilexer/pycilexer.egg-info/*
+
+# Local environment / temporary files
+*.tmp
+*.temp
+*.log
+
+# IMPORTANT FOR CAMS DEPLOYMENT:
+# Do NOT ignore /vendor, /vendors, /css, /js, /assets, or /fonts.
+# InfinityFree does not run Composer/build steps for this deployment,
+# so production dependencies and frontend assets must remain tracked.
