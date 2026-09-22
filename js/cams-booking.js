@@ -36,6 +36,7 @@
       provider: null,
       date: null
     };
+    var dateAdvanceTimer = null;
 
     function normalize(value) {
       return String(value || '').trim().toLowerCase();
@@ -184,37 +185,76 @@
       dateGrid.innerHTML = '';
       state.date = null;
       dateInput.value = '';
+      if (dateAdvanceTimer) {
+        window.clearTimeout(dateAdvanceTimer);
+        dateAdvanceTimer = null;
+      }
       if (!dates.length) {
         dateGrid.innerHTML = '<div class="cams-empty-state" style="grid-column:1/-1"><i class="fa fa-calendar-times-o"></i>No valid appointment dates are available within the next two months.</div>';
         updateButtons();
         return;
       }
 
-      dates.forEach(function (item) {
-        var button = document.createElement('button');
-        button.type = 'button';
-        button.className = 'cams-date-card';
-        button.disabled = !!item.full;
-        button.setAttribute('data-date', item.date);
-        button.setAttribute('data-label', item.label);
-        button.setAttribute('data-schedule', item.schedule || '');
-        if (item.unavailable_reason) button.title = item.unavailable_reason;
-        var availabilityLabel = item.patient_booked
-          ? 'Already booked'
-          : (item.schedule_conflict
-              ? 'Schedule conflict'
-              : (item.capacity_full ? 'Fully booked' : item.remaining + ' slot' + (item.remaining === 1 ? '' : 's') + ' left'));
-        button.innerHTML = '<span class="dow">' + item.weekday + '</span><span class="day">' + item.day + '</span><span class="month">' + item.month + '</span><span class="slot">' + availabilityLabel + '</span>';
-        button.addEventListener('click', function () {
-          Array.prototype.slice.call(dateGrid.querySelectorAll('.cams-date-card')).forEach(function (b) { b.classList.remove('is-selected'); });
-          button.classList.add('is-selected');
-          state.date = { value: item.date, label: item.label, schedule: item.schedule };
-          dateInput.value = item.date;
-          setStepSummary(3, item.label);
-          updateButtons();
+      var pageSize = window.matchMedia && window.matchMedia('(max-width: 767px)').matches ? 6 : 8;
+      var visibleCount = pageSize;
+
+      function drawDates() {
+        dateGrid.innerHTML = '';
+        dates.slice(0, visibleCount).forEach(function (item) {
+          var button = document.createElement('button');
+          button.type = 'button';
+          button.className = 'cams-date-card';
+          button.disabled = !!item.full;
+          button.setAttribute('data-date', item.date);
+          button.setAttribute('data-label', item.label);
+          button.setAttribute('data-schedule', item.schedule || '');
+          if (item.unavailable_reason) button.title = item.unavailable_reason;
+          var availabilityLabel = item.patient_booked
+            ? 'Already booked'
+            : (item.schedule_conflict
+                ? 'Schedule conflict'
+                : (item.capacity_full ? 'Fully booked' : item.remaining + ' slot' + (item.remaining === 1 ? '' : 's') + ' left'));
+          button.innerHTML = '<span class="dow">' + item.weekday + '</span><span class="day">' + item.day + '</span><span class="month">' + item.month + '</span><span class="slot">' + availabilityLabel + '</span>';
+          button.addEventListener('click', function () {
+            Array.prototype.slice.call(dateGrid.querySelectorAll('.cams-date-card')).forEach(function (b) { b.classList.remove('is-selected'); });
+            button.classList.add('is-selected');
+            state.date = { value: item.date, label: item.label, schedule: item.schedule };
+            dateInput.value = item.date;
+            setStepSummary(3, item.label);
+            updateButtons();
+
+            if (dateAdvanceTimer) window.clearTimeout(dateAdvanceTimer);
+            dateAdvanceTimer = window.setTimeout(function () {
+              if (!state.date || state.date.value !== item.date) return;
+              populateReview();
+              showStep(4);
+            }, 320);
+          });
+          dateGrid.appendChild(button);
         });
-        dateGrid.appendChild(button);
-      });
+
+        if (visibleCount < dates.length) {
+          var moreWrap = document.createElement('div');
+          moreWrap.className = 'cams-date-more';
+          var moreButton = document.createElement('button');
+          moreButton.type = 'button';
+          moreButton.className = 'btn';
+          moreButton.innerHTML = 'Show More Dates <i class="fa fa-chevron-down"></i>';
+          moreButton.addEventListener('click', function () {
+            visibleCount = Math.min(visibleCount + pageSize, dates.length);
+            drawDates();
+          });
+          moreWrap.appendChild(moreButton);
+          dateGrid.appendChild(moreWrap);
+        }
+
+        var note = document.createElement('div');
+        note.className = 'cams-date-auto-note';
+        note.textContent = 'Selecting an available date will continue to review automatically.';
+        dateGrid.appendChild(note);
+      }
+
+      drawDates();
     }
 
     function populateReview() {
